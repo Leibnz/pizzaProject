@@ -19,6 +19,9 @@ final class MenuScreenVC: UIViewController {
     var stories: [Story] = []
     
     let productService = ProductService.init()
+    let httpClient = HTTPClient()
+    let decoder = JSONDecoder()
+    private lazy var productsLoader = ProductsLoader(httpClient: httpClient, decoder: decoder)
     let typeService = TypeService.init()
     let bannerService = BannerService.init()
     let storiesService = StoriesService.init()
@@ -51,25 +54,53 @@ final class MenuScreenVC: UIViewController {
         
     }
     
+    
     private func fetchProducts() {
         Task {
             do {
-                let products = try await productService.loadProducts()
+                let products = try await productsLoader.loadProducts()
                 self.products = products
                 self.tableView.reloadData()
-            } catch NetworkError.badUrl {
-                print("Bad URL")
-            } catch NetworkError.requestError {
-                print("Request Error")
-            } catch NetworkError.clientError {
-                print("Client Error")
-            } catch NetworkError.serverError {
-                print("Server Error")
-            } catch NetworkError.decodingError {
-                print("Decoding Error")
+            } catch {
+                print("Error")
             }
         }
+        
     }
+    
+//    private func fetchProducts() {
+//        productsLoader.loadProducts { result in
+//            switch result {
+//            case .success(let products):
+//                self.products = products
+//                self.tableView.reloadData()
+//                
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+//        
+//    }
+    
+//    private func fetchProducts() {
+//        Task {
+//            do {
+//                let products = try await productService.loadProducts()
+//                self.products = products
+//                self.tableView.reloadData()
+//            } catch NetworkError.badUrl {
+//                print("Bad URL")
+//            } catch NetworkError.requestError {
+//                print("Request Error")
+//            } catch NetworkError.clientError {
+//                print("Client Error")
+//            } catch NetworkError.serverError {
+//                print("Server Error")
+//            } catch NetworkError.decodingError {
+//                print("Decoding Error")
+//            }
+//        }
+//    }
     
 //    private func fetchProducts() {
 //        productService.loadProducts { result in
