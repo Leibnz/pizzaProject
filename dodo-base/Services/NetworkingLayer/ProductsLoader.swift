@@ -16,10 +16,10 @@ protocol IProductsLoader {
 
 struct ProductsLoader: IProductsLoader {
 
-    private let httpClient: HTTPClient
+    private let httpClient: IHTTPClient
     private let decoder: JSONDecoder
     
-    init(httpClient: HTTPClient, decoder: JSONDecoder) {
+    init(httpClient: IHTTPClient, decoder: JSONDecoder) {
         self.httpClient = httpClient
         self.decoder = decoder
     }

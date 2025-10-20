@@ -10,22 +10,24 @@ import Foundation
 
 final class DependencyContainer {
     
-    let session: URLSession
     let decoder: JSONDecoder
-    let productsLoader: ProductsLoader
-//    let bannersLoader: BannersLoader
-//    let categoriesLoader: CategoriesLoader
+    let productsLoader: IProductsLoader
+    let bannerLoader: IBannersLoader
+    let categoryLoader: ICategoriesLoader
+    let storiesLoader: IStoriesLoader
+    
+    let httpClient: IHTTPClient
     
     let screenFactory: ScreenFactory
     
     init() {
-        session = URLSession.shared
+        httpClient = HTTPClient()
         decoder = JSONDecoder()
-//        productsLoader = ProductsLoader(session: session, decoder: decoder)
-//        bannersLoader = BannersLoader(session: session, decoder: decoder)
-//        categoriesLoader = CategoriesLoader(session: session, decoder: decoder)
-        
-        
+        productsLoader = ProductsLoader(httpClient: httpClient, decoder: decoder)
+        bannerLoader = BannerLoader(httpClient: httpClient, decoder: decoder)
+        categoryLoader = CategoryLoader(httpClient: httpClient, decoder: decoder)
+        storiesLoader = StoriesLoader()
+
         
         screenFactory = ScreenFactory()
         screenFactory.di = self
@@ -38,12 +40,12 @@ final class ScreenFactory {
     weak var di: DependencyContainer!
 
     func makeMenuScreen() -> MenuScreenVC {
-        return MenuScreenVC(productsLoader: di.productsLoader) //bannersLoader: di.bannersLoader, categoriesLoader: di.categoriesLoader)
-        
-        //return MenuScreenVC(provider: di.menuProvider)
+        return MenuScreenVC(productLoader: di.productsLoader, bannerLoader: di.bannerLoader, categoryLoader: di.categoryLoader, storiesLoader: di.storiesLoader)
     }
     
-    //func makeDetailScreen() -> DetailScreenVC { }
+    func makeDetailScreen() -> DetailProductVC {
+        return DetailProductVC()
+    }
 }
 
 

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class BannerCollectionCell: UICollectionViewCell {
     
@@ -93,7 +94,10 @@ final class BannerCollectionCell: UICollectionViewCell {
 extension BannerCollectionCell {
     
     func update(_ banner: Banner) {
-        imageView.image = UIImage(named: banner.image)
+        let url = URL(string: banner.image)
+        imageView.kf.setImage(with: url)
+        
+        //imageView.image = UIImage(named: banner.image)
         nameLabel.text = banner.name
         priceLabel.text = "\(banner.newPrice) \u{20BD}"
   

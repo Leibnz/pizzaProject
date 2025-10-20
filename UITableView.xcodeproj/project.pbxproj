@@ -42,6 +42,7 @@
 		4923E9722E5B533000C6E94D /* AddProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923E9712E5B533000C6E94D /* AddProductCell.swift */; };
 		4923E9742E5B534200C6E94D /* AddProductCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923E9732E5B534200C6E94D /* AddProductCollectionCell.swift */; };
 		4923E9762E5B88FE00C6E94D /* BasketButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923E9752E5B88FE00C6E94D /* BasketButtonView.swift */; };
+		4950AA042E9EBDCF008B10D0 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4950AA032E9EBDCF008B10D0 /* Kingfisher */; };
 		495C51092E3A77AD00CF27AA /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495C51082E3A77AD00CF27AA /* BannerCell.swift */; };
 		495C510B2E3A808D00CF27AA /* BannerCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495C510A2E3A808D00CF27AA /* BannerCollectionCell.swift */; };
 		497A1F052E672955006B02A3 /* AddressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497A1F042E672955006B02A3 /* AddressButton.swift */; };
@@ -130,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4950AA042E9EBDCF008B10D0 /* Kingfisher in Frameworks */,
 				490CE3B62E2FE64D00ED209A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,6 +380,7 @@
 			name = UIKitHomework;
 			packageProductDependencies = (
 				490CE3B52E2FE64D00ED209A /* SnapKit */,
+				4950AA032E9EBDCF008B10D0 /* Kingfisher */,
 			);
 			productName = UIKitHomework;
 			productReference = 49DFCA9C2E2D2AC600BB2112 /* UIKitHomework.app */;
@@ -409,6 +412,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				490CE3B42E2FE64D00ED209A /* XCRemoteSwiftPackageReference "SnapKit" */,
+				4950AA022E9EBDCF008B10D0 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 49DFCA9D2E2D2AC600BB2112 /* Products */;
@@ -529,6 +533,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -556,6 +561,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -720,6 +726,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		4950AA022E9EBDCF008B10D0 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -727,6 +741,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 490CE3B42E2FE64D00ED209A /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		4950AA032E9EBDCF008B10D0 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4950AA022E9EBDCF008B10D0 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
