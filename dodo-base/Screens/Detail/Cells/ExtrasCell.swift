@@ -63,7 +63,7 @@ final class ExtrasCell: UITableViewCell {
             make.top.equalTo(extrasLabel.snp.bottom).offset(5)
             make.left.equalTo(contentView).offset(15)
             make.right.equalTo(contentView).offset(-15)
-            make.height.equalTo(400) //TODO: Доделать чтобы размер изменялся
+            make.height.equalTo(400)
         }
     }
 }

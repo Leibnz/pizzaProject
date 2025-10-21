@@ -7,8 +7,19 @@
 
 import Foundation
 
+protocol ICategoriesLoader {
+    func fetchTypes() -> [Type]
+}
 
-class TypeService {
+class CategoryLoader: ICategoriesLoader {
+    
+    private let httpClient: IHTTPClient
+    private let decoder: JSONDecoder
+    
+    init(httpClient: IHTTPClient, decoder: JSONDecoder) {
+        self.httpClient = httpClient
+        self.decoder = decoder
+    }
     
     private let types: [Type] = [
         Type(name: "Пиццы", isSelected: false),

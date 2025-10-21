@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		490998312E957037009ABC1D /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490998302E957037009ABC1D /* DependencyContainer.swift */; };
 		490CE3B62E2FE64D00ED209A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 490CE3B52E2FE64D00ED209A /* SnapKit */; };
 		490CE4372E314FF100ED209A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490CE4222E314FF100ED209A /* AppDelegate.swift */; };
 		490CE4382E314FF100ED209A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490CE4232E314FF100ED209A /* SceneDelegate.swift */; };
@@ -41,6 +42,7 @@
 		4923E9722E5B533000C6E94D /* AddProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923E9712E5B533000C6E94D /* AddProductCell.swift */; };
 		4923E9742E5B534200C6E94D /* AddProductCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923E9732E5B534200C6E94D /* AddProductCollectionCell.swift */; };
 		4923E9762E5B88FE00C6E94D /* BasketButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923E9752E5B88FE00C6E94D /* BasketButtonView.swift */; };
+		4950AA042E9EBDCF008B10D0 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4950AA032E9EBDCF008B10D0 /* Kingfisher */; };
 		495C51092E3A77AD00CF27AA /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495C51082E3A77AD00CF27AA /* BannerCell.swift */; };
 		495C510B2E3A808D00CF27AA /* BannerCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495C510A2E3A808D00CF27AA /* BannerCollectionCell.swift */; };
 		497A1F052E672955006B02A3 /* AddressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497A1F042E672955006B02A3 /* AddressButton.swift */; };
@@ -54,6 +56,8 @@
 		498793382E65C60C00487C10 /* BasketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498793372E65C60C00487C10 /* BasketService.swift */; };
 		49B361842E4518D2009952BB /* Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B361832E4518D2009952BB /* Type.swift */; };
 		49B3619F2E464139009952BB /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B3619E2E464139009952BB /* Banner.swift */; };
+		49BFC5D42E8EE0DF007D812B /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BFC5D32E8EE0DF007D812B /* HTTPClient.swift */; };
+		49BFC5D62E8EE77E007D812B /* ProductsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BFC5D52E8EE77E007D812B /* ProductsLoader.swift */; };
 		49C33DC92E477C6500CD5D5E /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C33DC82E477C6500CD5D5E /* Story.swift */; };
 		49DDC9792E7FFAFF00AD5698 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DDC9782E7FFAFF00AD5698 /* NetworkError.swift */; };
 		49E03DB52E7469E4003351BF /* UIImage+resized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E03DB42E7469E4003351BF /* UIImage+resized.swift */; };
@@ -63,6 +67,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		490998302E957037009ABC1D /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		490CE4222E314FF100ED209A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		490CE4232E314FF100ED209A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		490CE4252E314FF100ED209A /* ProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
@@ -110,6 +115,8 @@
 		498793372E65C60C00487C10 /* BasketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketService.swift; sourceTree = "<group>"; };
 		49B361832E4518D2009952BB /* Type.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Type.swift; sourceTree = "<group>"; };
 		49B3619E2E464139009952BB /* Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
+		49BFC5D32E8EE0DF007D812B /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		49BFC5D52E8EE77E007D812B /* ProductsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsLoader.swift; sourceTree = "<group>"; };
 		49C33DC82E477C6500CD5D5E /* Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
 		49DDC9782E7FFAFF00AD5698 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		49DFCA9C2E2D2AC600BB2112 /* UIKitHomework.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIKitHomework.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4950AA042E9EBDCF008B10D0 /* Kingfisher in Frameworks */,
 				490CE3B62E2FE64D00ED209A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,6 +139,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4909982F2E957000009ABC1D /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				490998302E957037009ABC1D /* DependencyContainer.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
 		490CE4242E314FF100ED209A /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				490CE4242E314FF100ED209A /* App */,
+				4909982F2E957000009ABC1D /* DI */,
 				490CE42B2E314FF100ED209A /* Screens */,
 				490CE42A2E314FF100ED209A /* Models */,
 				4923E9542E5792C600C6E94D /* Services */,
@@ -248,6 +265,7 @@
 		4923E9542E5792C600C6E94D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				49BFC5D22E8EE0BA007D812B /* NetworkingLayer */,
 				4923E94F2E5792C600C6E94D /* BannerService.swift */,
 				4923E9502E5792C600C6E94D /* ExtraService.swift */,
 				4923E9512E5792C600C6E94D /* ProductService.swift */,
@@ -319,6 +337,15 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		49BFC5D22E8EE0BA007D812B /* NetworkingLayer */ = {
+			isa = PBXGroup;
+			children = (
+				49BFC5D32E8EE0DF007D812B /* HTTPClient.swift */,
+				49BFC5D52E8EE77E007D812B /* ProductsLoader.swift */,
+			);
+			path = NetworkingLayer;
+			sourceTree = "<group>";
+		};
 		49DFCA932E2D2AC600BB2112 = {
 			isa = PBXGroup;
 			children = (
@@ -353,6 +380,7 @@
 			name = UIKitHomework;
 			packageProductDependencies = (
 				490CE3B52E2FE64D00ED209A /* SnapKit */,
+				4950AA032E9EBDCF008B10D0 /* Kingfisher */,
 			);
 			productName = UIKitHomework;
 			productReference = 49DFCA9C2E2D2AC600BB2112 /* UIKitHomework.app */;
@@ -384,6 +412,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				490CE3B42E2FE64D00ED209A /* XCRemoteSwiftPackageReference "SnapKit" */,
+				4950AA022E9EBDCF008B10D0 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 49DFCA9D2E2D2AC600BB2112 /* Products */;
@@ -415,9 +444,11 @@
 			files = (
 				497A1F0B2E673388006B02A3 /* AddressPanelView.swift in Sources */,
 				4923E9552E5792C600C6E94D /* BannerService.swift in Sources */,
+				49BFC5D62E8EE77E007D812B /* ProductsLoader.swift in Sources */,
 				49E03DB72E746A29003351BF /* UIImage+tintedColor.swift in Sources */,
 				4923E9762E5B88FE00C6E94D /* BasketButtonView.swift in Sources */,
 				4923E9562E5792C600C6E94D /* ExtraService.swift in Sources */,
+				490998312E957037009ABC1D /* DependencyContainer.swift in Sources */,
 				4923E9572E5792C600C6E94D /* ProductService.swift in Sources */,
 				4923E9582E5792C600C6E94D /* StoriesService.swift in Sources */,
 				498793362E65C55F00487C10 /* Basket.swift in Sources */,
@@ -444,6 +475,7 @@
 				490CE4392E314FF100ED209A /* ProductCell.swift in Sources */,
 				490CE43A2E314FF100ED209A /* MenuScreenVC.swift in Sources */,
 				49FA27A12E4659A900FD2FBB /* StoriesCell.swift in Sources */,
+				49BFC5D42E8EE0DF007D812B /* HTTPClient.swift in Sources */,
 				497A1F0D2E6733FD006B02A3 /* AddressView.swift in Sources */,
 				491261202E3CF3280044ADB7 /* TypeCollectionCell.swift in Sources */,
 				4923E9162E56326600C6E94D /* OrderButtonView.swift in Sources */,
@@ -501,6 +533,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -528,6 +561,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -692,6 +726,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		4950AA022E9EBDCF008B10D0 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -699,6 +741,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 490CE3B42E2FE64D00ED209A /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		4950AA032E9EBDCF008B10D0 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4950AA022E9EBDCF008B10D0 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -18,10 +18,30 @@ final class MenuScreenVC: UIViewController {
     var banners: [Banner] = []
     var stories: [Story] = []
     
-    let productService = ProductService.init()
-    let typeService = TypeService.init()
-    let bannerService = BannerService.init()
-    let storiesService = StoriesService.init()
+    let productsLoader: IProductsLoader
+    let bannersLoader: IBannersLoader
+    let categoriesLoader: ICategoriesLoader
+    let storiesLoader: IStoriesLoader
+    
+    init(productLoader: IProductsLoader, bannerLoader: IBannersLoader, categoryLoader: ICategoriesLoader, storiesLoader: IStoriesLoader) {
+        self.productsLoader = productLoader
+        self.bannersLoader = bannerLoader
+        self.categoriesLoader = categoryLoader
+        self.storiesLoader = storiesLoader
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+//    let productService = ProductService.init()
+//    let httpClient = HTTPClient()
+//    let decoder = JSONDecoder()
+//    private lazy var productsLoader = ProductsLoader(httpClient: httpClient, decoder: decoder)
+//    let typeService = TypeService.init()
+//    let bannerService = BannerService.init()
+//    let storiesService = StoriesService.init()
     
     private lazy var tableView: UITableView = {
         $0.backgroundColor = .white
@@ -54,22 +74,48 @@ final class MenuScreenVC: UIViewController {
     private func fetchProducts() {
         Task {
             do {
-                let products = try await productService.loadProducts()
+                let products = try await productsLoader.loadProducts()
                 self.products = products
                 self.tableView.reloadData()
-            } catch NetworkError.badUrl {
-                print("Bad URL")
-            } catch NetworkError.requestError {
-                print("Request Error")
-            } catch NetworkError.clientError {
-                print("Client Error")
-            } catch NetworkError.serverError {
-                print("Server Error")
-            } catch NetworkError.decodingError {
-                print("Decoding Error")
+            } catch {
+                print("Error")
             }
         }
     }
+    
+//    private func fetchProducts() {
+//        productsLoader.loadProducts { result in
+//            switch result {
+//            case .success(let products):
+//                self.products = products
+//                self.tableView.reloadData()
+//                
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+//        
+//    }
+    
+//    private func fetchProducts() {
+//        Task {
+//            do {
+//                let products = try await productService.loadProducts()
+//                self.products = products
+//                self.tableView.reloadData()
+//            } catch NetworkError.badUrl {
+//                print("Bad URL")
+//            } catch NetworkError.requestError {
+//                print("Request Error")
+//            } catch NetworkError.clientError {
+//                print("Client Error")
+//            } catch NetworkError.serverError {
+//                print("Server Error")
+//            } catch NetworkError.decodingError {
+//                print("Decoding Error")
+//            }
+//        }
+//    }
     
 //    private func fetchProducts() {
 //        productService.loadProducts { result in
@@ -86,7 +132,7 @@ final class MenuScreenVC: UIViewController {
 //    }
     
     private func fetchTypes() {
-        types = typeService.fetchTypes()
+        types = categoriesLoader.fetchTypes()
         tableView.reloadData() //Лучше обновлять не всю View, а только секцию
     }
     
@@ -107,7 +153,7 @@ final class MenuScreenVC: UIViewController {
     private func fetchBanners() {
         Task {
             do {
-                let banners = try await bannerService.loadBanners()
+                let banners = try await bannersLoader.loadBanners()
                 self.banners = banners
                 self.tableView.reloadData()
             } catch NetworkError.badUrl {
@@ -127,7 +173,7 @@ final class MenuScreenVC: UIViewController {
     private func fetchStories() {
         Task {
             do {
-                let stories = try await storiesService.loadStories()
+                let stories = try await storiesLoader.loadStories()
                 self.stories = stories
                 self.tableView.reloadData()
             } catch NetworkError.badUrl {
@@ -143,6 +189,7 @@ final class MenuScreenVC: UIViewController {
             }
         }
     }
+
 //    private func fetchStories() {
 //        storiesService.loadStories { result in
 //            switch result {

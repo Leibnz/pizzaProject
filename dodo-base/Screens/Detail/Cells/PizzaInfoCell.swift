@@ -20,7 +20,6 @@ final class PizzaInfoCell: UITableViewCell {
     private let descriptionDetailLabel: UILabel = {
         let label = UILabel()
         label.text = "30 см, традиционное тесто 30, 520 г"
-        //TODO: Переделать чтобы брало данные из SegmentedControl
         label.textColor = .systemGray
         label.font = UIFont.systemFont(ofSize: 14)
         label.textAlignment = .left
