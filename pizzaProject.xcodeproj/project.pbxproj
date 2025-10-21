@@ -401,7 +401,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 49DFCA972E2D2AC600BB2112 /* Build configuration list for PBXProject "UITableView" */;
+			buildConfigurationList = 49DFCA972E2D2AC600BB2112 /* Build configuration list for PBXProject "pizzaProject" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -697,7 +697,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		49DFCA972E2D2AC600BB2112 /* Build configuration list for PBXProject "UITableView" */ = {
+		49DFCA972E2D2AC600BB2112 /* Build configuration list for PBXProject "pizzaProject" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				49DFCAB22E2D2AC800BB2112 /* Debug */,
