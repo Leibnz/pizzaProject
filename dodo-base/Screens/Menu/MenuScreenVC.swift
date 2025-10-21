@@ -313,7 +313,8 @@ extension MenuScreenVC: UITableViewDataSource, UITableViewDelegate {
         
         switch section {
         case 3:
-            let detailVC = DetailProductVC()
+            let product = products[indexPath.row]
+            let detailVC = di.screenFactory.makeDetailScreen(product)
             self.present(detailVC, animated: true)
         default: break
         }

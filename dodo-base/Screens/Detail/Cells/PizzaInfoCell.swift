@@ -21,6 +21,7 @@ final class PizzaInfoCell: UITableViewCell {
         let label = UILabel()
         label.text = "30 см, традиционное тесто 30, 520 г"
         label.textColor = .systemGray
+        label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 14)
         label.textAlignment = .left
         return label
@@ -49,9 +50,18 @@ final class PizzaInfoCell: UITableViewCell {
         
         descriptionDetailLabel.snp.makeConstraints { make in
             make.top.equalTo(detailTitleLabel.snp.bottom).offset(10)
-            make.bottom.equalTo(contentView).inset(10)
             make.left.equalTo(contentView).offset(15)
+            make.right.equalTo(contentView).offset(5)
+            make.bottom.equalTo(contentView).inset(10)
         }
     }
+}
+
+//MARK: - Обновление данных по каждой ячейке
+extension PizzaInfoCell {
     
+    func update(_ product: Product) {
+        self.detailTitleLabel.text = product.name
+        self.descriptionDetailLabel.text = product.description
+    }
 }

@@ -26,7 +26,7 @@ final class BannerCollectionCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let imageView: UIImageView = {
+    private let bannerImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "pepperoniFresh")
         imageView.contentMode = .scaleAspectFill
@@ -65,7 +65,7 @@ final class BannerCollectionCell: UICollectionViewCell {
     
     private func setupViews() {
         contentView.addSubview(containerView)
-        containerView.addSubview(imageView)
+        containerView.addSubview(bannerImageView)
         containerView.addSubview(verticalStackView)
         
         verticalStackView.addArrangedSubview(nameLabel)
@@ -77,14 +77,14 @@ final class BannerCollectionCell: UICollectionViewCell {
             make.edges.equalTo(contentView).inset(6)
         }
         
-        imageView.snp.makeConstraints { make in
+        bannerImageView.snp.makeConstraints { make in
             make.left.equalTo(contentView).inset(10)
             make.centerY.equalTo(contentView)
         }
         
         verticalStackView.snp.makeConstraints { make in
             make.centerY.equalTo(contentView)
-            make.left.equalTo(imageView.snp.right).offset(10)
+            make.left.equalTo(bannerImageView.snp.right).offset(10)
             make.right.equalTo(contentView).inset(10)
             
         }
@@ -95,7 +95,7 @@ extension BannerCollectionCell {
     
     func update(_ banner: Banner) {
         let url = URL(string: banner.image)
-        imageView.kf.setImage(with: url)
+        bannerImageView.kf.setImage(with: url)
         //imageView.image = UIImage(named: banner.image)
         
         nameLabel.text = banner.name

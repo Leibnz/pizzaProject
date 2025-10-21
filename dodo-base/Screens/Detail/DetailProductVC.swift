@@ -13,7 +13,18 @@ final class DetailProductVC: UIViewController {
     
     private var extras: [Extra] = []
     
-    let extraService = ExtraService()
+    private let extrasLoader: IExtrasLoader
+    private let product: Product
+    
+    init(product: Product, extrasLoader: IExtrasLoader) {
+        self.product = product
+        self.extrasLoader = extrasLoader
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private var orderButtonView = OrderButtonView()
     
@@ -40,8 +51,15 @@ final class DetailProductVC: UIViewController {
     }
     
     private func fetchExtras() {
-        extras = extraService.fetchExtras()
-        tableView.reloadData()
+        Task {
+            do {
+                let extras = try await extrasLoader.loadExtras()
+                self.extras = extras
+                self.tableView.reloadData()
+            } catch {
+                print("Error")
+            }
+        }
     }
     
     private func setupViews() {
@@ -85,9 +103,11 @@ extension DetailProductVC: UITableViewDataSource, UITableViewDelegate {
         switch section {
         case 0:
             let cell = tableView.dequeueCell(indexPath) as PizzaImageCell
+            cell.update(product)
             return cell
         case 1:
             let cell = tableView.dequeueCell(indexPath) as PizzaInfoCell
+            cell.update(product)
             return cell
         case 2:
             let cell = tableView.dequeueCell(indexPath) as OptionsPizzaCell
