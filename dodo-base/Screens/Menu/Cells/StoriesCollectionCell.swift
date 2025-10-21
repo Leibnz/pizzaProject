@@ -51,7 +51,6 @@ extension StoriesCollectionCell {
     func update(_ story: Story) {
         let url = URL(string: story.image)
         imageView.kf.setImage(with: url)
-        
 //        imageView.image = UIImage(named: story.image)
     }
 }

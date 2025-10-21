@@ -12,7 +12,6 @@ import SnapKit
 final class BasketVC: UIViewController {
     
     private var basketButtonView = BasketButtonView()
-//    private var addressButton = AddressButton()
     
     var basket: [Basket] = []
     
@@ -33,8 +32,6 @@ final class BasketVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-//        setupActions()
-        
         fetchBasket()
     }
     
@@ -42,8 +39,6 @@ final class BasketVC: UIViewController {
         view.backgroundColor = .white
         view.addSubview(basketTableView)
         view.addSubview(basketButtonView)
-//        view.addSubview(addressButton)
-        
         fetchBasket()
     }
     
@@ -92,7 +87,7 @@ extension BasketVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
-        case 0: return 1 //TODO: Доделать под кол-во элементов
+        case 0: return 1
         case 1: return 1
         default: return 0
         }

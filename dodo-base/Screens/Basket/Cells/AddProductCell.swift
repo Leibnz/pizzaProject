@@ -25,7 +25,6 @@ final class AddProductCell: UITableViewCell {
     private lazy var addProductCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-//        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.itemSize = CGSize(width: 150, height: 300)
         layout.minimumLineSpacing = 6
         layout.minimumInteritemSpacing = 6

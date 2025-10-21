@@ -96,13 +96,9 @@ extension BannerCollectionCell {
     func update(_ banner: Banner) {
         let url = URL(string: banner.image)
         imageView.kf.setImage(with: url)
-        
         //imageView.image = UIImage(named: banner.image)
+        
         nameLabel.text = banner.name
         priceLabel.text = "\(banner.newPrice) \u{20BD}"
-  
-        
-        //TODO: - Доделать oldPrice - цена, которая зачеркнута и добавить label
-        
     }
 }

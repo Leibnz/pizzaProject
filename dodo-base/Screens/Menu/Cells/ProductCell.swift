@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 
 final class ProductCell: UITableViewCell {
@@ -78,10 +79,13 @@ final class ProductCell: UITableViewCell {
     }
     
     func update(_ product: Product) {
+        let url = URL(string: product.image)
+        productImageView.kf.setImage(with: url)
+        
         nameLabel.text = product.name
         detailLabel.text = product.description
         priceButton.setTitle("от \(product.price) \u{20BD}", for: .normal)
-        productImageView.image = UIImage(named: product.image)
+//        productImageView.image = UIImage(named: product.image)
     }
 }
 
