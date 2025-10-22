@@ -40,3 +40,13 @@ final class PizzaImageCell: UITableViewCell {
         }
     }
 }
+
+
+//MARK: - Get an image
+extension PizzaImageCell {
+    
+    func update(_ product: Product) {
+        let url = URL(string: product.image)
+        pizzaImageView.kf.setImage(with: url)
+    }
+}

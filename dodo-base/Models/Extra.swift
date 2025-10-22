@@ -8,7 +8,7 @@
 import UIKit
 
 
-struct Extra {
+struct Extra: Decodable {
     var image: String
     var name: String
     var price: Int

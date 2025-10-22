@@ -54,6 +54,8 @@ final class BannerCell: UITableViewCell {
     }
 }
 
+
+//MARK: - CollectionViewDataSource
 extension BannerCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return banners.count
@@ -67,6 +69,8 @@ extension BannerCell: UICollectionViewDataSource {
     }
 }
 
+
+//MARK: - Get an array of data
 extension BannerCell {
     
     func update(_ banners: [Banner]) {

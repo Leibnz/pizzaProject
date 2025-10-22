@@ -93,7 +93,7 @@ final class ExtrasCollectionCell: UICollectionViewCell {
     }
 }
 
-//MARK: - Обновление данных по каждой ячейке
+//MARK: - Get data
 extension ExtrasCollectionCell {
     
     func update(_ extra: Extra) {

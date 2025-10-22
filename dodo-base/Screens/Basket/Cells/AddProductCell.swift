@@ -106,6 +106,8 @@ extension AddProductCell: UICollectionViewDataSource {
     }
 }
 
+
+//MARK: - Get an array of data
 extension AddProductCell {
     
     func update(_ basket: [Basket]) {

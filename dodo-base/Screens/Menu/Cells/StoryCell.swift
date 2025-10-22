@@ -1,31 +1,31 @@
 //
-//  TypeCell.swift
+//  StoriesCell.swift
 //  UIKitHomework
 //
-//  Created by Andrew on 01.08.2025.
+//  Created by Andrew on 08.08.2025.
 //
 
 import UIKit
 
-final class TypeCell: UITableViewCell {
+
+final class StoryCell: UITableViewCell {
     
-    static let reuseId = "TypeCell"
+    static let reuseId = "StoriesCell"
     
-    var types: [Type] = []
-    
+    var stories: [Story] = []
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.itemSize = CGSize(width: 90, height: 100)
+        layout.minimumLineSpacing = 5
         
         let collectionView = UICollectionView.init(frame: .zero, collectionViewLayout: layout)
-        collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
+        collectionView.showsHorizontalScrollIndicator = false
         
-        collectionView.register(TypeCollectionCell.self, forCellWithReuseIdentifier: "TypeCollectionCell")
+        collectionView.register(StoryCollectionCell.self, forCellWithReuseIdentifier: "StoriesCollectionCell")
         collectionView.dataSource = self
-        collectionView.delegate = self
         
         return collectionView
     }()
@@ -47,40 +47,32 @@ final class TypeCell: UITableViewCell {
     private func setupConstraints() {
         collectionView.snp.makeConstraints { make in
             make.top.bottom.equalTo(contentView)
-            make.left.right.equalTo(contentView).inset(10)
-            make.height.equalTo(50)
+            make.left.right.equalTo(contentView).inset(16)
+            make.height.equalTo(120)
         }
     }
 }
 
-extension TypeCell: UICollectionViewDataSource {
+
+//MARK: - CollectionViewDataSource
+extension StoryCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return types.count
+        return stories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TypeCollectionCell.reuseId, for: indexPath) as! TypeCollectionCell
-        let type = types[indexPath.item]
-        cell.update(type)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoryCollectionCell.reuseId, for: indexPath) as! StoryCollectionCell
+        let story = stories[indexPath.item]
+        cell.update(story)
         return cell
     }
 }
 
-extension TypeCell: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        for index in types.indices {
-            types[index].isSelected = false
-        }
-        
-        types[indexPath.item].isSelected = true
-        collectionView.reloadData()
-    }
-}
 
-extension TypeCell {
-    
-    func update(_ types: [Type]) {
-        self.types = types
+//MARK: - Get an array of data
+extension StoryCell {
+    func update(_ stories: [Story]) {
+        self.stories = stories
         collectionView.reloadData()
     }
 }

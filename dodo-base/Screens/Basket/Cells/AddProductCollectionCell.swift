@@ -103,6 +103,7 @@ final class AddProductCollectionCell: UICollectionViewCell {
 }
 
 
+//MARK: - Get data
 extension AddProductCollectionCell {
     
     func update(_ basket: Basket) {

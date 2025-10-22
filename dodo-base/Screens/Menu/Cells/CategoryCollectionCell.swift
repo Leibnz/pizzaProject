@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TypeCollectionCell: UICollectionViewCell {
+final class CategoryCollectionCell: UICollectionViewCell {
     
     static let reuseId = "TypeCollectionCell"
     
@@ -54,9 +54,11 @@ final class TypeCollectionCell: UICollectionViewCell {
     
 }
 
-extension TypeCollectionCell {
+
+//MARK: - Update text label
+extension CategoryCollectionCell {
     
-    func update(_ type: Type) {
+    func update(_ type: Category) {
         typeLabel.text = type.name
         
         if type.isSelected {
