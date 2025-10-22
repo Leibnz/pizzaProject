@@ -83,7 +83,7 @@ extension ExtrasCell: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
-//MARK: - Получение массива данных
+//MARK: - Get an array of data
 extension ExtrasCell {
     
     func update(_ extras: [Extra]) {

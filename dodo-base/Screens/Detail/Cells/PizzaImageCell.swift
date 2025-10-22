@@ -42,7 +42,7 @@ final class PizzaImageCell: UITableViewCell {
 }
 
 
-//MARK: - Обновление картинки
+//MARK: - Get an image
 extension PizzaImageCell {
     
     func update(_ product: Product) {

@@ -36,7 +36,7 @@ final class DependencyContainer {
     }
 }
 
-//Контейнер для создания все экранов
+//MARK: Контейнер для создания все экранов
 final class ScreenFactory {
     
     weak var di: DependencyContainer!

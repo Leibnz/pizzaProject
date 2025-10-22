@@ -8,7 +8,7 @@
 import UIKit
 
 
-struct Type {
+struct Category {
     var name: String
     var isSelected: Bool
 }

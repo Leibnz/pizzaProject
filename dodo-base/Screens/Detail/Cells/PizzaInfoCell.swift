@@ -57,7 +57,7 @@ final class PizzaInfoCell: UITableViewCell {
     }
 }
 
-//MARK: - Обновление данных по каждой ячейке
+//MARK: - Get data
 extension PizzaInfoCell {
     
     func update(_ product: Product) {

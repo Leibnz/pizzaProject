@@ -91,6 +91,8 @@ final class BannerCollectionCell: UICollectionViewCell {
     }
 }
 
+
+//MARK: - Get an image
 extension BannerCollectionCell {
     
     func update(_ banner: Banner) {

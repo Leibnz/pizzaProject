@@ -45,8 +45,6 @@ struct ExtraLoader: IExtrasLoader {
 }
 
 
-
-
 //class ExtraService {
 //    
 //    private let extras: [Extra] = [

@@ -14,7 +14,7 @@ final class MenuScreenVC: UIViewController {
     private var addressButton = AddressButton()
     
     var products: [Product] = []
-    var types: [Type] = []
+    var categories: [Category] = []
     var banners: [Banner] = []
     var stories: [Story] = []
     
@@ -52,8 +52,8 @@ final class MenuScreenVC: UIViewController {
         
         $0.registerCell(ProductCell.self)
         $0.registerCell(BannerCell.self)
-        $0.registerCell(TypeCell.self)
-        $0.registerCell(StoriesCell.self)
+        $0.registerCell(CategoryCell.self)
+        $0.registerCell(StoryCell.self)
         return $0
     }(UITableView())
     
@@ -63,9 +63,8 @@ final class MenuScreenVC: UIViewController {
         setupConstraints()
         setupActions()
         
-        
         fetchProducts()
-        fetchTypes()
+        fetchCategories()
         fetchBanners()
         fetchStories()
         
@@ -131,8 +130,8 @@ final class MenuScreenVC: UIViewController {
 //        }
 //    }
     
-    private func fetchTypes() {
-        types = categoriesLoader.fetchTypes()
+    private func fetchCategories() {
+        categories = categoriesLoader.fetchCategories()
         tableView.reloadData() //Лучше обновлять не всю View, а только секцию
     }
     
@@ -206,6 +205,8 @@ final class MenuScreenVC: UIViewController {
     
 }
 
+
+//MARK: - Setup
 extension MenuScreenVC {
     private func setupViews() {
         view.backgroundColor = .systemBackground
@@ -286,7 +287,7 @@ extension MenuScreenVC: UITableViewDataSource, UITableViewDelegate {
         
         switch section {
         case 0:
-            let cell = tableView.dequeueCell(indexPath) as StoriesCell
+            let cell = tableView.dequeueCell(indexPath) as StoryCell
             cell.update(stories)
             return cell
         case 1:
@@ -294,8 +295,8 @@ extension MenuScreenVC: UITableViewDataSource, UITableViewDelegate {
             cell.update(banners)
             return cell
         case 2:
-            let cell = tableView.dequeueCell(indexPath) as TypeCell
-            cell.update(types)
+            let cell = tableView.dequeueCell(indexPath) as CategoryCell
+            cell.update(categories)
             return cell
         case 3:
             let cell = tableView.dequeueCell(indexPath) as ProductCell
