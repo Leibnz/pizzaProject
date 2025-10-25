@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 
 final class ExtrasCollectionCell: UICollectionViewCell {
@@ -97,7 +98,10 @@ final class ExtrasCollectionCell: UICollectionViewCell {
 extension ExtrasCollectionCell {
     
     func update(_ extra: Extra) {
-        extrasImageView.image = UIImage(named: extra.image)
+        let url = URL(string: extra.image)
+        extrasImageView.kf.setImage(with: url)
+//        extrasImageView.image = UIImage(named: extra.image)
+        
         extrasNameLabel.text = extra.name
         extrasPriceLabel.text = "\(extra.price) \u{20BD}"
     }
