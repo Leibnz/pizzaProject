@@ -255,7 +255,18 @@ extension MenuScreenVC {
         
         addressButton.addAction(UIAction(handler: { [weak self] _ in
             let mapVC = MapViewController()
-            self?.present(mapVC, animated: true)
+            
+            let navController = UINavigationController(rootViewController: mapVC)
+            
+            // Настройка кнопки "Закрыть"
+            mapVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Закрыть", style: .plain, target: mapVC, action: #selector(mapVC.closeTapped)
+            )
+            mapVC.navigationItem.leftBarButtonItem?.tintColor = .orange
+            
+            // Заголовок по центру
+            mapVC.navigationItem.title = "Карта"
+            
+            self?.present(navController, animated: true)
         }), for: .touchUpInside)
     }
 }
@@ -297,6 +308,35 @@ extension MenuScreenVC: UITableViewDataSource, UITableViewDelegate {
         case 2:
             let cell = tableView.dequeueCell(indexPath) as CategoryCell
             cell.update(categories)
+            
+            cell.onCategoryCellSelect = { category in
+                switch category.name {
+                case "Пиццы":
+                    let indexPath = IndexPath(row: 0, section: 3)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                case "Комбо":
+                    let indexPath = IndexPath(row: 6, section: 3)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                case "Закуски":
+                    let indexPath = IndexPath(row: 9, section: 3)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                case "Коктейли":
+                    let indexPath = IndexPath(row: 12, section: 3)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                case "Кофе":
+                    let indexPath = IndexPath(row: 15, section: 3)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                case "Напитки":
+                    let indexPath = IndexPath(row: 18, section: 3)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                case "Соусы":
+                    let indexPath = IndexPath(row: 22, section: 3)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                default:
+                    break
+                }
+            }
+            
             return cell
         case 3:
             let cell = tableView.dequeueCell(indexPath) as ProductCell

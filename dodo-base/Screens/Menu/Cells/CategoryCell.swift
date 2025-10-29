@@ -13,6 +13,8 @@ final class CategoryCell: UITableViewCell {
     
     var categories: [Category] = []
     
+    var onCategoryCellSelect: ((Category)->())?
+    
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -76,6 +78,8 @@ extension CategoryCell: UICollectionViewDelegate {
         
         categories[indexPath.item].isSelected = true
         collectionView.reloadData()
+        
+        onCategoryCellSelect?(categories[indexPath.item])
     }
 }
 

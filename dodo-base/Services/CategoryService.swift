@@ -21,9 +21,9 @@ class CategoryLoader: ICategoriesLoader {
         self.decoder = decoder
     }
     
-    private let types: [Category] = [
-        Category(name: "Пиццы", isSelected: false),
-        Category(name: "Комбо", isSelected: true),
+    private let categories: [Category] = [
+        Category(name: "Пиццы", isSelected: true),
+        Category(name: "Комбо", isSelected: false),
         Category(name: "Закуски", isSelected: false),
         Category(name: "Коктейли", isSelected: false),
         Category(name: "Кофе", isSelected: false),
@@ -32,6 +32,6 @@ class CategoryLoader: ICategoriesLoader {
     ]
     
     func fetchCategories() -> [Category] {
-        return types
+        return categories
     }
 }
