@@ -8,6 +8,7 @@
 import Foundation
 
 
+//Добавил enum
 enum PizzaDough {
     case traditional
     case thin

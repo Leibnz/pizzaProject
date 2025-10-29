@@ -14,4 +14,7 @@ struct Product: Decodable {
     var description: String
     var price: Int
     var image: String
+    var size: Int?
+    var dough: String?
+    var count: Int?
 }

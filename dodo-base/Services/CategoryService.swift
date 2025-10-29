@@ -22,8 +22,8 @@ class CategoryLoader: ICategoriesLoader {
     }
     
     private let categories: [Category] = [
-        Category(name: "Пиццы", isSelected: false),
-        Category(name: "Комбо", isSelected: true),
+        Category(name: "Пиццы", isSelected: true),
+        Category(name: "Комбо", isSelected: false),
         Category(name: "Закуски", isSelected: false),
         Category(name: "Коктейли", isSelected: false),
         Category(name: "Кофе", isSelected: false),

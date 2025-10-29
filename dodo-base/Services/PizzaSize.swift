@@ -8,6 +8,7 @@
 import Foundation
 
 
+//Добавил enum
 enum PizzaSize: Int {
     case small = 20
     case medium = 25
