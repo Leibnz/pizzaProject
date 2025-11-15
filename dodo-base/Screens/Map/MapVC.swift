@@ -50,6 +50,10 @@ class MapViewController: UIViewController {
         
         observe()
     }
+    
+    @objc func closeTapped() {
+        self.dismiss(animated: true)
+    }
 }
 
 //MARK: - Observe Logic
@@ -138,7 +142,7 @@ extension MapViewController {
         }
         
         mapView.snp.makeConstraints { make in
-            make.left.right.top.equalToSuperview()
+            make.top.left.right.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(addressPanelView.snp.top)
         }
         

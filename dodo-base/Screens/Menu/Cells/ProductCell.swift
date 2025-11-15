@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 
 final class ProductCell: UITableViewCell {
@@ -21,7 +22,7 @@ final class ProductCell: UITableViewCell {
     private let verticalStackView: UIStackView = {
         let stackView = UIStackView.init()
         stackView.axis = .vertical
-        stackView.spacing = 15
+        stackView.spacing = 10
         stackView.alignment = .leading
         
         stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 12, trailing: 0)
@@ -33,6 +34,7 @@ final class ProductCell: UITableViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Пепперони"
+        label.numberOfLines = 0
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
@@ -53,6 +55,7 @@ final class ProductCell: UITableViewCell {
         button.layer.cornerRadius = 20
         button.setTitleColor(.brown, for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+        button.heightAnchor.constraint(equalToConstant: 32).isActive = true
         return button
     }()
     
@@ -78,10 +81,13 @@ final class ProductCell: UITableViewCell {
     }
     
     func update(_ product: Product) {
+        let url = URL(string: product.image)
+        productImageView.kf.setImage(with: url)
+        
         nameLabel.text = product.name
         detailLabel.text = product.description
         priceButton.setTitle("от \(product.price) \u{20BD}", for: .normal)
-        productImageView.image = UIImage(named: product.image)
+//        productImageView.image = UIImage(named: product.image)
     }
 }
 
@@ -114,22 +120,47 @@ extension ProductCell {
         }
     }
     
+    
     private func setupConstraints() {
-        
         containerView.snp.makeConstraints { make in
             make.top.bottom.equalTo(contentView).inset(8)
             make.left.right.equalTo(contentView).inset(16)
         }
-        
+
         productImageView.snp.makeConstraints { make in
-            make.top.bottom.greaterThanOrEqualTo(containerView).inset(8)
-            make.left.equalTo(containerView).offset(8)
+            make.left.equalTo(containerView).inset(8)
             make.centerY.equalTo(containerView)
+            make.top.greaterThanOrEqualTo(containerView).inset(8)
+            make.bottom.lessThanOrEqualTo(containerView).inset(8)
         }
-        
+
         verticalStackView.snp.makeConstraints { make in
-            make.top.right.bottom.equalTo(containerView).inset(8)
+            make.top.equalTo(containerView).inset(8)
             make.left.equalTo(productImageView.snp.right).offset(8)
+            make.right.equalTo(containerView).inset(8)
+            make.bottom.equalTo(containerView).inset(8)
         }
     }
+    
+    
+//    private func setupConstraints() {
+//        
+//        containerView.snp.makeConstraints { make in
+//            make.top.bottom.equalTo(contentView).inset(8)
+//            make.left.right.equalTo(contentView).inset(16)
+//        }
+//        
+//        productImageView.snp.makeConstraints { make in
+//            make.top.equalTo(containerView).inset(8)
+//            make.left.equalTo(containerView).offset(8)
+//            make.centerY.equalTo(containerView)
+//            make.bottom.equalTo(containerView).inset(8).priority(.low)
+//        }
+//        
+//        verticalStackView.snp.makeConstraints { make in
+//            make.top.right.equalTo(containerView).inset(8)
+//            make.left.equalTo(productImageView.snp.right).offset(8)
+//            make.bottom.equalTo(containerView).inset(8).priority(.high)
+//        }
+//    }
 }

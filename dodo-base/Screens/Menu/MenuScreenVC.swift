@@ -14,28 +14,46 @@ final class MenuScreenVC: UIViewController {
     private var addressButton = AddressButton()
     
     var products: [Product] = []
-    var types: [Type] = []
+    var categories: [Category] = []
     var banners: [Banner] = []
     var stories: [Story] = []
     
-    let productService = ProductService.init()
-    let typeService = TypeService.init()
-    let bannerService = BannerService.init()
-    let storiesService = StoriesService.init()
+    let productsLoader: IProductsLoader
+    let bannersLoader: IBannersLoader
+    let categoriesLoader: ICategoriesLoader
+    let storiesLoader: IStoriesLoader
+    
+    init(productLoader: IProductsLoader, bannerLoader: IBannersLoader, categoryLoader: ICategoriesLoader, storiesLoader: IStoriesLoader) {
+        self.productsLoader = productLoader
+        self.bannersLoader = bannerLoader
+        self.categoriesLoader = categoryLoader
+        self.storiesLoader = storiesLoader
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var tableView: UITableView = {
-        $0.backgroundColor = .white
-        $0.delegate = self
-        $0.dataSource = self
-        $0.separatorStyle = .none
-        $0.showsVerticalScrollIndicator = false
+        let tableView = UITableView()
+        tableView.backgroundColor = .white
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
+
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 0
+        }
         
-        $0.registerCell(ProductCell.self)
-        $0.registerCell(BannerCell.self)
-        $0.registerCell(TypeCell.self)
-        $0.registerCell(StoriesCell.self)
-        return $0
-    }(UITableView())
+        tableView.registerCell(ProductCell.self)
+        tableView.registerCell(PromoProductCell.self)
+        tableView.registerCell(BannerCell.self)
+        tableView.register(CategoryContainerHeader.self, forHeaderFooterViewReuseIdentifier: CategoryContainerHeader.reuseId)
+        tableView.registerCell(StoryCell.self)
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,9 +61,8 @@ final class MenuScreenVC: UIViewController {
         setupConstraints()
         setupActions()
         
-        
         fetchProducts()
-        fetchTypes()
+        fetchCategories()
         fetchBanners()
         fetchStories()
         
@@ -54,60 +71,25 @@ final class MenuScreenVC: UIViewController {
     private func fetchProducts() {
         Task {
             do {
-                let products = try await productService.loadProducts()
+                let products = try await productsLoader.loadProducts()
+                print(products)
                 self.products = products
                 self.tableView.reloadData()
-            } catch NetworkError.badUrl {
-                print("Bad URL")
-            } catch NetworkError.requestError {
-                print("Request Error")
-            } catch NetworkError.clientError {
-                print("Client Error")
-            } catch NetworkError.serverError {
-                print("Server Error")
-            } catch NetworkError.decodingError {
-                print("Decoding Error")
+            } catch {
+                print(error.localizedDescription)
             }
         }
     }
     
-//    private func fetchProducts() {
-//        productService.loadProducts { result in
-//            switch result {
-//                
-//            case .success(let products):
-//                self.products = products
-//                self.tableView.reloadData()
-//                
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
-    
-    private func fetchTypes() {
-        types = typeService.fetchTypes()
+    private func fetchCategories() {
+        categories = categoriesLoader.fetchCategories()
         tableView.reloadData() //Лучше обновлять не всю View, а только секцию
     }
-    
-//    private func fetchBanners() {
-//        bannerService.loadBanners { result in
-//            switch result {
-//                
-//            case .success(let banners):
-//                self.banners = banners
-//                self.tableView.reloadData()
-//                
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
     
     private func fetchBanners() {
         Task {
             do {
-                let banners = try await bannerService.loadBanners()
+                let banners = try await bannersLoader.loadBanners()
                 self.banners = banners
                 self.tableView.reloadData()
             } catch NetworkError.badUrl {
@@ -127,7 +109,7 @@ final class MenuScreenVC: UIViewController {
     private func fetchStories() {
         Task {
             do {
-                let stories = try await storiesService.loadStories()
+                let stories = try await storiesLoader.loadStories()
                 self.stories = stories
                 self.tableView.reloadData()
             } catch NetworkError.badUrl {
@@ -143,22 +125,10 @@ final class MenuScreenVC: UIViewController {
             }
         }
     }
-//    private func fetchStories() {
-//        storiesService.loadStories { result in
-//            switch result {
-//            
-//            case .success(let stories):
-//                self.stories = stories
-//                self.tableView.reloadData()
-//            
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
-    
 }
 
+
+//MARK: - Setup
 extension MenuScreenVC {
     private func setupViews() {
         view.backgroundColor = .systemBackground
@@ -190,7 +160,7 @@ extension MenuScreenVC {
     
     private func setupActions() {
         priceButton.addAction(UIAction(handler: { [weak self] _ in
-            let basketVC = BasketVC()
+            let basketVC = di.screenFactory.makeBasketScreen()
             
             let navController = UINavigationController(rootViewController: basketVC)
             
@@ -207,70 +177,142 @@ extension MenuScreenVC {
         
         addressButton.addAction(UIAction(handler: { [weak self] _ in
             let mapVC = MapViewController()
-            self?.present(mapVC, animated: true)
+            
+            let navController = UINavigationController(rootViewController: mapVC)
+            
+            // Настройка кнопки "Закрыть"
+            mapVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Закрыть", style: .plain, target: mapVC, action: #selector(mapVC.closeTapped)
+            )
+            mapVC.navigationItem.leftBarButtonItem?.tintColor = .orange
+            
+            // Заголовок по центру
+            mapVC.navigationItem.title = "Карта"
+            
+            self?.present(navController, animated: true)
         }), for: .touchUpInside)
     }
 }
 
 //MARK: - TableViewDataSource and TableViewDelegate
+enum MenuSection: Int, CaseIterable {
+    case stories
+    case banners
+//    case categories
+    case products
+}
+
+
 extension MenuScreenVC: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return MenuSection.allCases.count
     }
 
     //Метод датасорса - Возвращаем количество ячеек в таблице в секции
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch section {
-        case 0: return 1
-        case 1: return 1
-        case 2: return 1
-        case 3: return products.count
-        default: return 0
-        }
+        guard let menuSection = MenuSection.init(rawValue: section) else { return 0 }
         
+        switch menuSection {
+        case .stories:
+            return 1
+        case .banners:
+            return 1
+        case .products:
+            return products.count
+        }
     }
     
     //Метод датасорса - Возвращаем конкретную ячейку
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let section = indexPath.section
+        guard let menuSection = MenuSection(rawValue: indexPath.section) else {
+            return UITableViewCell()
+        }
         
-        switch section {
-        case 0:
-            let cell = tableView.dequeueCell(indexPath) as StoriesCell
+        switch menuSection {
+        case .stories:
+            let cell = tableView.dequeueCell(indexPath) as StoryCell
             cell.update(stories)
             return cell
-        case 1:
+        case .banners:
             let cell = tableView.dequeueCell(indexPath) as BannerCell
             cell.update(banners)
             return cell
-        case 2:
-            let cell = tableView.dequeueCell(indexPath) as TypeCell
-            cell.update(types)
-            return cell
-        case 3:
-            let cell = tableView.dequeueCell(indexPath) as ProductCell
+        case .products:
             let product = products[indexPath.row]
+            
+            if product.isPromo == true {
+                let promoCell = tableView.dequeueCell(indexPath) as PromoProductCell
+                promoCell.update(product)
+                return promoCell
+            }
+            let cell = tableView.dequeueCell(indexPath) as ProductCell
             cell.update(product)
             return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        guard let menuSection = MenuSection.init(rawValue: section) else {
+            return nil
+        }
+        
+        switch menuSection {
+        case .products:
+            guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CategoryContainerHeader.reuseId) as? CategoryContainerHeader else {
+                return UIView()
+            }
+            
+            header.update(categories)
+            header.onCategoryCellSelect = { category in
+                switch category.name {
+                case "Пиццы":
+                    let indexPath = IndexPath(row: 0, section: 2)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                case "Комбо":
+                    let indexPath = IndexPath(row: 6, section: 2)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                case "Закуски":
+                    let indexPath = IndexPath(row: 9, section: 2)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                case "Коктейли":
+                    let indexPath = IndexPath(row: 12, section: 2)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                case "Кофе":
+                    let indexPath = IndexPath(row: 15, section: 2)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                case "Напитки":
+                    let indexPath = IndexPath(row: 18, section: 2)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                case "Соусы":
+                    let indexPath = IndexPath(row: 22, section: 2)
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                default:
+                    break
+                }
+            }
+            return header
+            
+
         default:
-            return UITableViewCell()
+            return EmptyView()
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let section = indexPath.section
+        guard let menuSection = MenuSection(rawValue: indexPath.section) else {
+            return
+        }
         
-        switch section {
-        case 3:
-            let detailVC = DetailProductVC()
+        switch menuSection {
+        case .products:
+            let product = products[indexPath.row]
+            let detailVC = di.screenFactory.makeDetailScreen(product)
             self.present(detailVC, animated: true)
         default: break
         }
     }
 }
-
-

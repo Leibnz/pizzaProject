@@ -8,34 +8,6 @@
 import UIKit
 
 
-//final class AddressButton: UIButton {
-//    
-//    init() {
-//        super.init(frame: .zero)
-//        configure()
-//        
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//        configure()
-//    }
-//    
-//    private func configure() {
-//        var config = UIButton.Configuration.filled()
-//        config.title = "Указать адрес доставки"
-//        config.baseForegroundColor = .white
-//        
-//        config.baseBackgroundColor = .orange
-//        config.cornerStyle = .capsule
-//        config.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 20, bottom: 2, trailing: 20)
-//        
-//        self.configuration = config
-//    }
-//}
-
-
-
 final class AddressButton: UIButton {
     
     init() {

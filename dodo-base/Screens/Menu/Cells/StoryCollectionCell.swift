@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Kingfisher
 
 
-final class StoriesCollectionCell: UICollectionViewCell {
+final class StoryCollectionCell: UICollectionViewCell {
     
     static let reuseId = "StoriesCollectionCell"
     
@@ -45,9 +46,13 @@ final class StoriesCollectionCell: UICollectionViewCell {
     }
 }
 
-extension StoriesCollectionCell {
+
+//MARK: - Get an image
+extension StoryCollectionCell {
     
     func update(_ story: Story) {
-        imageView.image = UIImage(named: story.image)
+        let url = URL(string: story.image)
+        imageView.kf.setImage(with: url)
+//        imageView.image = UIImage(named: story.image)
     }
 }

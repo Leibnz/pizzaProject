@@ -33,7 +33,6 @@ class GeocodeService {
             if let location = location {
                 completion(location)
             }
-            
         }
     }
     
@@ -76,7 +75,5 @@ class GeocodeService {
                 print("->", result)
             }
         }
-        
-      
     }
 }

@@ -7,8 +7,11 @@
 
 import Foundation
 
+protocol IStoriesLoader {
+    func loadStories() async throws -> [Story]
+}
 
-class StoriesService {
+class StoriesLoader: IStoriesLoader {
     
     func loadStories() async throws -> [Story] {
         guard let url = URL(string: "http://localhost:3001/stories") else {

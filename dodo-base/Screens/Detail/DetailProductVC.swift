@@ -11,9 +11,22 @@ import SnapKit
 
 final class DetailProductVC: UIViewController {
     
-    private var extras: [Extra] = []
+    private var ingredients: [Ingredient] = []
     
-    let extraService = ExtraService()
+    private let ingredientsLoader: IIngredientsLoader
+    private let product: Product
+    private let productsStorage: IProductsStorage
+    
+    init(product: Product, ingredientsLoader: IIngredientsLoader, productsStorage: IProductsStorage) {
+        self.product = product
+        self.ingredientsLoader = ingredientsLoader
+        self.productsStorage = productsStorage
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private var orderButtonView = OrderButtonView()
     
@@ -26,7 +39,7 @@ final class DetailProductVC: UIViewController {
         tableView.registerCell(PizzaImageCell.self)
         tableView.registerCell(PizzaInfoCell.self)
         tableView.registerCell(OptionsPizzaCell.self)
-        tableView.registerCell(ExtrasCell.self)
+        tableView.registerCell(IngredientsCell.self)
         
         return tableView
     }()
@@ -35,13 +48,30 @@ final class DetailProductVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        setupObservers() //установка наблюдателей
         
-        fetchExtras()
+        fetchIngredients()
     }
     
-    private func fetchExtras() {
-        extras = extraService.fetchExtras()
-        tableView.reloadData()
+    func setupObservers() {
+        //realization
+        orderButtonView.onOrderButtonTap = {
+            self.productsStorage.add(self.product)
+//            print(self.productsStorage.retrieve().count)
+            
+        }
+    }
+    
+    private func fetchIngredients() {
+        Task {
+            do {
+                let ingredients = try await ingredientsLoader.loadIngredients()
+                self.ingredients = ingredients
+                self.tableView.reloadData()
+            } catch {
+                print("Error")
+            }
+        }
     }
     
     private func setupViews() {
@@ -85,18 +115,20 @@ extension DetailProductVC: UITableViewDataSource, UITableViewDelegate {
         switch section {
         case 0:
             let cell = tableView.dequeueCell(indexPath) as PizzaImageCell
+            cell.update(product)
             return cell
         case 1:
             let cell = tableView.dequeueCell(indexPath) as PizzaInfoCell
+            cell.update(product)
             return cell
         case 2:
             let cell = tableView.dequeueCell(indexPath) as OptionsPizzaCell
             return cell
         case 3:
-            let cell = tableView.dequeueCell(indexPath) as ExtrasCell
-            cell.update(extras)
+            let cell = tableView.dequeueCell(indexPath) as IngredientsCell
+            cell.update(ingredients)
             return cell
-        default: return UITableViewCell() 
+        default: return UITableViewCell()
         }
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 
-final class StoriesCell: UITableViewCell {
+final class StoryCell: UITableViewCell {
     
     static let reuseId = "StoriesCell"
     
@@ -24,7 +24,7 @@ final class StoriesCell: UITableViewCell {
         collectionView.backgroundColor = .white
         collectionView.showsHorizontalScrollIndicator = false
         
-        collectionView.register(StoriesCollectionCell.self, forCellWithReuseIdentifier: "StoriesCollectionCell")
+        collectionView.register(StoryCollectionCell.self, forCellWithReuseIdentifier: "StoriesCollectionCell")
         collectionView.dataSource = self
         
         return collectionView
@@ -53,20 +53,24 @@ final class StoriesCell: UITableViewCell {
     }
 }
 
-extension StoriesCell: UICollectionViewDataSource {
+
+//MARK: - CollectionViewDataSource
+extension StoryCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return stories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoriesCollectionCell.reuseId, for: indexPath) as! StoriesCollectionCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoryCollectionCell.reuseId, for: indexPath) as! StoryCollectionCell
         let story = stories[indexPath.item]
         cell.update(story)
         return cell
     }
 }
 
-extension StoriesCell {
+
+//MARK: - Get an array of data
+extension StoryCell {
     func update(_ stories: [Story]) {
         self.stories = stories
         collectionView.reloadData()

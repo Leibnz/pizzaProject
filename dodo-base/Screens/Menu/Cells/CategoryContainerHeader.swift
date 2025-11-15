@@ -7,11 +7,13 @@
 
 import UIKit
 
-final class TypeCell: UITableViewCell {
+final class CategoryContainerHeader: UITableViewHeaderFooterView {
     
-    static let reuseId = "TypeCell"
+    static let reuseId = "CategoryContainerHeader"
     
-    var types: [Type] = []
+    var categories: [Category] = []
+    
+    var onCategoryCellSelect: ((Category)->())?
     
     
     private lazy var collectionView: UICollectionView = {
@@ -23,15 +25,18 @@ final class TypeCell: UITableViewCell {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
         
-        collectionView.register(TypeCollectionCell.self, forCellWithReuseIdentifier: "TypeCollectionCell")
+        collectionView.register(CategoryCollectionCell.self, forCellWithReuseIdentifier: "TypeCollectionCell")
         collectionView.dataSource = self
         collectionView.delegate = self
         
         return collectionView
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+//    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+//        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
     }
@@ -53,34 +58,40 @@ final class TypeCell: UITableViewCell {
     }
 }
 
-extension TypeCell: UICollectionViewDataSource {
+
+//MARK: - CollectionViewDataSource and CollectionViewDelegate
+extension CategoryContainerHeader: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return types.count
+        return categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TypeCollectionCell.reuseId, for: indexPath) as! TypeCollectionCell
-        let type = types[indexPath.item]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionCell.reuseId, for: indexPath) as! CategoryCollectionCell
+        let type = categories[indexPath.item]
         cell.update(type)
         return cell
     }
 }
 
-extension TypeCell: UICollectionViewDelegate {
+extension CategoryContainerHeader: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        for index in types.indices {
-            types[index].isSelected = false
+        for index in categories.indices {
+            categories[index].isSelected = false
         }
         
-        types[indexPath.item].isSelected = true
+        categories[indexPath.item].isSelected = true
         collectionView.reloadData()
+        
+        onCategoryCellSelect?(categories[indexPath.item])
     }
 }
 
-extension TypeCell {
+
+//MARK: - Get an array of data
+extension CategoryContainerHeader {
     
-    func update(_ types: [Type]) {
-        self.types = types
+    func update(_ types: [Category]) {
+        self.categories = types
         collectionView.reloadData()
     }
 }

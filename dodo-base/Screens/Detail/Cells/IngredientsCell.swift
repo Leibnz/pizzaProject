@@ -1,5 +1,5 @@
 //
-//  ExtrasCell.swift
+//  IngredientsCell.swift
 //  UIKitHomework
 //
 //  Created by Andrew on 17.08.2025.
@@ -8,13 +8,13 @@
 import UIKit
 
 
-final class ExtrasCell: UITableViewCell {
+final class IngredientsCell: UITableViewCell {
     
-    static let reuseID = "ExtrasCell"
+    static let reuseID = "IngredientsCell"
     
-    private var extras: [Extra] = []
+    private var ingredients: [Ingredient] = []
     
-    private let extrasLabel: UILabel = {
+    private let ingredientsLabel: UILabel = {
         let label = UILabel()
         label.text = "Добавить по вкусу"
         label.font = UIFont.boldSystemFont(ofSize: 16)
@@ -22,7 +22,7 @@ final class ExtrasCell: UITableViewCell {
         return label
     }()
     
-    private lazy var extrasCollectionView: UICollectionView = {
+    private lazy var ingredientsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
@@ -31,7 +31,7 @@ final class ExtrasCell: UITableViewCell {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
-        collectionView.register(ExtrasCollectionCell.self, forCellWithReuseIdentifier: ExtrasCollectionCell.reuseId)
+        collectionView.register(IngredientsCollectionCell.self, forCellWithReuseIdentifier: IngredientsCollectionCell.reuseId)
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -49,44 +49,45 @@ final class ExtrasCell: UITableViewCell {
     }
     
     private func setupViews() {
-        contentView.addSubview(extrasLabel)
-        contentView.addSubview(extrasCollectionView)
+        contentView.addSubview(ingredientsLabel)
+        contentView.addSubview(ingredientsCollectionView)
     }
     
     private func setupConstraints() {
-        extrasLabel.snp.makeConstraints { make in
+        ingredientsLabel.snp.makeConstraints { make in
             make.top.equalTo(contentView).inset(15)
             make.left.equalTo(contentView).offset(15)
         }
         
-        extrasCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(extrasLabel.snp.bottom).offset(5)
+        ingredientsCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(ingredientsLabel.snp.bottom).offset(5)
             make.left.equalTo(contentView).offset(15)
             make.right.equalTo(contentView).offset(-15)
-            make.height.equalTo(400) //TODO: Доделать чтобы размер изменялся
+            make.bottom.equalTo(contentView)
+            make.height.equalTo(460)
         }
     }
 }
 
 //MARK: - CollectionViewDelegate
-extension ExtrasCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension IngredientsCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return extras.count
+        return ingredients.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExtrasCollectionCell.reuseId, for: indexPath) as! ExtrasCollectionCell
-        let extra = extras[indexPath.item]
-        cell.update(extra)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IngredientsCollectionCell.reuseId, for: indexPath) as! IngredientsCollectionCell
+        let ingredient = ingredients[indexPath.item]
+        cell.update(ingredient)
         return cell
     }
 }
 
-//MARK: - Получение массива данных
-extension ExtrasCell {
+//MARK: - Get an array of data
+extension IngredientsCell {
     
-    func update(_ extras: [Extra]) {
-        self.extras = extras
-        extrasCollectionView.reloadData()
+    func update(_ ingredients: [Ingredient]) {
+        self.ingredients = ingredients
+        ingredientsCollectionView.reloadData()
     }
 }

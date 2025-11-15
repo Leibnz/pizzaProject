@@ -12,17 +12,29 @@ import SnapKit
 final class BasketVC: UIViewController {
     
     private var basketButtonView = BasketButtonView()
-//    private var addressButton = AddressButton()
     
-    var basket: [Basket] = []
+    var products: [Product] = []
+    var additions: [Product] = []
     
-    let basketService = BasketService.init()
+    var productsStorage: IProductsStorage
+    var productsLoader: IProductsLoader
+    
+    init(productsStorage: IProductsStorage, productsLoader: IProductsLoader) {
+        self.productsStorage = productsStorage
+        self.productsLoader = productsLoader
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var basketTableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.dataSource = self
         
+        tableView.registerCell(TotalPriceCell.self)
         tableView.registerCell(BasketCell.self)
         tableView.registerCell(AddProductCell.self)
         
@@ -33,8 +45,8 @@ final class BasketVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-//        setupActions()
         
+        fetchAdditions()
         fetchBasket()
     }
     
@@ -42,8 +54,6 @@ final class BasketVC: UIViewController {
         view.backgroundColor = .white
         view.addSubview(basketTableView)
         view.addSubview(basketButtonView)
-//        view.addSubview(addressButton)
-        
         fetchBasket()
     }
     
@@ -57,23 +67,23 @@ final class BasketVC: UIViewController {
             make.left.right.equalTo(view)
             make.bottom.equalTo(view)
         }
-        
-//        addressButton.snp.makeConstraints { make in
-//            make.top.equalTo(view.safeAreaLayoutGuide).inset(8)
-//            make.left.right.equalTo(view).inset(64)
-//            make.height.equalTo(40)
-//        }
     }
     
-//    private func setupActions() {
-//        addressButton.addAction(UIAction(handler: { [weak self] _ in
-//            let mapVC = MapViewController()
-//            self?.present(mapVC, animated: true)
-//        }), for: .touchUpInside)
-//    }
+    private func fetchAdditions() {
+        Task {
+            do {
+                let additions = try await productsLoader.loadProducts()
+                self.additions = additions
+                self.basketTableView.reloadData()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     private func fetchBasket() {
-        basket = basketService.fetchBasket()
+        let array = productsStorage.retrieve()
+        products = array
         basketTableView.reloadData()
     }
     
@@ -86,14 +96,15 @@ final class BasketVC: UIViewController {
 
 extension BasketVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
-        case 0: return 1 //TODO: Доделать под кол-во элементов
-        case 1: return 1
+        case 0: return 1
+        case 1: return products.count
+        case 2: return 1
         default: return 0
         }
     }
@@ -104,11 +115,16 @@ extension BasketVC: UITableViewDataSource {
         
         switch section {
         case 0:
-            let cell = tableView.dequeueCell(indexPath) as BasketCell
+            let cell = tableView.dequeueCell(indexPath) as TotalPriceCell
             return cell
         case 1:
+            let cell = tableView.dequeueCell(indexPath) as BasketCell
+            let product = products[indexPath.row]
+            cell.update(product)
+            return cell
+        case 2:
             let cell = tableView.dequeueCell(indexPath) as AddProductCell
-            cell.update(basket)
+            cell.update(additions)
             return cell
         default:
             return UITableViewCell()

@@ -103,11 +103,16 @@ final class AddProductCollectionCell: UICollectionViewCell {
 }
 
 
+//MARK: - Get data
 extension AddProductCollectionCell {
     
-    func update(_ basket: Basket) {
-        addProductImage.image = UIImage(named: basket.image)
-        addProductNameLabel.text = basket.productLabel
-        addProductWeightLabel.text = basket.weight
+    func update(_ addition: Product) {
+        let url = URL(string: addition.image)
+        addProductImage.kf.setImage(with: url)
+        
+//        addProductImage.image = UIImage(named: addition.image)
+        addProductNameLabel.text = addition.name
+        addProductWeightLabel.text = "\(addition.id) г"
+        addProductPriceLabel.text = "\(addition.price) \u{20BD}"
     }
 }
