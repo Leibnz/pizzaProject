@@ -10,9 +10,14 @@ import UIKit
 
 final class OptionsPizzaCell: UITableViewCell {
     
+    var product: Product?
+    var onSizeChanged: ((String)->())?
+    var onDoughChanged: ((String)->())?
+    
     private let pizzaSizeControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["20 см", "25 см", "30 см", "35 см"])
         control.selectedSegmentIndex = 2
+//        control.addTarget(nil, action: #selector(sizeSegmentedChanged()), for: .valueChanged)
         return control
     }()
     
@@ -52,3 +57,25 @@ final class OptionsPizzaCell: UITableViewCell {
         }
     }
 }
+
+
+extension OptionsPizzaCell {
+    func update(_ product: Product) {
+        if product.type != "pizza" {
+            pizzaSizeControl.isHidden = true
+            pizzaDoughControl.isHidden = true
+        }
+        
+        if let dough = product.dough {
+            dough.getIndex()
+        }
+    }
+}
+
+
+//MARK: - Event Handler
+//extension OptionsPizzaCell {
+//    @objc private func sizeSegmentedChanged(_ sender: UISegmentedControl) {
+//        let size =
+//    }
+//}

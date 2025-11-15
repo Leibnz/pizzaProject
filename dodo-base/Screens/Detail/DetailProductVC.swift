@@ -11,14 +11,16 @@ import SnapKit
 
 final class DetailProductVC: UIViewController {
     
-    private var extras: [Extra] = []
+    private var ingredients: [Ingredient] = []
     
-    private let extrasLoader: IExtrasLoader
+    private let ingredientsLoader: IIngredientsLoader
     private let product: Product
+    private let productsStorage: IProductsStorage
     
-    init(product: Product, extrasLoader: IExtrasLoader) {
+    init(product: Product, ingredientsLoader: IIngredientsLoader, productsStorage: IProductsStorage) {
         self.product = product
-        self.extrasLoader = extrasLoader
+        self.ingredientsLoader = ingredientsLoader
+        self.productsStorage = productsStorage
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -37,7 +39,7 @@ final class DetailProductVC: UIViewController {
         tableView.registerCell(PizzaImageCell.self)
         tableView.registerCell(PizzaInfoCell.self)
         tableView.registerCell(OptionsPizzaCell.self)
-        tableView.registerCell(ExtrasCell.self)
+        tableView.registerCell(IngredientsCell.self)
         
         return tableView
     }()
@@ -46,15 +48,25 @@ final class DetailProductVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        setupObservers() //установка наблюдателей
         
-        fetchExtras()
+        fetchIngredients()
     }
     
-    private func fetchExtras() {
+    func setupObservers() {
+        //realization
+        orderButtonView.onOrderButtonTap = {
+            self.productsStorage.add(self.product)
+//            print(self.productsStorage.retrieve().count)
+            
+        }
+    }
+    
+    private func fetchIngredients() {
         Task {
             do {
-                let extras = try await extrasLoader.loadExtras()
-                self.extras = extras
+                let ingredients = try await ingredientsLoader.loadIngredients()
+                self.ingredients = ingredients
                 self.tableView.reloadData()
             } catch {
                 print("Error")
@@ -113,10 +125,10 @@ extension DetailProductVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueCell(indexPath) as OptionsPizzaCell
             return cell
         case 3:
-            let cell = tableView.dequeueCell(indexPath) as ExtrasCell
-            cell.update(extras)
+            let cell = tableView.dequeueCell(indexPath) as IngredientsCell
+            cell.update(ingredients)
             return cell
-        default: return UITableViewCell() 
+        default: return UITableViewCell()
         }
     }
 }

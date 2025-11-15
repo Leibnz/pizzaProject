@@ -9,7 +9,7 @@ import Foundation
 
 
 //Добавил enum
-enum PizzaDough {
-    case traditional
-    case thin
+enum PizzaDough: String {
+    case traditional = "Традиционное"
+    case thin = "Тонкое"
 }

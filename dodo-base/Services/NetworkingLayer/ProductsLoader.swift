@@ -40,6 +40,7 @@ struct ProductsLoader: IProductsLoader {
             let products = try decoder.decode([Product].self, from: data)
             return products
         } catch {
+            print(error.localizedDescription)
             throw NetworkError.decodingError
         }
     }

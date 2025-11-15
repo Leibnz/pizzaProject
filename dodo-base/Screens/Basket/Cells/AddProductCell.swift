@@ -12,7 +12,7 @@ final class AddProductCell: UITableViewCell {
     
     static let reuseId = "AddProductCell"
     
-    private var basket: [Basket] = []
+    private var additions: [Product] = []
     
     private let addProductLabel: UILabel = {
         let label = UILabel()
@@ -95,12 +95,12 @@ final class AddProductCell: UITableViewCell {
 
 extension AddProductCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return basket.count
+        return additions.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = addProductCollectionView.dequeueReusableCell(withReuseIdentifier: AddProductCollectionCell.reuseId, for: indexPath) as! AddProductCollectionCell
-        let basketProduct = basket[indexPath.item]
+        let basketProduct = additions[indexPath.item]
         cell.update(basketProduct)
         return cell
     }
@@ -110,8 +110,8 @@ extension AddProductCell: UICollectionViewDataSource {
 //MARK: - Get an array of data
 extension AddProductCell {
     
-    func update(_ basket: [Basket]) {
-        self.basket = basket
+    func update(_ additions: [Product]) {
+        self.additions = additions
         addProductCollectionView.reloadData()
     }
 }

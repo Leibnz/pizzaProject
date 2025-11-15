@@ -10,6 +10,9 @@ import UIKit
 
 final class OrderButtonView: UIView {
     
+    //declaration
+    var onOrderButtonTap: (()->())?
+    
     private let orderButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("В корзину за 629 \u{20BD}", for: .normal)
@@ -18,8 +21,14 @@ final class OrderButtonView: UIView {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         button.layer.cornerRadius = 14
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        button.addTarget(nil, action: #selector(orderButtonTap), for: .touchUpInside)
         return button
     }()
+    
+    @objc private func orderButtonTap() {
+        //calling
+        onOrderButtonTap?()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
