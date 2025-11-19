@@ -1,5 +1,5 @@
 //
-//  ExtrasCollectionCell.swift
+//  IngredientsCollectionCell.swift
 //  UIKitHomework
 //
 //  Created by Andrew on 17.08.2025.
@@ -9,9 +9,9 @@ import UIKit
 import Kingfisher
 
 
-final class ExtrasCollectionCell: UICollectionViewCell {
+final class IngredientsCollectionCell: UICollectionViewCell {
     
-    static let reuseId = "ExtrasCollectionCell"
+    static let reuseId = "IngredientsCollectionCell"
     
     private let containerView: UIView = {
         let container = UIView()
@@ -20,7 +20,7 @@ final class ExtrasCollectionCell: UICollectionViewCell {
         return container
     }()
     
-    private let extrasImageView: UIImageView = {
+    private let ingredientsImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "mozzarella")
         imageView.contentMode = .scaleAspectFit
@@ -30,7 +30,7 @@ final class ExtrasCollectionCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let extrasNameLabel: UILabel = {
+    private let ingredientsNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Моцарелла"
         label.font = UIFont.systemFont(ofSize: 14)
@@ -39,7 +39,7 @@ final class ExtrasCollectionCell: UICollectionViewCell {
         return label
     }()
     
-    private let extrasPriceLabel: UILabel = {
+    private let ingredientsPriceLabel: UILabel = {
         let label = UILabel()
         label.text = "79 \u{20BD}"
         label.font = UIFont.boldSystemFont(ofSize: 14)
@@ -61,9 +61,9 @@ final class ExtrasCollectionCell: UICollectionViewCell {
     
     private func setupViews() {
         contentView.addSubview(containerView)
-        containerView.addSubview(extrasImageView)
-        containerView.addSubview(extrasNameLabel)
-        containerView.addSubview(extrasPriceLabel)
+        containerView.addSubview(ingredientsImageView)
+        containerView.addSubview(ingredientsNameLabel)
+        containerView.addSubview(ingredientsPriceLabel)
     }
     
     private func setupConstraints() {
@@ -75,19 +75,19 @@ final class ExtrasCollectionCell: UICollectionViewCell {
             make.height.equalTo(180)
         }
         
-        extrasImageView.snp.makeConstraints { make in
+        ingredientsImageView.snp.makeConstraints { make in
             make.top.equalTo(containerView.snp.top).offset(5)
             make.left.equalTo(containerView).offset(5)
             make.right.equalTo(containerView).inset(5)
         }
         
-        extrasNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(extrasImageView.snp.bottom).offset(3)
+        ingredientsNameLabel.snp.makeConstraints { make in
+            make.top.equalTo(ingredientsImageView.snp.bottom).offset(3)
             make.left.right.equalTo(containerView)
         }
         
-        extrasPriceLabel.snp.makeConstraints { make in
-            make.top.equalTo(extrasNameLabel.snp.bottom)
+        ingredientsPriceLabel.snp.makeConstraints { make in
+            make.top.equalTo(ingredientsNameLabel.snp.bottom)
             make.bottom.equalTo(containerView).inset(10)
             make.left.right.equalTo(containerView)
         }
@@ -95,14 +95,13 @@ final class ExtrasCollectionCell: UICollectionViewCell {
 }
 
 //MARK: - Get data
-extension ExtrasCollectionCell {
+extension IngredientsCollectionCell {
     
-    func update(_ extra: Extra) {
-        let url = URL(string: extra.image)
-        extrasImageView.kf.setImage(with: url)
-//        extrasImageView.image = UIImage(named: extra.image)
+    func update(_ ingredient: Ingredient) {
+        let url = URL(string: ingredient.image)
+        ingredientsImageView.kf.setImage(with: url)
         
-        extrasNameLabel.text = extra.name
-        extrasPriceLabel.text = "\(extra.price) \u{20BD}"
+        ingredientsNameLabel.text = ingredient.name
+        ingredientsPriceLabel.text = "\(ingredient.price) \u{20BD}"
     }
 }

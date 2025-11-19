@@ -9,9 +9,9 @@ import Foundation
 
 
 //Добавил enum
-enum PizzaSize: Int {
-    case small = 20
-    case medium = 25
-    case large = 30
-    case extraLarge = 35
+enum PizzaSize: String {
+    case small = "20 см"
+    case medium = "25 см"
+    case large = "30 см"
+    case extraLarge = "35 см"
 }

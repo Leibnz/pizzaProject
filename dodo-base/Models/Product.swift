@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Product: Decodable {
+struct Product: Codable, Equatable {
     var id: Int
     var name: String
     var type: String
@@ -15,6 +15,25 @@ struct Product: Decodable {
     var price: Int
     var image: String
     var size: Int?
-    var dough: String?
+    var dough: DoughType?
     var count: Int?
+    var isPromo: Bool
+    
+    static func == (lhs: Product, rhs: Product) -> Bool {
+        return lhs.name == rhs.name && lhs.type == rhs.type
+    }
+}
+
+
+enum DoughType: String, Codable {
+    case traditional
+    case thin
+    
+    func getIndex() -> Int {
+        return self == DoughType.traditional ? 0 : 1
+    }
+    
+    func getName() -> String {
+        return self == DoughType.traditional ? "Традиционное" : "Тонкое"
+    }
 }

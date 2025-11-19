@@ -11,6 +11,14 @@ final class BasketCell: UITableViewCell {
     
     private lazy var basketStepper = BasketStepper()
     
+    private var products: [Product] = []
+    
+    // current product for this cell
+    private var product: Product?
+    
+    // closure to notify controller about count changes
+    var onCountChanged: ((Product, Int) -> Void)?
+    
     private let verticalBasketStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -19,19 +27,14 @@ final class BasketCell: UITableViewCell {
         return stackView
     }()
     
-    private let sumBasketLabel: UILabel = {
-        let label = UILabel()
-        label.text = "1 товар на 270 \u{20BD}"
-        label.font = UIFont.boldSystemFont(ofSize: 24)
-        label.textAlignment = .left
-        return label
-    }()
-    
     private let orderBasketImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "chickenBox")
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+        let width = UIScreen.main.bounds.width
+        imageView.heightAnchor.constraint(equalToConstant: 0.25 * width).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 0.25 * width).isActive = true
         return imageView
     }()
     
@@ -80,7 +83,6 @@ final class BasketCell: UITableViewCell {
     }
     
     private func setupViews() {
-        contentView.addSubview(sumBasketLabel)
         contentView.addSubview(orderBasketImage)
         contentView.addSubview(verticalBasketStackView)
         contentView.addSubview(sumPriceBasketLabel)
@@ -93,18 +95,13 @@ final class BasketCell: UITableViewCell {
     }
     
     private func setupConstraints() {
-        sumBasketLabel.snp.makeConstraints { make in
+        orderBasketImage.snp.makeConstraints { make in
             make.top.equalTo(contentView.snp.top).offset(10)
             make.left.equalTo(contentView.snp.left).offset(16)
         }
         
-        orderBasketImage.snp.makeConstraints { make in
-            make.top.equalTo(sumBasketLabel.snp.bottom).offset(10)
-            make.left.equalTo(contentView.snp.left).offset(16)
-        }
-        
         verticalBasketStackView.snp.makeConstraints { make in
-            make.centerY.equalTo(contentView)
+            make.top.equalTo(contentView).offset(16)
             make.left.equalTo(orderBasketImage.snp.right).offset(6)
             make.right.equalTo(contentView.snp.right).inset(6)
         }
@@ -132,11 +129,38 @@ final class BasketCell: UITableViewCell {
         basketStepper.addTarget(self, action: #selector(stepperChangedValueAction), for: .valueChanged)
         basketStepper.backgroundColor = .systemGray6
         basketStepper.layer.cornerRadius = 10
+        
     }
     
     @objc private func stepperChangedValueAction(sender: BasketStepper) {
-        print(sender)
-        print(sender.currentValue)
+//        print(sender)
+//        print(sender.currentValue)
+        
+        guard var product = product else { return }
+        let newCount = sender.currentValue
+        product.count = newCount
+        // сообщаем внешнему слою: какой продукт и новое количество
+        onCountChanged?(product, newCount)
     }
     
+}
+
+
+//MARK: - Get an array of data
+extension BasketCell {
+    
+    func update(_ product: Product) {
+        self.product = product
+        let url = URL(string: product.image)
+        orderBasketImage.kf.setImage(with: url)
+        
+        nameOfProduct.text = product.name
+        describeOrderLabel.text = product.description
+        sumPriceBasketLabel.text = "\(product.price) \u{20BD}"
+        
+        if let cnt = product.count {
+            basketStepper.currentValue = cnt
+        }
+        
+    }
 }

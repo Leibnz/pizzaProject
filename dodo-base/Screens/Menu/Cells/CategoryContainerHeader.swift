@@ -7,9 +7,9 @@
 
 import UIKit
 
-final class CategoryCell: UITableViewCell {
+final class CategoryContainerHeader: UITableViewHeaderFooterView {
     
-    static let reuseId = "TypeCell"
+    static let reuseId = "CategoryContainerHeader"
     
     var categories: [Category] = []
     
@@ -32,8 +32,11 @@ final class CategoryCell: UITableViewCell {
         return collectionView
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+//    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+//        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
     }
@@ -57,7 +60,7 @@ final class CategoryCell: UITableViewCell {
 
 
 //MARK: - CollectionViewDataSource and CollectionViewDelegate
-extension CategoryCell: UICollectionViewDataSource {
+extension CategoryContainerHeader: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categories.count
     }
@@ -70,7 +73,7 @@ extension CategoryCell: UICollectionViewDataSource {
     }
 }
 
-extension CategoryCell: UICollectionViewDelegate {
+extension CategoryContainerHeader: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         for index in categories.indices {
             categories[index].isSelected = false
@@ -85,7 +88,7 @@ extension CategoryCell: UICollectionViewDelegate {
 
 
 //MARK: - Get an array of data
-extension CategoryCell {
+extension CategoryContainerHeader {
     
     func update(_ types: [Category]) {
         self.categories = types
