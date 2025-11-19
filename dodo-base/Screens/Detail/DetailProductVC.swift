@@ -53,7 +53,7 @@ final class DetailProductVC: UIViewController {
         fetchIngredients()
     }
     
-    func setupObservers() {
+    private func setupObservers() {
         //realization
         orderButtonView.onOrderButtonTap = {
             self.productsStorage.add(self.product)

@@ -14,6 +14,8 @@ protocol IProductsStorage {
     func save(_ products: [Product]) //сохраняем друзей
     func retrieve() -> [Product] //закдалываем их массивом
     func add(_ product: Product)
+    func update(_ product: Product, count: Int)
+    func remove(_ product: Product)
 }
 
 final class ProductsStorage: IProductsStorage {
@@ -53,7 +55,46 @@ final class ProductsStorage: IProductsStorage {
     
     func add(_ product: Product) {
         var array = retrieve()
-        array.append(product)
+        
+        if let index = array.firstIndex(where: { $0 == product }) {
+            if let count = array[index].count {
+                array[index].count = count + 1
+            }
+        } else {
+            var newProduct = product
+            newProduct.count = 1
+            array.append(newProduct)
+        }
+        
+//        array.append(product)
         save(array)
     }
+    
+    func update(_ product: Product, count: Int) {
+        var array = retrieve()
+        if let index = array.firstIndex(where: { $0 == product }) {
+            if count > 0 {
+                array[index].count = count
+            } else {
+                array.remove(at: index)
+            }
+            save(array)
+        } else {
+            // если продукта нет и count > 0 — добавить
+            if count > 0 {
+                var newProduct = product
+                newProduct.count = count
+                array.append(newProduct)
+                save(array)
+            }
+        }
+    }
+    
+    func remove(_ product: Product) {
+        var array = retrieve()
+        if let index = array.firstIndex(where: { $0 == product }) {
+            array.remove(at: index)
+            save(array)
+        }
+    } 
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Product: Codable {
+struct Product: Codable, Equatable {
     var id: Int
     var name: String
     var type: String
@@ -18,6 +18,10 @@ struct Product: Codable {
     var dough: DoughType?
     var count: Int?
     var isPromo: Bool
+    
+    static func == (lhs: Product, rhs: Product) -> Bool {
+        return lhs.name == rhs.name && lhs.type == rhs.type
+    }
 }
 
 
