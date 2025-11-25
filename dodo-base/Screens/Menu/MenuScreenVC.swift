@@ -8,6 +8,15 @@
 import UIKit
 import SnapKit
 
+
+private enum MenuScreenState {
+    case initial
+    case loading
+    case loaded
+    case error
+}
+
+
 final class MenuScreenVC: UIViewController {
     
     private var priceButton = PriceButton(price: "270 \u{20BD}")
@@ -35,6 +44,9 @@ final class MenuScreenVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let errorMenuStateView = ErrorMenuStateView()
+    private let shimmerMenuView = ShimmerMenuView()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
@@ -55,76 +67,111 @@ final class MenuScreenVC: UIViewController {
         return tableView
     }()
     
+    private var state: MenuScreenState = .initial {
+        didSet { applyState() }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
         setupActions()
         
-        fetchProducts()
-        fetchCategories()
-        fetchBanners()
-        fetchStories()
+        loadData()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.3) {
+            self.shimmerMenuView.start()
+        }
+//        fetchProducts()
+//        fetchCategories()
+//        fetchBanners()
+//        fetchStories()
         
     }
     
-    private func fetchProducts() {
+    private func loadData() {
+        state = .loading
+        
         Task {
             do {
-                let products = try await productsLoader.loadProducts()
-                print(products)
+                async let p = productsLoader.loadProducts()
+                async let b = bannersLoader.loadBanners()
+                async let s = storiesLoader.loadStories()
+                
+                let products = try await p
+                let banners = try await b
+                let stories = try await s
+                
                 self.products = products
-                self.tableView.reloadData()
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    private func fetchCategories() {
-        categories = categoriesLoader.fetchCategories()
-        tableView.reloadData() //Лучше обновлять не всю View, а только секцию
-    }
-    
-    private func fetchBanners() {
-        Task {
-            do {
-                let banners = try await bannersLoader.loadBanners()
                 self.banners = banners
-                self.tableView.reloadData()
-            } catch NetworkError.badUrl {
-                print("Bad URL")
-            } catch NetworkError.requestError {
-                print("Request Error")
-            } catch NetworkError.clientError {
-                print("Client Error")
-            } catch NetworkError.serverError {
-                print("Server Error")
-            } catch NetworkError.decodingError {
-                print("Decoding Error")
+                self.stories = stories
+                self.categories = categoriesLoader.fetchCategories()
+                
+                tableView.reloadData()
+                state = .loaded
+            } catch {
+                state = .error
             }
         }
     }
     
-    private func fetchStories() {
-        Task {
-            do {
-                let stories = try await storiesLoader.loadStories()
-                self.stories = stories
-                self.tableView.reloadData()
-            } catch NetworkError.badUrl {
-                print("Bad URL")
-            } catch NetworkError.requestError {
-                print("Request Error")
-            } catch NetworkError.clientError {
-                print("Client Error")
-            } catch NetworkError.serverError {
-                print("Server Error")
-            } catch NetworkError.decodingError {
-                print("Decoding Error")
-            }
-        }
-    }
+//    private func fetchProducts() {
+//        Task {
+//            do {
+//                let products = try await productsLoader.loadProducts()
+//                print(products)
+//                self.products = products
+//                self.tableView.reloadData()
+//            } catch {
+//                print(error.localizedDescription)
+//            }
+//        }
+//    }
+//    
+//    private func fetchCategories() {
+//        categories = categoriesLoader.fetchCategories()
+//        tableView.reloadData() //Лучше обновлять не всю View, а только секцию
+//    }
+//    
+//    private func fetchBanners() {
+//        Task {
+//            do {
+//                let banners = try await bannersLoader.loadBanners()
+//                self.banners = banners
+//                self.tableView.reloadData()
+//            } catch NetworkError.badUrl {
+//                print("Bad URL")
+//            } catch NetworkError.requestError {
+//                print("Request Error")
+//            } catch NetworkError.clientError {
+//                print("Client Error")
+//            } catch NetworkError.serverError {
+//                print("Server Error")
+//            } catch NetworkError.decodingError {
+//                print("Decoding Error")
+//            }
+//        }
+//    }
+//    
+//    private func fetchStories() {
+//        Task {
+//            do {
+//                let stories = try await storiesLoader.loadStories()
+//                self.stories = stories
+//                self.tableView.reloadData()
+//            } catch NetworkError.badUrl {
+//                print("Bad URL")
+//            } catch NetworkError.requestError {
+//                print("Request Error")
+//            } catch NetworkError.clientError {
+//                print("Client Error")
+//            } catch NetworkError.serverError {
+//                print("Server Error")
+//            } catch NetworkError.decodingError {
+//                print("Decoding Error")
+//            }
+//        }
+//    }
 }
 
 
@@ -135,6 +182,16 @@ extension MenuScreenVC {
         view.addSubview(tableView)
         view.addSubview(priceButton)
         view.addSubview(addressButton)
+        
+        view.addSubview(errorMenuStateView)
+        view.addSubview(shimmerMenuView)
+        
+        errorMenuStateView.isHidden = true
+        shimmerMenuView.isHidden = true
+        
+        errorMenuStateView.onRetryMenuPageTap = { [weak self] in
+            self?.loadData()
+        }
     }
     
     private func setupConstraints() {
@@ -142,6 +199,14 @@ extension MenuScreenVC {
             make.top.equalTo(view.safeAreaLayoutGuide).inset(56)
             make.left.right.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view)
+        }
+        
+        shimmerMenuView.snp.makeConstraints { make in
+            make.edges.equalTo(tableView)
+        }
+        
+        errorMenuStateView.snp.makeConstraints { make in
+            make.edges.equalTo(tableView)
         }
         
         priceButton.snp.makeConstraints { make in
@@ -191,6 +256,48 @@ extension MenuScreenVC {
             self?.present(navController, animated: true)
         }), for: .touchUpInside)
     }
+    
+    private func applyState() {
+        switch state {
+            
+        case .initial:
+            shimmerMenuView.isHidden = false
+            shimmerMenuView.start()
+            
+            tableView.isHidden = true
+            errorMenuStateView.isHidden = true
+            priceButton.isHidden = true
+            addressButton.isHidden = true
+            
+        case .loading:
+            shimmerMenuView.isHidden = false
+            shimmerMenuView.start()
+            
+            tableView.isHidden = true
+            errorMenuStateView.isHidden = true
+            priceButton.isHidden = true
+            addressButton.isHidden = true
+            
+        case .loaded:
+            shimmerMenuView.isHidden = true
+            shimmerMenuView.stop()
+            
+            tableView.isHidden = false
+            errorMenuStateView.isHidden = true
+            priceButton.isHidden = false
+            addressButton.isHidden = false
+            
+        case .error:
+            shimmerMenuView.isHidden = true
+            shimmerMenuView.stop()
+            
+            tableView.isHidden = true
+            errorMenuStateView.isHidden = false
+            priceButton.isHidden = false
+            addressButton.isHidden = false
+        }
+    }
+    
 }
 
 //MARK: - TableViewDataSource and TableViewDelegate
