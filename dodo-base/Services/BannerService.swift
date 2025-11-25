@@ -44,7 +44,7 @@ class BannerLoader: IBannersLoader {
         }
         
         do {
-            let decoder = JSONDecoder()
+            //let decoder = JSONDecoder()
             let banners = try decoder.decode([Banner].self, from: data)
             return banners
         } catch {

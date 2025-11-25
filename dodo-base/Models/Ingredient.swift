@@ -8,7 +8,7 @@
 import UIKit
 
 
-struct Ingredient: Decodable {
+struct Ingredient: Codable, Equatable {
     var image: String
     var name: String
     var price: Int
