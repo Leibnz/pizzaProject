@@ -9,7 +9,7 @@ import Foundation
 
 
 protocol IProductsLoader {
-    func loadProducts(handler: @escaping (Result<[Product], Error>) -> Void)
+//    func loadProducts(handler: @escaping (Result<[Product], Error>) -> Void)
     func loadProducts() async throws -> [Product]
 }
 
@@ -45,23 +45,23 @@ struct ProductsLoader: IProductsLoader {
         }
     }
     
-    func loadProducts(handler: @escaping (Result<[Product], any Error>) -> Void) {
-        
-        httpClient.fetch(url: productsURL) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let products = try decoder.decode([Product].self, from: data)
-                    DispatchQueue.main.async {
-                        handler(.success(products))
-                    }
-                } catch {
-                    handler(.failure(error))
-                }
-                
-            case .failure(let error):
-                handler(.failure(error))
-            }
-        }
-    }
+//    func loadProducts(handler: @escaping (Result<[Product], any Error>) -> Void) {
+//        
+//        httpClient.fetch(url: productsURL) { result in
+//            switch result {
+//            case .success(let data):
+//                do {
+//                    let products = try decoder.decode([Product].self, from: data)
+//                    DispatchQueue.main.async {
+//                        handler(.success(products))
+//                    }
+//                } catch {
+//                    handler(.failure(error))
+//                }
+//                
+//            case .failure(let error):
+//                handler(.failure(error))
+//            }
+//        }
+//    }
 }
