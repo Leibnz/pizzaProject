@@ -8,6 +8,7 @@
 import UIKit
 import Kingfisher
 
+
 final class BannerCollectionCell: UICollectionViewCell {
     
     static let reuseId = "BannerCollectionCell"

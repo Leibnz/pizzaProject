@@ -59,6 +59,7 @@ final class OptionsPizzaCell: UITableViewCell {
 }
 
 
+//MARK: - Get data
 extension OptionsPizzaCell {
     func update(_ product: Product) {
         if product.type != "pizza" {

@@ -10,9 +10,9 @@ import UIKit
 import SnapKit
 
 
-class AddressView: UIView {
+final class AddressView: UIView {
     
-    private var descriptionAddressLabel: UILabel = {
+    private let descriptionAddressLabel: UILabel = {
         let label = UILabel()
         label.text = "Город, улица и дом"
         label.font = UIFont.systemFont(ofSize: 13, weight: .thin)
@@ -51,14 +51,14 @@ class AddressView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupViews() {
+    private func setupViews() {
         self.addSubview(addressStackView)
         
         addressStackView.addArrangedSubview(descriptionAddressLabel)
         addressStackView.addArrangedSubview(addressTextField)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         addressStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(25)
             make.left.right.equalToSuperview()

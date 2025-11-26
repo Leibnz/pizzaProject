@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 
-class AddressPanelView: UIView {
+final class AddressPanelView: UIView {
     
     var onAddressChanged: ((String) -> Void)?
     
@@ -41,14 +41,14 @@ class AddressPanelView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupViews() {
+    private func setupViews() {
         backgroundColor = .systemBackground
         self.addSubview(addressPanelstackView)
         addressPanelstackView.addArrangedSubview(addressView)
         addressPanelstackView.addArrangedSubview(saveButton)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         addressPanelstackView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
@@ -58,7 +58,7 @@ class AddressPanelView: UIView {
         addressView.addressTextField.text = addressText
     }
     
-    func observe() {
+    private func observe() {
         addressView.addressTextField.addTarget(nil, action: #selector(addressTextFieldChanged(_:)), for: .editingChanged)
     }
 }
@@ -79,5 +79,4 @@ extension AddressPanelView {
             onAddressChanged?(addressText)
         }
     }
-    
 }

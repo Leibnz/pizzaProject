@@ -120,7 +120,6 @@ extension ProductCell {
         }
     }
     
-    
     private func setupConstraints() {
         containerView.snp.makeConstraints { make in
             make.top.bottom.equalTo(contentView).inset(8)
@@ -141,26 +140,4 @@ extension ProductCell {
             make.bottom.equalTo(containerView).inset(8)
         }
     }
-    
-    
-//    private func setupConstraints() {
-//        
-//        containerView.snp.makeConstraints { make in
-//            make.top.bottom.equalTo(contentView).inset(8)
-//            make.left.right.equalTo(contentView).inset(16)
-//        }
-//        
-//        productImageView.snp.makeConstraints { make in
-//            make.top.equalTo(containerView).inset(8)
-//            make.left.equalTo(containerView).offset(8)
-//            make.centerY.equalTo(containerView)
-//            make.bottom.equalTo(containerView).inset(8).priority(.low)
-//        }
-//        
-//        verticalStackView.snp.makeConstraints { make in
-//            make.top.right.equalTo(containerView).inset(8)
-//            make.left.equalTo(productImageView.snp.right).offset(8)
-//            make.bottom.equalTo(containerView).inset(8).priority(.high)
-//        }
-//    }
 }

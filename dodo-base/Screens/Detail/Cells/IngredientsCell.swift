@@ -34,7 +34,7 @@ final class IngredientsCell: UITableViewCell {
         collectionView.register(IngredientsCollectionCell.self, forCellWithReuseIdentifier: IngredientsCollectionCell.reuseId)
         collectionView.dataSource = self
         collectionView.delegate = self
-        
+
         return collectionView
     }()
     
@@ -82,6 +82,7 @@ extension IngredientsCell: UICollectionViewDelegate, UICollectionViewDataSource 
         return cell
     }
 }
+
 
 //MARK: - Get an array of data
 extension IngredientsCell {

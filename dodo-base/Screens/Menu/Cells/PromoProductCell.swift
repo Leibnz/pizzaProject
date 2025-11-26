@@ -108,6 +108,7 @@ final class PromoProductCell: UITableViewCell {
     }
 }
 
+
 // MARK: - Layout
 private extension PromoProductCell {
     

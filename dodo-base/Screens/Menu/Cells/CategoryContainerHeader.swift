@@ -15,7 +15,6 @@ final class CategoryContainerHeader: UITableViewHeaderFooterView {
     
     var onCategoryCellSelect: ((Category)->())?
     
-    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -31,9 +30,6 @@ final class CategoryContainerHeader: UITableViewHeaderFooterView {
         
         return collectionView
     }()
-    
-//    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)

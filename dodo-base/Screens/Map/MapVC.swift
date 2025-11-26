@@ -13,7 +13,7 @@ import MapKit
 import CoreLocation
 
 
-class MapViewController: UIViewController {
+final class MapViewController: UIViewController {
     
     var bottomConstraint: NSLayoutConstraint?
     var originalConstant: CGFloat = 0

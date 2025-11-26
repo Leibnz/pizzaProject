@@ -129,20 +129,15 @@ final class BasketCell: UITableViewCell {
         basketStepper.addTarget(self, action: #selector(stepperChangedValueAction), for: .valueChanged)
         basketStepper.backgroundColor = .systemGray6
         basketStepper.layer.cornerRadius = 10
-        
     }
     
     @objc private func stepperChangedValueAction(sender: BasketStepper) {
-//        print(sender)
-//        print(sender.currentValue)
-        
         guard var product = product else { return }
         let newCount = sender.currentValue
         product.count = newCount
         // сообщаем внешнему слою: какой продукт и новое количество
         onCountChanged?(product, newCount)
     }
-    
 }
 
 
@@ -153,7 +148,6 @@ extension BasketCell {
         self.product = product
         let url = URL(string: product.image)
         orderBasketImage.kf.setImage(with: url)
-        
         nameOfProduct.text = product.name
         describeOrderLabel.text = product.description
         sumPriceBasketLabel.text = "\(product.price) \u{20BD}"
@@ -161,6 +155,5 @@ extension BasketCell {
         if let cnt = product.count {
             basketStepper.currentValue = cnt
         }
-        
     }
 }

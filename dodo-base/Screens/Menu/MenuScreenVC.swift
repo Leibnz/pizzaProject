@@ -27,10 +27,10 @@ final class MenuScreenVC: UIViewController {
     var banners: [Banner] = []
     var stories: [Story] = []
     
-    let productsLoader: IProductsLoader
-    let bannersLoader: IBannersLoader
-    let categoriesLoader: ICategoriesLoader
-    let storiesLoader: IStoriesLoader
+    private let productsLoader: IProductsLoader
+    private let bannersLoader: IBannersLoader
+    private let categoriesLoader: ICategoriesLoader
+    private let storiesLoader: IStoriesLoader
     
     init(productLoader: IProductsLoader, bannerLoader: IBannersLoader, categoryLoader: ICategoriesLoader, storiesLoader: IStoriesLoader) {
         self.productsLoader = productLoader
@@ -79,14 +79,9 @@ final class MenuScreenVC: UIViewController {
         
         loadData()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             self.shimmerMenuView.start()
         }
-//        fetchProducts()
-//        fetchCategories()
-//        fetchBanners()
-//        fetchStories()
-        
     }
     
     private func loadData() {
@@ -114,64 +109,6 @@ final class MenuScreenVC: UIViewController {
             }
         }
     }
-    
-//    private func fetchProducts() {
-//        Task {
-//            do {
-//                let products = try await productsLoader.loadProducts()
-//                print(products)
-//                self.products = products
-//                self.tableView.reloadData()
-//            } catch {
-//                print(error.localizedDescription)
-//            }
-//        }
-//    }
-//    
-//    private func fetchCategories() {
-//        categories = categoriesLoader.fetchCategories()
-//        tableView.reloadData() //Лучше обновлять не всю View, а только секцию
-//    }
-//    
-//    private func fetchBanners() {
-//        Task {
-//            do {
-//                let banners = try await bannersLoader.loadBanners()
-//                self.banners = banners
-//                self.tableView.reloadData()
-//            } catch NetworkError.badUrl {
-//                print("Bad URL")
-//            } catch NetworkError.requestError {
-//                print("Request Error")
-//            } catch NetworkError.clientError {
-//                print("Client Error")
-//            } catch NetworkError.serverError {
-//                print("Server Error")
-//            } catch NetworkError.decodingError {
-//                print("Decoding Error")
-//            }
-//        }
-//    }
-//    
-//    private func fetchStories() {
-//        Task {
-//            do {
-//                let stories = try await storiesLoader.loadStories()
-//                self.stories = stories
-//                self.tableView.reloadData()
-//            } catch NetworkError.badUrl {
-//                print("Bad URL")
-//            } catch NetworkError.requestError {
-//                print("Request Error")
-//            } catch NetworkError.clientError {
-//                print("Client Error")
-//            } catch NetworkError.serverError {
-//                print("Server Error")
-//            } catch NetworkError.decodingError {
-//                print("Decoding Error")
-//            }
-//        }
-//    }
 }
 
 
@@ -182,7 +119,6 @@ extension MenuScreenVC {
         view.addSubview(tableView)
         view.addSubview(priceButton)
         view.addSubview(addressButton)
-        
         view.addSubview(errorMenuStateView)
         view.addSubview(shimmerMenuView)
         
@@ -304,7 +240,6 @@ extension MenuScreenVC {
 enum MenuSection: Int, CaseIterable {
     case stories
     case banners
-//    case categories
     case products
 }
 

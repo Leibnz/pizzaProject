@@ -57,8 +57,6 @@ final class DetailProductVC: UIViewController {
         //realization
         orderButtonView.onOrderButtonTap = {
             self.productsStorage.add(self.product)
-//            print(self.productsStorage.retrieve().count)
-            
         }
     }
     
@@ -90,6 +88,7 @@ final class DetailProductVC: UIViewController {
         }
     }
 }
+
 
 //MARK: - TableViewDataSource and TableViewDelegate
 extension DetailProductVC: UITableViewDataSource, UITableViewDelegate {

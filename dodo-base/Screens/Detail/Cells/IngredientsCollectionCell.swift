@@ -94,6 +94,7 @@ final class IngredientsCollectionCell: UICollectionViewCell {
     }
 }
 
+
 //MARK: - Get data
 extension IngredientsCollectionCell {
     

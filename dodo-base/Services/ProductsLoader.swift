@@ -15,7 +15,7 @@ protocol IProductsLoader {
 
 
 struct ProductsLoader: IProductsLoader {
-
+    
     private let httpClient: IHTTPClient
     private let decoder: JSONDecoder
     
@@ -36,32 +36,32 @@ struct ProductsLoader: IProductsLoader {
         let data = try await httpClient.fetch(url: productsURL)
         
         do {
-            
             let products = try decoder.decode([Product].self, from: data)
             return products
         } catch {
-            print(error.localizedDescription)
             throw NetworkError.decodingError
         }
     }
     
-//    func loadProducts(handler: @escaping (Result<[Product], any Error>) -> Void) {
-//        
-//        httpClient.fetch(url: productsURL) { result in
-//            switch result {
-//            case .success(let data):
-//                do {
-//                    let products = try decoder.decode([Product].self, from: data)
-//                    DispatchQueue.main.async {
-//                        handler(.success(products))
-//                    }
-//                } catch {
-//                    handler(.failure(error))
-//                }
-//                
-//            case .failure(let error):
-//                handler(.failure(error))
-//            }
-//        }
-//    }
+    //MARK: Старый метод
+    //    func loadProducts(handler: @escaping (Result<[Product], any Error>) -> Void) {
+    //
+    //        httpClient.fetch(url: productsURL) { result in
+    //            switch result {
+    //            case .success(let data):
+    //                do {
+    //                    let products = try decoder.decode([Product].self, from: data)
+    //                    DispatchQueue.main.async {
+    //                        handler(.success(products))
+    //                    }
+    //                } catch {
+    //                    handler(.failure(error))
+    //                }
+    //
+    //            case .failure(let error):
+    //                handler(.failure(error))
+    //            }
+    //        }
+    //    }
+    
 }
