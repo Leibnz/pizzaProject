@@ -26,9 +26,9 @@ final class DependencyContainer {
         httpClient = HTTPClient()
         decoder = JSONDecoder()
         productsLoader = ProductsLoader(httpClient: httpClient, decoder: decoder)
-        bannerLoader = BannerLoader(httpClient: httpClient, decoder: decoder)
-        categoryLoader = CategoryLoader(httpClient: httpClient, decoder: decoder)
-        storiesLoader = StoriesLoader()
+        bannerLoader = BannersLoader(httpClient: httpClient, decoder: decoder)
+        categoryLoader = CategoriesLoader(httpClient: httpClient, decoder: decoder)
+        storiesLoader = StoriesLoader(httpClient: httpClient, decoder: decoder)
         ingredientsLoader = IngredientsLoader(httpClient: httpClient, decoder: decoder)
         productsStorage = ProductsStorage()
 
@@ -55,21 +55,3 @@ final class ScreenFactory {
         return BasketVC(productsStorage: di.productsStorage, productsLoader: di.productsLoader)
     }
 }
-
-
-
-
-
-////SRP
-////-> Module Configure
-//final class MenuConfigurator {
-//    func configure() -> MenuScreenVC {
-//
-//        let session = URLSession.shared
-//        let decoder = JSONDecoder()
-//        let productsLoader = ProductsLoader(session: session, decoder: decoder)
-//        let menuVC = MenuScreenVC.init(productsLoader: productsLoader)
-//
-//        return menuVC
-//    }
-//}

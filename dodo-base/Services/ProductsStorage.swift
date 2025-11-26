@@ -66,7 +66,6 @@ final class ProductsStorage: IProductsStorage {
             array.append(newProduct)
         }
         
-//        array.append(product)
         save(array)
     }
     

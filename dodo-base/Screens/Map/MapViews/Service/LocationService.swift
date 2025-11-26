@@ -11,7 +11,6 @@ import CoreLocation
 
 class LocationService: NSObject {
     
-    
     private lazy var locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
         return locationManager

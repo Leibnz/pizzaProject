@@ -13,7 +13,6 @@ final class PriceButton: UIButton {
     init(price: String) {
         super.init(frame: .zero)
         configure(price: price)
-        
     }
     
     required init?(coder: NSCoder) {

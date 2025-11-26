@@ -8,7 +8,7 @@
 import UIKit
 
 
-class AddressSaveButton: UIButton {
+final class AddressSaveButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

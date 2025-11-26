@@ -7,11 +7,12 @@
 
 import Foundation
 
+
 protocol ICategoriesLoader {
     func fetchCategories() -> [Category]
 }
 
-class CategoryLoader: ICategoriesLoader {
+struct CategoriesLoader: ICategoriesLoader {
     
     private let httpClient: IHTTPClient
     private let decoder: JSONDecoder

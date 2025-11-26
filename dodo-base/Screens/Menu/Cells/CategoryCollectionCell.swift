@@ -51,7 +51,6 @@ final class CategoryCollectionCell: UICollectionViewCell {
             make.left.right.equalTo(containerView).inset(20)
         }
     }
-    
 }
 
 

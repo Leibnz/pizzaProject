@@ -17,11 +17,11 @@ private enum BasketState {
 
 final class BasketVC: UIViewController {
     
-    var products: [Product] = []
-    var additions: [Product] = []
+    private var products: [Product] = []
+    private var additions: [Product] = []
     
-    var productsStorage: IProductsStorage
-    var productsLoader: IProductsLoader
+    private let productsStorage: IProductsStorage
+    private let productsLoader: IProductsLoader
     
     init(productsStorage: IProductsStorage, productsLoader: IProductsLoader) {
         self.productsStorage = productsStorage
@@ -40,11 +40,9 @@ final class BasketVC: UIViewController {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.dataSource = self
-        
         tableView.registerCell(TotalPriceCell.self)
         tableView.registerCell(BasketCell.self)
         tableView.registerCell(AddProductCell.self)
-        
         return tableView
     }()
     

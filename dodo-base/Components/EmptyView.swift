@@ -27,11 +27,11 @@ final class EmptyView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupViews() {
+    private func setupViews() {
         self.addSubview(containerView)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         containerView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }

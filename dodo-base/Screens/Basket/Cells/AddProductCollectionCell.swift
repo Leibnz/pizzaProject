@@ -78,14 +78,11 @@ final class AddProductCollectionCell: UICollectionViewCell {
     private func setupViews() {
         contentView.addSubview(basketContainerView)
         basketContainerView.addSubview(verticalProductStackView)
-        
         verticalProductStackView.addArrangedSubview(addProductImage)
         verticalProductStackView.addArrangedSubview(addProductNameLabel)
         verticalProductStackView.addArrangedSubview(addProductWeightLabel)
         verticalProductStackView.addArrangedSubview(addProductPriceLabel)
-        
         verticalProductStackView.setCustomSpacing(16, after: addProductWeightLabel)
-        
     }
     
     private func setupConstraints() {
@@ -109,8 +106,6 @@ extension AddProductCollectionCell {
     func update(_ addition: Product) {
         let url = URL(string: addition.image)
         addProductImage.kf.setImage(with: url)
-        
-//        addProductImage.image = UIImage(named: addition.image)
         addProductNameLabel.text = addition.name
         addProductWeightLabel.text = "\(addition.id) г"
         addProductPriceLabel.text = "\(addition.price) \u{20BD}"
