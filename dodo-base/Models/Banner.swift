@@ -8,7 +8,7 @@
 import UIKit
 
 
-struct Banner: Decodable {
+struct Banner: Codable, Equatable {
     var id: Int
     var image: String
     var name: String

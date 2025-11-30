@@ -8,7 +8,7 @@
 import UIKit
 
 
-struct Story: Decodable {
+struct Story: Codable, Equatable {
     var id: Int
     var image: String
     var type: String
