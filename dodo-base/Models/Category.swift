@@ -8,7 +8,7 @@
 import UIKit
 
 
-struct Category {
+struct Category: Codable, Equatable {
     var name: String
     var isSelected: Bool
 }
