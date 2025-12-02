@@ -8,6 +8,12 @@
 import UIKit
 import SnapKit
 
+private enum DetailSection: Int, CaseIterable {
+    case pizzaImage
+    case pizzaInfo
+    case optionsPizza
+    case ingredientsPizza
+}
 
 final class DetailProductVC: UIViewController {
     
@@ -94,40 +100,47 @@ final class DetailProductVC: UIViewController {
 extension DetailProductVC: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return DetailSection.allCases.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0: return 1
-        case 1: return 1
-        case 2: return 1
-        case 3: return 1
-        default: return 0
+        
+        guard let detailSection = DetailSection.init(rawValue: section) else { return 0 }
+        
+        switch detailSection {
+        case .pizzaImage:
+            return 1
+        case .pizzaInfo:
+            return 1
+        case .optionsPizza:
+            return 1
+        case .ingredientsPizza:
+            return 1
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let section = indexPath.section
+        guard let detailSection = DetailSection(rawValue: indexPath.section) else {
+            return UITableViewCell()
+        }
         
-        switch section {
-        case 0:
+        switch detailSection {
+        case .pizzaImage:
             let cell = tableView.dequeueCell(indexPath) as PizzaImageCell
             cell.update(product)
             return cell
-        case 1:
+        case .pizzaInfo:
             let cell = tableView.dequeueCell(indexPath) as PizzaInfoCell
             cell.update(product)
             return cell
-        case 2:
+        case .optionsPizza:
             let cell = tableView.dequeueCell(indexPath) as OptionsPizzaCell
             return cell
-        case 3:
+        case .ingredientsPizza:
             let cell = tableView.dequeueCell(indexPath) as IngredientsCell
             cell.update(ingredients)
             return cell
-        default: return UITableViewCell()
         }
     }
 }

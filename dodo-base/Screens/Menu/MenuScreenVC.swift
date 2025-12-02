@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 
-
 private enum MenuScreenState {
     case initial
     case loading
@@ -16,16 +15,22 @@ private enum MenuScreenState {
     case error
 }
 
+private enum MenuSection: Int, CaseIterable {
+    case stories
+    case banners
+    case products
+}
 
 final class MenuScreenVC: UIViewController {
     
-    private var priceButton = PriceButton(price: "270 \u{20BD}")
-    private var addressButton = AddressButton()
+    private var state: MenuScreenState = .initial {
+        didSet { applyState() }
+    }
     
-    var products: [Product] = []
-    var categories: [Category] = []
-    var banners: [Banner] = []
-    var stories: [Story] = []
+    private var products: [Product] = []
+    private var categories: [Category] = []
+    private var banners: [Banner] = []
+    private var stories: [Story] = []
     
     private let productsLoader: IProductsLoader
     private let bannersLoader: IBannersLoader
@@ -44,6 +49,8 @@ final class MenuScreenVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let priceButton = PriceButton(price: "270 \u{20BD}")
+    private let addressButton = AddressButton()
     private let errorMenuStateView = ErrorMenuStateView()
     private let shimmerMenuView = ShimmerMenuView()
     
@@ -67,39 +74,33 @@ final class MenuScreenVC: UIViewController {
         return tableView
     }()
     
-    private var state: MenuScreenState = .initial {
-        didSet { applyState() }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-        setupActions()
+        setupObservers()
+        
+        applyState()
         
         loadData()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-            self.shimmerMenuView.start()
-        }
     }
+}
+
+//MARK: - Business logic
+extension MenuScreenVC {
     
     private func loadData() {
         state = .loading
         
         Task {
             do {
-                async let p = productsLoader.loadProducts()
-                async let b = bannersLoader.loadBanners()
-                async let s = storiesLoader.loadStories()
+                async let products = productsLoader.loadProducts()
+                async let banners = bannersLoader.loadBanners()
+                async let stories = storiesLoader.loadStories()
                 
-                let products = try await p
-                let banners = try await b
-                let stories = try await s
-                
-                self.products = products
-                self.banners = banners
-                self.stories = stories
+                self.products = try await products
+                self.banners = try await banners
+                self.stories = try await stories
                 self.categories = categoriesLoader.fetchCategories()
                 
                 tableView.reloadData()
@@ -111,88 +112,9 @@ final class MenuScreenVC: UIViewController {
     }
 }
 
-
-//MARK: - Setup
+//MARK: - View State
 extension MenuScreenVC {
-    private func setupViews() {
-        view.backgroundColor = .systemBackground
-        view.addSubview(tableView)
-        view.addSubview(priceButton)
-        view.addSubview(addressButton)
-        view.addSubview(errorMenuStateView)
-        view.addSubview(shimmerMenuView)
-        
-        errorMenuStateView.isHidden = true
-        shimmerMenuView.isHidden = true
-        
-        errorMenuStateView.onRetryMenuPageTap = { [weak self] in
-            self?.loadData()
-        }
-    }
-    
-    private func setupConstraints() {
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(56)
-            make.left.right.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(view)
-        }
-        
-        shimmerMenuView.snp.makeConstraints { make in
-            make.edges.equalTo(tableView)
-        }
-        
-        errorMenuStateView.snp.makeConstraints { make in
-            make.edges.equalTo(tableView)
-        }
-        
-        priceButton.snp.makeConstraints { make in
-            make.right.equalTo(view).inset(16)
-            make.bottom.equalTo(view).inset(48)
-            make.height.equalTo(50)
-        }
-        
-        addressButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.left.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(tableView.snp.top)
-            make.height.equalTo(20)
-        }
-    }
-    
-    private func setupActions() {
-        priceButton.addAction(UIAction(handler: { [weak self] _ in
-            let basketVC = di.screenFactory.makeBasketScreen()
-            
-            let navController = UINavigationController(rootViewController: basketVC)
-            
-            // Настройка кнопки "Закрыть"
-            basketVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Закрыть", style: .plain, target: basketVC, action: #selector(basketVC.closeTapped)
-            )
-            basketVC.navigationItem.leftBarButtonItem?.tintColor = .orange
-            
-            // Заголовок по центру
-            basketVC.navigationItem.title = "Корзина"
-            
-            self?.present(navController, animated: true)
-        }), for: .touchUpInside)
-        
-        addressButton.addAction(UIAction(handler: { [weak self] _ in
-            let mapVC = MapViewController()
-            
-            let navController = UINavigationController(rootViewController: mapVC)
-            
-            // Настройка кнопки "Закрыть"
-            mapVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Закрыть", style: .plain, target: mapVC, action: #selector(mapVC.closeTapped)
-            )
-            mapVC.navigationItem.leftBarButtonItem?.tintColor = .orange
-            
-            // Заголовок по центру
-            mapVC.navigationItem.title = "Карта"
-            
-            self?.present(navController, animated: true)
-        }), for: .touchUpInside)
-    }
-    
+
     private func applyState() {
         switch state {
             
@@ -233,24 +155,16 @@ extension MenuScreenVC {
             addressButton.isHidden = false
         }
     }
-    
 }
 
-//MARK: - TableViewDataSource and TableViewDelegate
-enum MenuSection: Int, CaseIterable {
-    case stories
-    case banners
-    case products
-}
+//MARK: - Table DataSource
 
-
-extension MenuScreenVC: UITableViewDataSource, UITableViewDelegate {
+extension MenuScreenVC: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return MenuSection.allCases.count
     }
 
-    //Метод датасорса - Возвращаем количество ячеек в таблице в секции
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         guard let menuSection = MenuSection.init(rawValue: section) else { return 0 }
@@ -264,8 +178,7 @@ extension MenuScreenVC: UITableViewDataSource, UITableViewDelegate {
             return products.count
         }
     }
-    
-    //Метод датасорса - Возвращаем конкретную ячейку
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let menuSection = MenuSection(rawValue: indexPath.section) else {
@@ -294,15 +207,28 @@ extension MenuScreenVC: UITableViewDataSource, UITableViewDelegate {
             return cell
         }
     }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+}
+
+//MARK: - Table Delegate
+extension MenuScreenVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let menuSection = MenuSection.init(rawValue: section) else {
-            return nil
-        }
+        guard let menuSection = MenuSection(rawValue: indexPath.section) else { return }
         
         switch menuSection {
         case .products:
+            productCellSelect(indexPath.row)
+        default: break
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        guard let menuSection = MenuSection.init(rawValue: section) else { return nil }
+        
+        switch menuSection {
+        case .products:
+            //TODO: - wrap to Generic
             guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CategoryContainerHeader.reuseId) as? CategoryContainerHeader else {
                 return UIView()
             }
@@ -342,19 +268,116 @@ extension MenuScreenVC: UITableViewDataSource, UITableViewDelegate {
             return EmptyView()
         }
     }
+}
+
+//MARK: - Event Handler
+extension MenuScreenVC {
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        guard let menuSection = MenuSection(rawValue: indexPath.section) else {
-            return
+    private func priceButtonTap() {
+        navigateToBasketScreen()
+    }
+    
+    private func retryButtonTap() {
+        loadData()
+    }
+    
+    private func addressButtonTap() {
+        navigateToMapScreen()
+    }
+    
+    private func productCellSelect(_ index: Int) {
+        let product = products[index]
+        navigateToDetailScreen(product)
+    }
+}
+
+//MARK: - Observers & Actions
+extension MenuScreenVC {
+    
+    private func setupObservers() {
+        errorMenuStateView.onRetryMenuPageTap = { [weak self] in
+            self?.retryButtonTap()
         }
         
-        switch menuSection {
-        case .products:
-            let product = products[indexPath.row]
-            let detailVC = di.screenFactory.makeDetailScreen(product)
-            self.present(detailVC, animated: true)
-        default: break
+        priceButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.priceButtonTap()
+        }), for: .touchUpInside)
+        
+        addressButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.addressButtonTap()
+        }), for: .touchUpInside)
+    }
+}
+
+//MARK: - Navigation
+extension MenuScreenVC {
+    private func navigateToDetailScreen(_ product: Product) {
+        let detailVC = di.screenFactory.makeDetailScreen(product)
+        self.present(detailVC, animated: true)
+    }
+    
+    private func navigateToBasketScreen() {
+        let basketVC = di.screenFactory.makeBasketScreen()
+        let navController = UINavigationController(rootViewController: basketVC)
+        // Настройка кнопки "Закрыть"
+        basketVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Закрыть", style: .plain, target: basketVC, action: #selector(basketVC.closeTapped))
+        basketVC.navigationItem.leftBarButtonItem?.tintColor = .orange
+        // Заголовок по центру
+        basketVC.navigationItem.title = "Корзина"
+        present(navController, animated: true)
+    }
+    
+    private func navigateToMapScreen() {
+        let mapVC = MapViewController()
+        let navController = UINavigationController(rootViewController: mapVC)
+        // Настройка кнопки "Закрыть"
+        mapVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Закрыть", style: .plain, target: mapVC, action: #selector(mapVC.closeTapped))
+        mapVC.navigationItem.leftBarButtonItem?.tintColor = .orange
+        // Заголовок по центру
+        mapVC.navigationItem.title = "Карта"
+        present(navController, animated: true)
+    }
+}
+
+//MARK: - Layout
+extension MenuScreenVC {
+    
+    private func setupViews() {
+        view.backgroundColor = .systemBackground
+        view.addSubview(tableView)
+        view.addSubview(priceButton)
+        view.addSubview(addressButton)
+        view.addSubview(errorMenuStateView)
+        view.addSubview(shimmerMenuView)
+    }
+    
+    private func setupConstraints() {
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(56)
+            make.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view)
+        }
+        
+        shimmerMenuView.snp.makeConstraints { make in
+            make.edges.equalTo(tableView)
+        }
+        
+        errorMenuStateView.snp.makeConstraints { make in
+            make.edges.equalTo(tableView)
+        }
+        
+        priceButton.snp.makeConstraints { make in
+            make.right.equalTo(view).inset(16)
+            make.bottom.equalTo(view).inset(48)
+            make.height.equalTo(50)
+        }
+        
+        addressButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.left.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(tableView.snp.top)
+            make.height.equalTo(20)
         }
     }
+    
 }
