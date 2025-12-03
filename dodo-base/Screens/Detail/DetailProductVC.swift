@@ -34,14 +34,13 @@ final class DetailProductVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var orderButtonView = OrderButtonView()
+    private let orderButtonView = OrderButtonView()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.separatorStyle = .none
         tableView.dataSource = self
-        tableView.delegate = self
         tableView.registerCell(PizzaImageCell.self)
         tableView.registerCell(PizzaInfoCell.self)
         tableView.registerCell(OptionsPizzaCell.self)
@@ -54,17 +53,14 @@ final class DetailProductVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-        setupObservers() //установка наблюдателей
+        setupObservers()
         
         fetchIngredients()
     }
-    
-    private func setupObservers() {
-        //realization
-        orderButtonView.onOrderButtonTap = {
-            self.productsStorage.add(self.product)
-        }
-    }
+}
+
+//MARK: - Business logic
+extension DetailProductVC {
     
     private func fetchIngredients() {
         Task {
@@ -77,27 +73,10 @@ final class DetailProductVC: UIViewController {
             }
         }
     }
-    
-    private func setupViews() {
-        view.addSubview(tableView)
-        view.addSubview(orderButtonView)
-    }
-    
-    private func setupConstraints() {
-        tableView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
-        }
-        
-        orderButtonView.snp.makeConstraints { make in
-            make.left.right.equalTo(view)
-            make.bottom.equalTo(view)
-        }
-    }
 }
 
-
-//MARK: - TableViewDataSource and TableViewDelegate
-extension DetailProductVC: UITableViewDataSource, UITableViewDelegate {
+//MARK: - Table DataSource
+extension DetailProductVC: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return DetailSection.allCases.count
@@ -141,6 +120,36 @@ extension DetailProductVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueCell(indexPath) as IngredientsCell
             cell.update(ingredients)
             return cell
+        }
+    }
+}
+
+//MARK: - Observers
+extension DetailProductVC {
+    
+    private func setupObservers() {
+        orderButtonView.onOrderButtonTap = {
+            self.productsStorage.add(self.product)
+        }
+    }
+}
+
+//MARK: - Layout
+extension DetailProductVC {
+    
+    private func setupViews() {
+        view.addSubview(tableView)
+        view.addSubview(orderButtonView)
+    }
+    
+    private func setupConstraints() {
+        tableView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        orderButtonView.snp.makeConstraints { make in
+            make.left.right.equalTo(view)
+            make.bottom.equalTo(view)
         }
     }
 }

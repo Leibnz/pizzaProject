@@ -14,8 +14,17 @@ private enum BasketState {
     case filled
 }
 
+private enum BasketSection: Int, CaseIterable {
+    case totalPrice
+    case productInBasket
+    case addProduct
+}
 
 final class BasketVC: UIViewController {
+    
+    private var state: BasketState = .empty {
+        didSet { applyState() }
+    }
     
     private var products: [Product] = []
     private var additions: [Product] = []
@@ -33,8 +42,8 @@ final class BasketVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var basketButtonView = BasketButtonView()
-    private var emptyBasketView = EmptyBasketView()
+    private let basketButtonView = BasketButtonView()
+    private let emptyBasketView = EmptyBasketView()
     
     private lazy var basketTableView: UITableView = {
         let tableView = UITableView()
@@ -46,45 +55,21 @@ final class BasketVC: UIViewController {
         return tableView
     }()
     
-    private var state: BasketState = .empty {
-        didSet { applyState() }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        setupObservers()
         
         fetchAdditions()
         fetchBasket()
+        
         updateState()
-        setupObservers()
     }
-    
-    private func setupViews() {
-        view.backgroundColor = .white
-        view.addSubview(basketTableView)
-        basketTableView.isHidden = true
-        view.addSubview(basketButtonView)
-        view.addSubview(emptyBasketView)
-        fetchBasket()
-    }
-    
-    private func setupConstraints() {
-        basketTableView.snp.makeConstraints { make in
-            make.top.left.right.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(basketButtonView.snp.top)
-        }
-        
-        basketButtonView.snp.makeConstraints { make in
-            make.left.right.equalTo(view)
-            make.bottom.equalTo(view)
-        }
-        
-        emptyBasketView.snp.makeConstraints { make in
-            make.top.left.right.bottom.equalToSuperview()
-        }
-    }
+}
+
+//MARK: - Business logic
+extension BasketVC {
     
     private func fetchAdditions() {
         Task {
@@ -104,6 +89,10 @@ final class BasketVC: UIViewController {
         basketTableView.reloadData()
         updateState()
     }
+}
+
+//MARK: - View State
+extension BasketVC {
     
     private func updateState() {
         state = products.isEmpty ? .empty : .filled
@@ -122,44 +111,40 @@ final class BasketVC: UIViewController {
             basketButtonView.isHidden = false
         }
     }
-    
-    private func setupObservers() {
-        emptyBasketView.onBackToMenuButtonTap = {
-            self.dismiss(animated: true)
-        }
-    }
-    
-    @objc func closeTapped() {
-        self.dismiss(animated: true)
-    }
 }
 
-//MARK: - TableViewDataSource
-
+//MARK: - Table DataSource
 extension BasketVC: UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return BasketSection.allCases.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch section {
-        case 0: return 1
-        case 1: return products.count
-        case 2: return 1
-        default: return 0
+        guard let basketSection = BasketSection.init(rawValue: section) else { return 0 }
+        
+        switch basketSection {
+        case .totalPrice:
+            return 1
+        case .productInBasket:
+            return products.count
+        case .addProduct:
+            return 1
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let section = indexPath.section
+        guard let basketSection = BasketSection(rawValue: indexPath.section) else {
+            return UITableViewCell()
+        }
         
-        switch section {
-        case 0:
+        switch basketSection {
+        case .totalPrice:
             let cell = tableView.dequeueCell(indexPath) as TotalPriceCell
             return cell
-        case 1:
+        case .productInBasket:
             let cell = tableView.dequeueCell(indexPath) as BasketCell
             let product = products[indexPath.row]
             cell.update(product)
@@ -205,12 +190,57 @@ extension BasketVC: UITableViewDataSource {
             }
             
             return cell
-        case 2:
+        case .addProduct:
             let cell = tableView.dequeueCell(indexPath) as AddProductCell
             cell.update(additions)
             return cell
-        default:
-            return UITableViewCell()
+        }
+    }
+}
+
+//MARK: - Event Handler
+extension BasketVC {
+    
+    @objc func closeTapped() {
+        self.dismiss(animated: true)
+    }
+}
+
+//MARK: - Observers
+extension BasketVC {
+    
+    private func setupObservers() {
+        emptyBasketView.onBackToMenuButtonTap = {
+            self.dismiss(animated: true)
+        }
+    }
+}
+
+//MARK: - Layout
+extension BasketVC {
+    
+    private func setupViews() {
+        view.backgroundColor = .white
+        view.addSubview(basketTableView)
+        basketTableView.isHidden = true
+        view.addSubview(basketButtonView)
+        view.addSubview(emptyBasketView)
+        fetchBasket()
+    }
+    
+    private func setupConstraints() {
+        basketTableView.snp.makeConstraints { make in
+            make.top.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(basketButtonView.snp.top)
+        }
+        
+        basketButtonView.snp.makeConstraints { make in
+            make.left.right.equalTo(view)
+            make.bottom.equalTo(view)
+        }
+        
+        emptyBasketView.snp.makeConstraints { make in
+            make.top.left.right.bottom.equalToSuperview()
         }
     }
 }
