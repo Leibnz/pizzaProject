@@ -379,5 +379,4 @@ extension MenuScreenVC {
             make.height.equalTo(20)
         }
     }
-    
 }
