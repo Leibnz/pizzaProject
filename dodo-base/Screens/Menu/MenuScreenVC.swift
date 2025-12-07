@@ -229,9 +229,10 @@ extension MenuScreenVC: UITableViewDelegate {
         switch menuSection {
         case .products:
             //TODO: - wrap to Generic
-            guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CategoryContainerHeader.reuseId) as? CategoryContainerHeader else {
-                return UIView()
-            }
+//            guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CategoryContainerHeader.reuseId) as? CategoryContainerHeader else {
+//                return UIView()
+//            }
+            guard let header: CategoryContainerHeader = tableView.dequeueHeaderFooter(ofType: CategoryContainerHeader.self) else { return UIView() }
             
             header.update(categories)
             header.onCategoryCellSelect = { category in

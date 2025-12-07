@@ -13,7 +13,7 @@ extension UITableViewCell: Reusable {}
 
 extension Reusable where Self: UITableViewCell {
     
-    static var reuseID: String {
+    static var reuseId: String {
         return String.init(describing: self)
     }
 }
