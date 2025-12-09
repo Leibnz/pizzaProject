@@ -10,14 +10,17 @@ import UIKit
 
 final class OptionsPizzaCell: UITableViewCell {
     
+    private let sizes = ["20 см", "25 см", "30 см", "35 см"]
+    
     var product: Product?
     var onSizeChanged: ((String)->())?
     var onDoughChanged: ((String)->())?
     
-    private let pizzaSizeControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["20 см", "25 см", "30 см", "35 см"])
-        control.selectedSegmentIndex = 2
-//        control.addTarget(nil, action: #selector(sizeSegmentedChanged()), for: .valueChanged)
+    private lazy var pizzaSizeControl: UISegmentedControl = {
+        
+        let control = UISegmentedControl(items: sizes)
+        //control.selectedSegmentIndex = product?.size?.getIndex() ?? 0
+        control.addTarget(nil, action: #selector(sizeSegmentedChanged(_:)), for: .valueChanged)
         return control
     }()
     
@@ -62,21 +65,31 @@ final class OptionsPizzaCell: UITableViewCell {
 //MARK: - Get data
 extension OptionsPizzaCell {
     func update(_ product: Product) {
-        if product.type != "pizza" {
+        
+        pizzaSizeControl.selectedSegmentIndex = product.size?.getIndex() ?? 0
+        pizzaDoughControl.selectedSegmentIndex = product.dough?.getIndex() ?? 0
+        
+        if product.type != .pizza {
             pizzaSizeControl.isHidden = true
             pizzaDoughControl.isHidden = true
         }
         
-        if let dough = product.dough {
-            dough.getIndex()
-        }
+//        if let dough = product.dough {
+//            dough.getIndex()
+//        }
+        
+        
+        
     }
 }
 
 
 //MARK: - Event Handler
-//extension OptionsPizzaCell {
-//    @objc private func sizeSegmentedChanged(_ sender: UISegmentedControl) {
-//        let size =
-//    }
-//}
+extension OptionsPizzaCell {
+    @objc private func sizeSegmentedChanged(_ sender: UISegmentedControl) {
+        let index = sender.selectedSegmentIndex
+        
+        
+        
+    }
+}

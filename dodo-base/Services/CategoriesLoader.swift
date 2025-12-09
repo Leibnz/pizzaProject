@@ -9,7 +9,7 @@ import Foundation
 
 
 protocol ICategoriesLoader {
-    func fetchCategories() -> [Category]
+    func loadCategories() async throws -> [Category]
 }
 
 struct CategoriesLoader: ICategoriesLoader {
@@ -22,17 +22,22 @@ struct CategoriesLoader: ICategoriesLoader {
         self.decoder = decoder
     }
     
-    private let categories: [Category] = [
-        Category(name: "Пиццы", isSelected: false),
-        Category(name: "Комбо", isSelected: false),
-        Category(name: "Закуски", isSelected: false),
-        Category(name: "Коктейли", isSelected: false),
-        Category(name: "Кофе", isSelected: false),
-        Category(name: "Напитки", isSelected: false),
-        Category(name: "Соусы", isSelected: false)
-    ]
+    private var categoriesURL: URL {
+        guard let url = URL(string: "http://localhost:3001/categories") else {
+            preconditionFailure("Unable to construct categoriesURL")
+        }
+        return url
+    }
     
-    func fetchCategories() -> [Category] {
-        return categories
+    func loadCategories() async throws -> [Category] {
+        
+        let data = try await httpClient.fetch(url: categoriesURL)
+        
+        do {
+            let categories = try decoder.decode([Category].self, from: data)
+            return categories
+        } catch {
+            throw NetworkError.decodingError
+        }
     }
 }

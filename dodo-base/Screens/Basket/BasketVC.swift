@@ -154,22 +154,7 @@ extension BasketVC: UITableViewDataSource {
                 
                 guard let self = self else { return }
                 
-                // 1) Обновляем storage
-                self.productsStorage.update(updatedProduct, count: newCount)
-                
-                // 2) Обновляем локальную модель `products` чтобы UI сразу отразил изменения
-                if let idx = self.products.firstIndex(where: { $0 == updatedProduct }) {
-                    if newCount > 0 {
-                        self.products[idx].count = newCount
-                    } else {
-                        self.products.remove(at: idx)
-                    }
-                } else if newCount > 0 {
-                    // если продукта не было — добавим в локальную модель
-                    var newP = updatedProduct
-                    newP.count = newCount
-                    self.products.append(newP)
-                }
+                self.onProductCountChanged(updatedProduct: updatedProduct, newCount: newCount)
                 
                 // 3) Обновляем конкретную строку или весь раздел/таблицу.
                 // Лучше обновить конкретную строку либо удалить/вставить.
@@ -200,6 +185,26 @@ extension BasketVC: UITableViewDataSource {
 
 //MARK: - Event Handler
 extension BasketVC {
+    
+    private func onProductCountChanged(updatedProduct: Product, newCount: Int) {
+        
+        // 1) Обновляем storage
+        self.productsStorage.update(updatedProduct, count: newCount)
+        
+        // 2) Обновляем локальную модель `products` чтобы UI сразу отразил изменения
+        if let idx = self.products.firstIndex(where: { $0 == updatedProduct }) {
+            if newCount > 0 {
+                self.products[idx].count = newCount
+            } else {
+                self.products.remove(at: idx)
+            }
+        } else if newCount > 0 {
+            // если продукта не было — добавим в локальную модель
+            var newP = updatedProduct
+            newP.count = newCount
+            self.products.append(newP)
+        }
+    }
     
     @objc func closeTapped() {
         self.dismiss(animated: true)
