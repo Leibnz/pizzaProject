@@ -8,8 +8,15 @@
 import Foundation
 
 
-//Добавил enum
-enum PizzaDough: String {
-    case traditional = "Традиционное"
-    case thin = "Тонкое"
+enum PizzaDough: String, Codable {
+    case traditional
+    case thin
+    
+    func getIndex() -> Int {
+        return self == PizzaDough.traditional ? 0 : 1
+    }
+    
+    func getName() -> String {
+        return self == PizzaDough.traditional ? "Традиционное" : "Тонкое"
+    }
 }

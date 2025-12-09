@@ -69,7 +69,7 @@ final class MenuScreenVC: UIViewController {
         tableView.registerCell(ProductCell.self)
         tableView.registerCell(PromoProductCell.self)
         tableView.registerCell(BannerCell.self)
-        tableView.register(CategoryContainerHeader.self, forHeaderFooterViewReuseIdentifier: CategoryContainerHeader.reuseId)
+        tableView.registerHeader(CategoryContainerHeader.self)
         tableView.registerCell(StoryCell.self)
         return tableView
     }()
@@ -96,12 +96,13 @@ extension MenuScreenVC {
             do {
                 async let products = productsLoader.loadProducts()
                 async let banners = bannersLoader.loadBanners()
+                async let categories = categoriesLoader.loadCategories()
                 async let stories = storiesLoader.loadStories()
                 
                 self.products = try await products
                 self.banners = try await banners
+                self.categories = try await categories
                 self.stories = try await stories
-                self.categories = categoriesLoader.fetchCategories()
                 
                 tableView.reloadData()
                 state = .loaded
@@ -228,38 +229,54 @@ extension MenuScreenVC: UITableViewDelegate {
         
         switch menuSection {
         case .products:
-            //TODO: - wrap to Generic
-//            guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CategoryContainerHeader.reuseId) as? CategoryContainerHeader else {
-//                return UIView()
-//            }
+            
             guard let header: CategoryContainerHeader = tableView.dequeueHeaderFooter(ofType: CategoryContainerHeader.self) else { return UIView() }
             
             header.update(categories)
             header.onCategoryCellSelect = { category in
-                switch category.name {
-                case "Пиццы":
-                    let indexPath = IndexPath(row: 0, section: 2)
+                switch category.type {
+                case .pizza:
+                    
+                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .pizza }) else { return }
+                    let indexPath = IndexPath(row: rowIndex, section: 2)
                     tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                case "Комбо":
-                    let indexPath = IndexPath(row: 6, section: 2)
+                    
+                case .combo:
+                    
+                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .combo }) else { return }
+                    let indexPath = IndexPath(row: rowIndex, section: 2)
                     tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                case "Закуски":
-                    let indexPath = IndexPath(row: 9, section: 2)
+                    
+                case .snacks:
+                    
+                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .snacks }) else { return }
+                    let indexPath = IndexPath(row: rowIndex, section: 2)
                     tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                case "Коктейли":
-                    let indexPath = IndexPath(row: 12, section: 2)
+                    
+                case .cocktails:
+                    
+                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .cocktails }) else { return }
+                    let indexPath = IndexPath(row: rowIndex, section: 2)
                     tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                case "Кофе":
-                    let indexPath = IndexPath(row: 15, section: 2)
+                    
+                case .coffee:
+                    
+                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .coffee }) else { return }
+                    let indexPath = IndexPath(row: rowIndex, section: 2)
                     tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                case "Напитки":
-                    let indexPath = IndexPath(row: 18, section: 2)
+                    
+                case .drinks:
+                    
+                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .drinks }) else { return }
+                    let indexPath = IndexPath(row: rowIndex, section: 2)
                     tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                case "Соусы":
-                    let indexPath = IndexPath(row: 22, section: 2)
+                    
+                case .sauces:
+                    
+                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .sauces }) else { return }
+                    let indexPath = IndexPath(row: rowIndex, section: 2)
                     tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                default:
-                    break
+                    
                 }
             }
             return header

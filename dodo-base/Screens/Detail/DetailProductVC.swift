@@ -17,6 +17,10 @@ private enum DetailSection: Int, CaseIterable {
 
 final class DetailProductVC: UIViewController {
     
+    private var isPizza: Bool {
+        product.type == .pizza
+    }
+    
     private var ingredients: [Ingredient] = []
     
     private let ingredientsLoader: IIngredientsLoader
@@ -79,7 +83,12 @@ extension DetailProductVC {
 extension DetailProductVC: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return DetailSection.allCases.count
+        
+        if isPizza {
+            return DetailSection.allCases.count
+        } else {
+            return 2
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
