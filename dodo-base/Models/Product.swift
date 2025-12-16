@@ -16,6 +16,7 @@ struct Product: Codable, Equatable {
     var image: String
     var size: PizzaSize?
     var dough: PizzaDough?
+    var ingredients: [Ingredient]?
     var count: Int?
     var isPromo: Bool
     

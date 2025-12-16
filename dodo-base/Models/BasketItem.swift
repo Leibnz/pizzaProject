@@ -11,4 +11,6 @@ import UIKit
 struct BasketItem {
     let product: Product
     var count: Int
+    let configuration: Product
+    let totalPrice: Int
 }
