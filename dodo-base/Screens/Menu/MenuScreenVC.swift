@@ -8,13 +8,6 @@
 import UIKit
 import SnapKit
 
-private enum MenuScreenState {
-    case initial
-    case loading
-    case loaded
-    case error
-}
-
 private enum MenuSection: Int, CaseIterable {
     case stories
     case banners
@@ -23,31 +16,7 @@ private enum MenuSection: Int, CaseIterable {
 
 final class MenuScreenVC: UIViewController {
     
-    private var state: MenuScreenState = .initial {
-        didSet { applyState() }
-    }
-    
-    private var products: [Product] = []
-    private var categories: [Category] = []
-    private var banners: [Banner] = []
-    private var stories: [Story] = []
-    
-    private let productsLoader: IProductsLoader
-    private let bannersLoader: IBannersLoader
-    private let categoriesLoader: ICategoriesLoader
-    private let storiesLoader: IStoriesLoader
-    
-    init(productLoader: IProductsLoader, bannerLoader: IBannersLoader, categoryLoader: ICategoriesLoader, storiesLoader: IStoriesLoader) {
-        self.productsLoader = productLoader
-        self.bannersLoader = bannerLoader
-        self.categoriesLoader = categoryLoader
-        self.storiesLoader = storiesLoader
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private let viewModel: MenuViewModelInput
     
     private let priceButton = PriceButton(price: "270 \u{20BD}")
     private let addressButton = AddressButton()
@@ -74,88 +43,70 @@ final class MenuScreenVC: UIViewController {
         return tableView
     }()
     
+    init(viewModel: MenuViewModelInput) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        
+        (viewModel as? MenuViewModel)?.output = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
         setupObservers()
-        
-        applyState()
-        
-        loadData()
-    }
-}
-
-//MARK: - Business logic
-extension MenuScreenVC {
-    
-    private func loadData() {
-        state = .loading
-        
-        Task {
-            do {
-                async let products = productsLoader.loadProducts()
-                async let banners = bannersLoader.loadBanners()
-                async let categories = categoriesLoader.loadCategories()
-                async let stories = storiesLoader.loadStories()
-                
-                self.products = try await products
-                self.banners = try await banners
-                self.categories = try await categories
-                self.stories = try await stories
-                
-                tableView.reloadData()
-                state = .loaded
-            } catch {
-                state = .error
-            }
-        }
+        viewModel.onViewDidLoad()
     }
 }
 
 //MARK: - View State
-extension MenuScreenVC {
+extension MenuScreenVC: MenuViewModelOutput {
 
-    private func applyState() {
+    func render(state: MenuScreenState) {
         switch state {
-            
-        case .initial:
+        case .initial, .loading:
             shimmerMenuView.isHidden = false
             shimmerMenuView.start()
-            
             tableView.isHidden = true
             errorMenuStateView.isHidden = true
             priceButton.isHidden = true
             addressButton.isHidden = true
-            
-        case .loading:
-            shimmerMenuView.isHidden = false
-            shimmerMenuView.start()
-            
-            tableView.isHidden = true
-            errorMenuStateView.isHidden = true
-            priceButton.isHidden = true
-            addressButton.isHidden = true
-            
+
         case .loaded:
             shimmerMenuView.isHidden = true
             shimmerMenuView.stop()
-            
             tableView.isHidden = false
             errorMenuStateView.isHidden = true
             priceButton.isHidden = false
             addressButton.isHidden = false
-            
+
         case .error:
             shimmerMenuView.isHidden = true
             shimmerMenuView.stop()
-            
             tableView.isHidden = true
             errorMenuStateView.isHidden = false
             priceButton.isHidden = false
             addressButton.isHidden = false
         }
     }
+
+    func reloadData() {
+        tableView.reloadData()
+    }
+
+    func scrollToProduct(at index: Int) {
+         let indexPath = IndexPath(row: index, section: MenuSection.products.rawValue)
+         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+     }
+
+     func openProduct(_ product: Product) {
+         let detailVC = di.screenFactory.makeDetailScreen(product)
+         present(detailVC, animated: true)
+     }
 }
 
 //MARK: - Table DataSource
@@ -168,7 +119,7 @@ extension MenuScreenVC: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        guard let menuSection = MenuSection.init(rawValue: section) else { return 0 }
+        guard let menuSection = MenuSection(rawValue: section) else { return 0 }
         
         switch menuSection {
         case .stories:
@@ -176,27 +127,28 @@ extension MenuScreenVC: UITableViewDataSource {
         case .banners:
             return 1
         case .products:
-            return products.count
+            return (viewModel as? MenuViewModel)?.products.count ?? 0
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let menuSection = MenuSection(rawValue: indexPath.section) else {
+        guard let menuSection = MenuSection(rawValue: indexPath.section),
+                let vm = viewModel as? MenuViewModel else {
             return UITableViewCell()
         }
         
         switch menuSection {
         case .stories:
             let cell = tableView.dequeueCell(indexPath) as StoryCell
-            cell.update(stories)
+            cell.update(vm.stories)
             return cell
         case .banners:
             let cell = tableView.dequeueCell(indexPath) as BannerCell
-            cell.update(banners)
+            cell.update(vm.banners)
             return cell
         case .products:
-            let product = products[indexPath.row]
+            let product = vm.products[indexPath.row]
             
             if product.isPromo == true {
                 let promoCell = tableView.dequeueCell(indexPath) as PromoProductCell
@@ -212,148 +164,63 @@ extension MenuScreenVC: UITableViewDataSource {
 
 //MARK: - Table Delegate
 extension MenuScreenVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        guard let menuSection = MenuSection(rawValue: indexPath.section) else { return }
-        
-        switch menuSection {
-        case .products:
-            productCellSelect(indexPath.row)
-        default: break
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        guard let menuSection = MenuSection.init(rawValue: section) else { return nil }
-        
-        switch menuSection {
-        case .products:
-            
-            guard let header: CategoryContainerHeader = tableView.dequeueHeaderFooter(ofType: CategoryContainerHeader.self) else { return UIView() }
-            
-            header.update(categories)
-            header.onCategoryCellSelect = { category in
-                switch category.type {
-                case .pizza:
-                    
-                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .pizza }) else { return }
-                    let indexPath = IndexPath(row: rowIndex, section: 2)
-                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                    
-                case .combo:
-                    
-                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .combo }) else { return }
-                    let indexPath = IndexPath(row: rowIndex, section: 2)
-                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                    
-                case .snacks:
-                    
-                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .snacks }) else { return }
-                    let indexPath = IndexPath(row: rowIndex, section: 2)
-                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                    
-                case .cocktails:
-                    
-                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .cocktails }) else { return }
-                    let indexPath = IndexPath(row: rowIndex, section: 2)
-                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                    
-                case .coffee:
-                    
-                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .coffee }) else { return }
-                    let indexPath = IndexPath(row: rowIndex, section: 2)
-                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                    
-                case .drinks:
-                    
-                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .drinks }) else { return }
-                    let indexPath = IndexPath(row: rowIndex, section: 2)
-                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                    
-                case .sauces:
-                    
-                    guard let rowIndex = self.products.firstIndex(where: { $0.type == .sauces }) else { return }
-                    let indexPath = IndexPath(row: rowIndex, section: 2)
-                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-                    
-                }
-            }
-            return header
-            
 
-        default:
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard MenuSection(rawValue: indexPath.section) == .products else { return }
+        viewModel.onProductSelected(index: indexPath.row)
+    }
+
+    func tableView(_ tableView: UITableView,
+                   viewForHeaderInSection section: Int) -> UIView? {
+
+        guard MenuSection(rawValue: section) == .products,
+              let vm = viewModel as? MenuViewModel,
+              let header = tableView.dequeueHeaderFooter(
+                ofType: CategoryContainerHeader.self
+              ) else {
             return EmptyView()
         }
-    }
-}
 
-//MARK: - Event Handler
-extension MenuScreenVC {
-    
-    private func priceButtonTap() {
-        navigateToBasketScreen()
-    }
-    
-    private func retryButtonTap() {
-        loadData()
-    }
-    
-    private func addressButtonTap() {
-        navigateToMapScreen()
-    }
-    
-    private func productCellSelect(_ index: Int) {
-        let product = products[index]
-        navigateToDetailScreen(product)
+        header.update(vm.categories)
+        header.onCategoryCellSelect = { [weak self] category in
+            self?.viewModel.onCategorySelected(category)
+        }
+
+        return header
     }
 }
 
 //MARK: - Observers & Actions
 extension MenuScreenVC {
-    
+
     private func setupObservers() {
         errorMenuStateView.onRetryMenuPageTap = { [weak self] in
-            self?.retryButtonTap()
+            self?.viewModel.onRetryTap()
         }
-        
-        priceButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.priceButtonTap()
-        }), for: .touchUpInside)
-        
-        addressButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.addressButtonTap()
-        }), for: .touchUpInside)
+
+        priceButton.addAction(UIAction { [weak self] _ in
+            self?.navigateToBasketScreen()
+        }, for: .touchUpInside)
+
+        addressButton.addAction(UIAction { [weak self] _ in
+            self?.navigateToMapScreen()
+        }, for: .touchUpInside)
     }
 }
 
 //MARK: - Navigation
 extension MenuScreenVC {
-    private func navigateToDetailScreen(_ product: Product) {
-        let detailVC = di.screenFactory.makeDetailScreen(product)
-        self.present(detailVC, animated: true)
-    }
-    
+
     private func navigateToBasketScreen() {
         let basketVC = di.screenFactory.makeBasketScreen()
-        let navController = UINavigationController(rootViewController: basketVC)
-        // Настройка кнопки "Закрыть"
-        basketVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Закрыть", style: .plain, target: basketVC, action: #selector(basketVC.closeTapped))
-        basketVC.navigationItem.leftBarButtonItem?.tintColor = .orange
-        // Заголовок по центру
-        basketVC.navigationItem.title = "Корзина"
-        present(navController, animated: true)
+        let nav = UINavigationController(rootViewController: basketVC)
+        present(nav, animated: true)
     }
-    
+
     private func navigateToMapScreen() {
         let mapVC = MapViewController()
-        let navController = UINavigationController(rootViewController: mapVC)
-        // Настройка кнопки "Закрыть"
-        mapVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Закрыть", style: .plain, target: mapVC, action: #selector(mapVC.closeTapped))
-        mapVC.navigationItem.leftBarButtonItem?.tintColor = .orange
-        // Заголовок по центру
-        mapVC.navigationItem.title = "Карта"
-        present(navController, animated: true)
+        let nav = UINavigationController(rootViewController: mapVC)
+        present(nav, animated: true)
     }
 }
 

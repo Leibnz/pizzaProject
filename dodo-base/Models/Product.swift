@@ -24,3 +24,13 @@ struct Product: Codable, Equatable {
         return lhs.name == rhs.name && lhs.type == rhs.type
     }
 }
+
+extension Product {
+    static func stub(
+        id: Int = 0,
+        type: CategoryType = .pizza,
+        isPromo: Bool = false
+    ) -> Product {
+        Product(id: id, name: "Test", type: type, description: "cheese", price: 100, image: "test.png", isPromo: isPromo)
+    }
+}

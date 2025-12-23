@@ -43,8 +43,15 @@ final class ScreenFactory {
     
     weak var di: DependencyContainer!
 
-    func makeMenuScreen() -> MenuScreenVC {
-        return MenuScreenVC(productLoader: di.productsLoader, bannerLoader: di.bannerLoader, categoryLoader: di.categoryLoader, storiesLoader: di.storiesLoader)
+    @MainActor func makeMenuScreen() -> MenuScreenVC {
+        let viewModel = MenuViewModel(
+            productLoader: di.productsLoader,
+            bannerLoader: di.bannerLoader,
+            categoryLoader: di.categoryLoader,
+            storiesLoader: di.storiesLoader
+        )
+        
+        return MenuScreenVC(viewModel: viewModel)
     }
     
     func makeDetailScreen(_ product: Product) -> DetailProductVC {
