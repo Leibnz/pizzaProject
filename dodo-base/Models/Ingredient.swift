@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 struct Ingredient: Codable, Equatable {
     var image: String
     var name: String

@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 struct BasketItem {
     let product: Product
     var count: Int

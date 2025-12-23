@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4907D6162EF7D88C00D820CF /* MenuScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4907D6152EF7D88C00D820CF /* MenuScreenState.swift */; };
+		4907D6182EF7DA0200D820CF /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4907D6172EF7DA0200D820CF /* MenuViewModel.swift */; };
 		490998312E957037009ABC1D /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490998302E957037009ABC1D /* DependencyContainer.swift */; };
 		490CE3B62E2FE64D00ED209A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 490CE3B52E2FE64D00ED209A /* SnapKit */; };
 		490CE4372E314FF100ED209A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490CE4222E314FF100ED209A /* AppDelegate.swift */; };
@@ -84,6 +86,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4907D6152EF7D88C00D820CF /* MenuScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreenState.swift; sourceTree = "<group>"; };
+		4907D6172EF7DA0200D820CF /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		490998302E957037009ABC1D /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		490CE4222E314FF100ED209A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		490CE4232E314FF100ED209A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -215,6 +219,8 @@
 			isa = PBXGroup;
 			children = (
 				490CE4272E314FF100ED209A /* MenuScreenVC.swift */,
+				4907D6152EF7D88C00D820CF /* MenuScreenState.swift */,
+				4907D6172EF7DA0200D820CF /* MenuViewModel.swift */,
 				490CE4262E314FF100ED209A /* Cells */,
 			);
 			path = Menu;
@@ -549,6 +555,7 @@
 				497A1F052E672955006B02A3 /* AddressButton.swift in Sources */,
 				490CE4372E314FF100ED209A /* AppDelegate.swift in Sources */,
 				49293DC02ECCC9410085A966 /* EmptyBasketView.swift in Sources */,
+				4907D6182EF7DA0200D820CF /* MenuViewModel.swift in Sources */,
 				49412F032EBBBC86005C5CAB /* PromoProductCell.swift in Sources */,
 				490CE4382E314FF100ED209A /* SceneDelegate.swift in Sources */,
 				4923E9622E5792DD00C6E94D /* IngredientsCell.swift in Sources */,
@@ -592,6 +599,7 @@
 				496688122EC38D67000A1DC4 /* ProductsStorage.swift in Sources */,
 				495623872EC8490F00B29049 /* BasketItem.swift in Sources */,
 				490CE43B2E314FF100ED209A /* Product.swift in Sources */,
+				4907D6162EF7D88C00D820CF /* MenuScreenState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

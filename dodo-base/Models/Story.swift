@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 struct Story: Codable, Equatable {
     var id: Int
     var image: String

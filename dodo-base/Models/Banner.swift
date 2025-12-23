@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 struct Banner: Codable, Equatable {
     var id: Int
     var image: String

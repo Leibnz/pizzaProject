@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 enum PizzaSize: Int, Codable {
     case small = 20
     case medium = 25

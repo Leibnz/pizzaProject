@@ -87,7 +87,7 @@ extension OptionsPizzaCell {
 //MARK: - Event Handler
 extension OptionsPizzaCell {
     @objc private func sizeSegmentedChanged(_ sender: UISegmentedControl) {
-        let index = sender.selectedSegmentIndex
+        //let index = sender.selectedSegmentIndex
         
         
         

@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 enum PizzaDough: String, Codable {
     case traditional
     case thin
