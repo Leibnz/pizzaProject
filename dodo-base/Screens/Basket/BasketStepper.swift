@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class BasketStepper: UIControl {
     var currentValue = 1 {
         didSet {

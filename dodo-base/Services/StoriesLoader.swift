@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol IStoriesLoader {
     func loadStories() async throws -> [Story]
 }
@@ -30,9 +29,7 @@ struct StoriesLoader: IStoriesLoader {
     }
     
     func loadStories() async throws -> [Story] {
-        
         let data = try await httpClient.fetch(url: storiesURL)
-        
         do {
             let stories = try decoder.decode([Story].self, from: data)
             return stories

@@ -9,8 +9,9 @@ import Foundation
 import UIKit
 import SnapKit
 
-
 final class AddressView: UIView {
+    
+    var onAddressTapped: (() -> Void)?
     
     private let descriptionAddressLabel: UILabel = {
         let label = UILabel()
@@ -45,6 +46,7 @@ final class AddressView: UIView {
         super.init(frame: frame)
         setupViews()
         setupConstraints()
+        setupTextField()
     }
     
     required init?(coder: NSCoder) {
@@ -64,5 +66,18 @@ final class AddressView: UIView {
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(16)
         }
+    }
+    
+    private func setupTextField() {
+        addressTextField.delegate = self
+        addressTextField.tintColor = .clear // убираем курсор
+    }
+}
+
+extension AddressView: UITextFieldDelegate {
+
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        onAddressTapped?()
+        return false // ⛔️ клавиатура не появляется
     }
 }

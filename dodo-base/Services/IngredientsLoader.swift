@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol IIngredientsLoader {
     func loadIngredients() async throws -> [Ingredient]
 }
@@ -30,9 +29,7 @@ struct IngredientsLoader: IIngredientsLoader {
     }
     
     func loadIngredients() async throws -> [Ingredient] {
-        
         let data = try await httpClient.fetch(url: ingredientsURL)
-        
         do {
             let ingredients = try decoder.decode([Ingredient].self, from: data)
             return ingredients

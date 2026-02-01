@@ -8,7 +8,6 @@
 import UIKit
 import Kingfisher
 
-
 final class PromoProductCell: UITableViewCell {
     
     static let reuseId = "PromoProductCell"
@@ -78,7 +77,6 @@ final class PromoProductCell: UITableViewCell {
     }()
     
     // MARK: - Init
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -97,7 +95,6 @@ final class PromoProductCell: UITableViewCell {
     }
     
 // MARK: - Update
-    
     func update(_ product: Product) {
         if let url = URL(string: product.image) {
             productImageView.kf.setImage(with: url)
@@ -107,7 +104,6 @@ final class PromoProductCell: UITableViewCell {
         priceButton.setTitle("от \(product.price) \u{20BD}", for: .normal)
     }
 }
-
 
 // MARK: - Layout
 private extension PromoProductCell {

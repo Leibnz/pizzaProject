@@ -14,7 +14,6 @@ protocol IHTTPClient {
     func fetch(url: URL) async throws -> Data
 }
 
-
 struct HTTPClient: IHTTPClient {
     func fetch(url: URL) async throws -> Data {
         let (data, response) = try await URLSession.shared.data(from: url)
@@ -25,7 +24,6 @@ struct HTTPClient: IHTTPClient {
         
         return data
     }
-    
     
     //MARK: Старый метод
     //    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {

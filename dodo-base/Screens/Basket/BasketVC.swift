@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 
-
 private enum BasketState {
     case empty
     case filled
@@ -70,7 +69,6 @@ final class BasketVC: UIViewController {
 
 //MARK: - Business logic
 extension BasketVC {
-    
     private func fetchAdditions() {
         Task {
             do {
@@ -93,7 +91,6 @@ extension BasketVC {
 
 //MARK: - View State
 extension BasketVC {
-    
     private func updateState() {
         state = products.isEmpty ? .empty : .filled
     }
@@ -115,7 +112,6 @@ extension BasketVC {
 
 //MARK: - Table DataSource
 extension BasketVC: UITableViewDataSource {
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return BasketSection.allCases.count
     }
@@ -185,7 +181,6 @@ extension BasketVC: UITableViewDataSource {
 
 //MARK: - Event Handler
 extension BasketVC {
-    
     private func onProductCountChanged(updatedProduct: Product, newCount: Int) {
         
         // 1) Обновляем storage
@@ -213,7 +208,6 @@ extension BasketVC {
 
 //MARK: - Observers
 extension BasketVC {
-    
     private func setupObservers() {
         emptyBasketView.onBackToMenuButtonTap = {
             self.dismiss(animated: true)
@@ -223,7 +217,6 @@ extension BasketVC {
 
 //MARK: - Layout
 extension BasketVC {
-    
     private func setupViews() {
         view.backgroundColor = .white
         view.addSubview(basketTableView)

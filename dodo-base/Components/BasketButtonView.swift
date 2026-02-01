@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class BasketButtonView: UIView {
     
     private let basketOrderButton: UIButton = {

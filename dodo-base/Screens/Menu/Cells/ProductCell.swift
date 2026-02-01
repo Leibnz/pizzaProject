@@ -8,7 +8,6 @@
 import UIKit
 import Kingfisher
 
-
 final class ProductCell: UITableViewCell {
     
     static let reuseId = "ProductCell"

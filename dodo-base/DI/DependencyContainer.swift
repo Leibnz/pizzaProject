@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 final class DependencyContainer {
     
     let decoder: JSONDecoder
@@ -38,7 +37,7 @@ final class DependencyContainer {
     }
 }
 
-//MARK: Контейнер для создания все экранов
+//MARK: Контейнер для создания всех экранов
 final class ScreenFactory {
     
     weak var di: DependencyContainer!

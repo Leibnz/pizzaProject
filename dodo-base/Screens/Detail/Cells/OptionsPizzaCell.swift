@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class OptionsPizzaCell: UITableViewCell {
     
     private let sizes = ["20 см", "25 см", "30 см", "35 см"]
@@ -61,7 +60,6 @@ final class OptionsPizzaCell: UITableViewCell {
     }
 }
 
-
 //MARK: - Get data
 extension OptionsPizzaCell {
     func update(_ product: Product) {
@@ -79,10 +77,8 @@ extension OptionsPizzaCell {
 //        }
         
         
-        
     }
 }
-
 
 //MARK: - Event Handler
 extension OptionsPizzaCell {

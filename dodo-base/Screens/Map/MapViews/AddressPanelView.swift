@@ -8,10 +8,14 @@
 import UIKit
 import SnapKit
 
-
 final class AddressPanelView: UIView {
     
     var onAddressChanged: ((String) -> Void)?
+    var onAddressTapped: (() -> Void)? {
+        didSet {
+            addressView.onAddressTapped = onAddressTapped
+        }
+    }
     
     var timer: Timer?
     var delayValue: Double = 2.0
@@ -62,7 +66,6 @@ final class AddressPanelView: UIView {
         addressView.addressTextField.addTarget(nil, action: #selector(addressTextFieldChanged(_:)), for: .editingChanged)
     }
 }
-
 
 //MARK: - Event Handler
 extension AddressPanelView {

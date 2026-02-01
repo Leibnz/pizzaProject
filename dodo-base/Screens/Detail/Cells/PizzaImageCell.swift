@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class PizzaImageCell: UITableViewCell {
     
     private let pizzaImageView: UIImageView = {
@@ -40,7 +39,6 @@ final class PizzaImageCell: UITableViewCell {
         }
     }
 }
-
 
 //MARK: - Get an image
 extension PizzaImageCell {

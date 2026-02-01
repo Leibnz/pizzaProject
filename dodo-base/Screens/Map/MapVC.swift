@@ -7,11 +7,8 @@
 
 import UIKit
 import SnapKit
-
 import MapKit
-
 import CoreLocation
-
 
 final class MapViewController: UIViewController {
     
@@ -64,6 +61,10 @@ extension MapViewController {
         addressPanelView.onAddressChanged = { [weak self] addressText in
             guard let self else { return }
             self.showAddressOnMap(addressText)
+        }
+        
+        addressPanelView.onAddressTapped = { [weak self] in
+            self?.navigateToDadataScreen()
         }
     }
 }
@@ -125,6 +126,15 @@ extension MapViewController: MKMapViewDelegate {
         
         let center = mapView.centerCoordinate
         print("will change ->", center)
+    }
+}
+
+//MARK: - Navigation
+extension MapViewController {
+    private func navigateToDadataScreen() {
+        let dadataVC = DadataViewController()
+        let nav = UINavigationController(rootViewController: dadataVC)
+        present(nav, animated: true)
     }
 }
 
