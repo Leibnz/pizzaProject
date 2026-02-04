@@ -8,7 +8,6 @@
 import UIKit
 import Kingfisher
 
-
 final class BannerCollectionCell: UICollectionViewCell {
     
     static let reuseId = "BannerCollectionCell"
@@ -91,7 +90,6 @@ final class BannerCollectionCell: UICollectionViewCell {
         }
     }
 }
-
 
 //MARK: - Get an image
 extension BannerCollectionCell {

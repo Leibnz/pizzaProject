@@ -8,7 +8,6 @@
 import UIKit
 import Kingfisher
 
-
 final class IngredientsCollectionCell: UICollectionViewCell {
     
     static let reuseId = "IngredientsCollectionCell"
@@ -54,7 +53,6 @@ final class IngredientsCollectionCell: UICollectionViewCell {
         setupConstraints()
     }
     
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -93,7 +91,6 @@ final class IngredientsCollectionCell: UICollectionViewCell {
         }
     }
 }
-
 
 //MARK: - Get data
 extension IngredientsCollectionCell {

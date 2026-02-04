@@ -54,7 +54,6 @@ final class CategoryContainerHeader: UITableViewHeaderFooterView {
     }
 }
 
-
 //MARK: - CollectionViewDataSource and CollectionViewDelegate
 extension CategoryContainerHeader: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -81,7 +80,6 @@ extension CategoryContainerHeader: UICollectionViewDelegate {
         onCategoryCellSelect?(categories[indexPath.item])
     }
 }
-
 
 //MARK: - Get an array of data
 extension CategoryContainerHeader {

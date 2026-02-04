@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class PriceButton: UIButton {
     
     init(price: String) {

@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class AddProductCell: UITableViewCell {
     
     static let reuseId = "AddProductCell"
@@ -90,7 +89,6 @@ final class AddProductCell: UITableViewCell {
     }
 }
 
-
 //MARK: - CollectionViewDataSource
 
 extension AddProductCell: UICollectionViewDataSource {
@@ -105,7 +103,6 @@ extension AddProductCell: UICollectionViewDataSource {
         return cell
     }
 }
-
 
 //MARK: - Get an array of data
 extension AddProductCell {

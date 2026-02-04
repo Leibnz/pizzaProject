@@ -11,6 +11,7 @@ protocol StoryCellDelegate: AnyObject {
     func didSelectStory(_ story: Story, stories: [Story])
 }
 
+
 final class StoryCell: UITableViewCell {
     
     static let reuseId = "StoriesCell"
@@ -57,7 +58,6 @@ final class StoryCell: UITableViewCell {
         }
     }
 }
-
 
 //MARK: - CollectionViewDataSource
 extension StoryCell: UICollectionViewDataSource {

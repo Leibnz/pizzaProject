@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class IngredientsCell: UITableViewCell {
     
     static let reuseID = "IngredientsCell"
@@ -82,7 +81,6 @@ extension IngredientsCell: UICollectionViewDelegate, UICollectionViewDataSource 
         return cell
     }
 }
-
 
 //MARK: - Get an array of data
 extension IngredientsCell {

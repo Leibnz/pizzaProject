@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class ShimmerMenuView: UIView {
     
     private var shimmerLayers: [CAGradientLayer] = []
@@ -32,7 +31,6 @@ final class ShimmerMenuView: UIView {
         }
     }
 }
-
 
 //MARK: - Extension
 extension ShimmerMenuView {
@@ -87,7 +85,6 @@ extension ShimmerMenuView {
     }
 }
 
-
 //MARK: - Animation of shimmers
 extension ShimmerMenuView {
     
@@ -131,7 +128,6 @@ extension ShimmerMenuView {
         return animation
     }
 }
-
 
 //MARK: - Recursive helper, чтобы находить все skeleton-views
 private extension UIView {

@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class AddProductCollectionCell: UICollectionViewCell {
     
     static let reuseId = "AddProductCollectionCell"
@@ -99,10 +98,8 @@ final class AddProductCollectionCell: UICollectionViewCell {
     }
 }
 
-
 //MARK: - Get data
 extension AddProductCollectionCell {
-    
     func update(_ addition: Product) {
         let url = URL(string: addition.image)
         addProductImage.kf.setImage(with: url)

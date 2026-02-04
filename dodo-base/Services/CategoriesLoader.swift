@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol ICategoriesLoader {
     func loadCategories() async throws -> [Category]
 }
@@ -30,9 +29,7 @@ struct CategoriesLoader: ICategoriesLoader {
     }
     
     func loadCategories() async throws -> [Category] {
-        
         let data = try await httpClient.fetch(url: categoriesURL)
-        
         do {
             let categories = try decoder.decode([Category].self, from: data)
             return categories
