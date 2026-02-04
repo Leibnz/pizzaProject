@@ -142,6 +142,7 @@ extension MenuScreenVC: UITableViewDataSource {
         case .stories:
             let cell = tableView.dequeueCell(indexPath) as StoryCell
             cell.update(vm.stories)
+            cell.delegate = self
             return cell
         case .banners:
             let cell = tableView.dequeueCell(indexPath) as BannerCell
@@ -221,6 +222,16 @@ extension MenuScreenVC {
         let mapVC = MapViewController()
         let nav = UINavigationController(rootViewController: mapVC)
         present(nav, animated: true)
+    }
+}
+
+//MARK: - StoryNavigation
+extension MenuScreenVC: StoryCellDelegate {
+    func didSelectStory(_ story: Story, stories: [Story]) {
+        let viewModel = StoriesViewModel(stories: stories, selectedStory: story)
+        let vc = StoriesVC(viewModel: viewModel)
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
     }
 }
 

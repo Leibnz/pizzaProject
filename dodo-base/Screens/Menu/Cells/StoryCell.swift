@@ -7,6 +7,9 @@
 
 import UIKit
 
+protocol StoryCellDelegate: AnyObject {
+    func didSelectStory(_ story: Story, stories: [Story])
+}
 
 
 final class StoryCell: UITableViewCell {
@@ -14,6 +17,7 @@ final class StoryCell: UITableViewCell {
     static let reuseId = "StoriesCell"
     
     var stories: [Story] = []
+    weak var delegate: StoryCellDelegate?
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -27,6 +31,7 @@ final class StoryCell: UITableViewCell {
         
         collectionView.register(StoryCollectionCell.self, forCellWithReuseIdentifier: "StoriesCollectionCell")
         collectionView.dataSource = self
+        collectionView.delegate = self
         
         return collectionView
     }()
@@ -65,6 +70,14 @@ extension StoryCell: UICollectionViewDataSource {
         let story = stories[indexPath.item]
         cell.update(story)
         return cell
+    }
+}
+
+//MARK: - CollectionViewDelegate
+extension StoryCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let story = stories[indexPath.item]
+        delegate?.didSelectStory(story, stories: stories)
     }
 }
 
