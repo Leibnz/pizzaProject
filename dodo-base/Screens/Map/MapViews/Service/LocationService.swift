@@ -8,7 +8,6 @@
 import UIKit
 import CoreLocation
 
-
 class LocationService: NSObject {
     
     private lazy var locationManager: CLLocationManager = {
@@ -34,7 +33,6 @@ extension LocationService {
         onLocationFetched = completion
     }
 }
-
 
 extension LocationService: CLLocationManagerDelegate {
     

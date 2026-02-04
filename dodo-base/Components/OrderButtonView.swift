@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class OrderButtonView: UIView {
     
     //declaration

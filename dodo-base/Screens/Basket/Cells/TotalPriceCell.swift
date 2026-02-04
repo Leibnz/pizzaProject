@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class TotalPriceCell: UITableViewCell {
     
     static let reuseId = "TotalPriceCell"

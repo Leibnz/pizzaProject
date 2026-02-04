@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 extension UIImage {
     func resized(to size: CGSize) -> UIImage {
         let renderer = UIGraphicsImageRenderer(size: size)

@@ -8,7 +8,6 @@
 import UIKit
 import Kingfisher
 
-
 final class StoryCollectionCell: UICollectionViewCell {
     
     static let reuseId = "StoriesCollectionCell"
@@ -45,7 +44,6 @@ final class StoryCollectionCell: UICollectionViewCell {
         }
     }
 }
-
 
 //MARK: - Get an image
 extension StoryCollectionCell {

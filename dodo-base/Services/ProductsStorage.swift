@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 //Класс-сервис - бизнес-логика - архивируем массив продуктов
 
 protocol IProductsStorage {

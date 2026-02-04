@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class EmptyView: UIView {
     
     private var containerView: UIView = {

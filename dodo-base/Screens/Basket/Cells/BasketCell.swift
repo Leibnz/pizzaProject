@@ -140,7 +140,6 @@ final class BasketCell: UITableViewCell {
     }
 }
 
-
 //MARK: - Get an array of data
 extension BasketCell {
     

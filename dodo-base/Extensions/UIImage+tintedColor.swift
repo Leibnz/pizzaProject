@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 extension UIImage {
     func tinted(with color: UIColor) -> UIImage {
         let renderer = UIGraphicsImageRenderer(size: size)

@@ -9,7 +9,6 @@ import Testing
 import Foundation
 @testable import PizzaProject
 
-
 final class StubHTTPClient: IHTTPClient {
 
     enum StubMode {
@@ -32,7 +31,6 @@ final class StubHTTPClient: IHTTPClient {
         }
     }
 }
-
 
 struct PizzaProjectTests {
 
@@ -76,8 +74,8 @@ struct PizzaProjectTests {
     func testLoadProductsSuccess() async throws {
         
         let products = [
-            Product(id: 1, name: "Гавайская", type: "pizza", description: "Двойная порция цыпленка, ананасы", price: 300, image: "hawaii", isPromo: true),
-            Product(id: 2, name: "Добрый Кола", type: "drinks", description: "", price: 100, image: "cola", isPromo: false)
+            Product(id: 1, name: "Гавайская", type: CategoryType.pizza, description: "Двойная порция цыпленка, ананасы", price: 300, image: "hawaii", isPromo: true),
+            Product(id: 2, name: "Добрый Кола", type: CategoryType.drinks, description: "", price: 100, image: "cola", isPromo: false)
         ]
         
         let jsonData = try JSONEncoder().encode(products)
@@ -109,7 +107,6 @@ struct PizzaProjectTests {
     }
 }
 
-
 //MARK: - Ingredients tests
 @Test("loadIngredients throws on HTTP error")
 func testLoadIngredientsHttpError() async {
@@ -135,7 +132,6 @@ func testLoadIngredientsDecodingError() async {
         _ = try await loader.loadIngredients()
     }
 }
-
 
 //MARK: - Banners tests
 @Test("loadBanners throws on HTTP error")
@@ -163,7 +159,6 @@ func testLoadBannersDecodingError() async {
     }
 }
 
-
 //MARK: - Products tests
 @Test("loadProducts throws on HTTP error")
 func testLoadProductsHttpError() async {
@@ -189,7 +184,6 @@ func testLoadProductsDecodingError() async {
         _ = try await loader.loadProducts()
     }
 }
-
 
 //MARK: - Stories tests
 @Test("loadStories throws on HTTP error")

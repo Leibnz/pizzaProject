@@ -53,7 +53,6 @@ final class CategoryCollectionCell: UICollectionViewCell {
     }
 }
 
-
 //MARK: - Update text label
 extension CategoryCollectionCell {
     

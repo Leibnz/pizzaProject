@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol IBannersLoader {
     func loadBanners() async throws -> [Banner]
 }
@@ -30,9 +29,7 @@ struct BannersLoader: IBannersLoader {
     }
 
     func loadBanners() async throws -> [Banner] {
-
         let data = try await httpClient.fetch(url: bannersURL)
-        
         do {
             let banners = try decoder.decode([Banner].self, from: data)
             return banners

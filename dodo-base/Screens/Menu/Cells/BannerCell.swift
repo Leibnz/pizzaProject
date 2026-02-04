@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class BannerCell: UITableViewCell {
     
     static let reuseId = "BannerCell"
@@ -54,7 +53,6 @@ final class BannerCell: UITableViewCell {
     }
 }
 
-
 //MARK: - CollectionViewDataSource
 extension BannerCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -68,7 +66,6 @@ extension BannerCell: UICollectionViewDataSource {
         return cell
     }
 }
-
 
 //MARK: - Get an array of data
 extension BannerCell {

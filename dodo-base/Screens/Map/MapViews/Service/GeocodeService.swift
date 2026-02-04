@@ -8,7 +8,6 @@
 import Foundation
 import CoreLocation
 
-
 class GeocodeService {
     
     var geoCoder = CLGeocoder()

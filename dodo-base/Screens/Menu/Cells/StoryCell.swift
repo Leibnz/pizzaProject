@@ -8,6 +8,7 @@
 import UIKit
 
 
+
 final class StoryCell: UITableViewCell {
     
     static let reuseId = "StoriesCell"
@@ -53,7 +54,6 @@ final class StoryCell: UITableViewCell {
     }
 }
 
-
 //MARK: - CollectionViewDataSource
 extension StoryCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -67,7 +67,6 @@ extension StoryCell: UICollectionViewDataSource {
         return cell
     }
 }
-
 
 //MARK: - Get an array of data
 extension StoryCell {

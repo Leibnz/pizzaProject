@@ -54,6 +54,10 @@
 		49631D9F2EA952770086952C /* PizzaDough.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49631D9E2EA952770086952C /* PizzaDough.swift */; };
 		496688122EC38D67000A1DC4 /* ProductsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496688112EC38D66000A1DC4 /* ProductsStorage.swift */; };
 		496688142EC3A820000A1DC4 /* TotalPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496688132EC3A820000A1DC4 /* TotalPriceCell.swift */; };
+		497527292F0025AC005AD52F /* DadataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497527282F0025AC005AD52F /* DadataViewController.swift */; };
+		4975272C2F0025E0005AD52F /* AddressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4975272B2F0025E0005AD52F /* AddressService.swift */; };
+		4975272E2F0025EE005AD52F /* DadataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4975272D2F0025EE005AD52F /* DadataModel.swift */; };
+		497527302F00260B005AD52F /* DadataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4975272F2F00260B005AD52F /* DadataViewModel.swift */; };
 		497A1F052E672955006B02A3 /* AddressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497A1F042E672955006B02A3 /* AddressButton.swift */; };
 		497A1F082E673267006B02A3 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497A1F072E673267006B02A3 /* MapVC.swift */; };
 		497A1F0B2E673388006B02A3 /* AddressPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497A1F0A2E673388006B02A3 /* AddressPanelView.swift */; };
@@ -61,6 +65,10 @@
 		497A1F0F2E67363B006B02A3 /* AddressSaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497A1F0E2E67363B006B02A3 /* AddressSaveButton.swift */; };
 		497A1F122E673B0F006B02A3 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497A1F112E673B0F006B02A3 /* LocationService.swift */; };
 		497A1F142E673B18006B02A3 /* GeocodeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497A1F132E673B18006B02A3 /* GeocodeService.swift */; };
+		498D438B2EFB07D000787BBB /* DadataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498D438A2EFB07D000787BBB /* DadataService.swift */; };
+		498D438D2EFB0BA800787BBB /* AddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498D438C2EFB0BA800787BBB /* AddressViewController.swift */; };
+		49ABE5F02F13D624000DAB7D /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49ABE5EF2F13D624000DAB7D /* ShimmerView.swift */; };
+		49ABE5F22F13D63B000DAB7D /* ShimmerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49ABE5F12F13D63B000DAB7D /* ShimmerViewCell.swift */; };
 		49B361842E4518D2009952BB /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B361832E4518D2009952BB /* Category.swift */; };
 		49B3619F2E464139009952BB /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B3619E2E464139009952BB /* Banner.swift */; };
 		49BFC5D42E8EE0DF007D812B /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BFC5D32E8EE0DF007D812B /* HTTPClient.swift */; };
@@ -133,6 +141,10 @@
 		49631D9E2EA952770086952C /* PizzaDough.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PizzaDough.swift; sourceTree = "<group>"; };
 		496688112EC38D66000A1DC4 /* ProductsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsStorage.swift; sourceTree = "<group>"; };
 		496688132EC3A820000A1DC4 /* TotalPriceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalPriceCell.swift; sourceTree = "<group>"; };
+		497527282F0025AC005AD52F /* DadataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DadataViewController.swift; sourceTree = "<group>"; };
+		4975272B2F0025E0005AD52F /* AddressService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressService.swift; sourceTree = "<group>"; };
+		4975272D2F0025EE005AD52F /* DadataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DadataModel.swift; sourceTree = "<group>"; };
+		4975272F2F00260B005AD52F /* DadataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DadataViewModel.swift; sourceTree = "<group>"; };
 		497A1F042E672955006B02A3 /* AddressButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressButton.swift; sourceTree = "<group>"; };
 		497A1F072E673267006B02A3 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		497A1F0A2E673388006B02A3 /* AddressPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressPanelView.swift; sourceTree = "<group>"; };
@@ -140,6 +152,10 @@
 		497A1F0E2E67363B006B02A3 /* AddressSaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressSaveButton.swift; sourceTree = "<group>"; };
 		497A1F112E673B0F006B02A3 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		497A1F132E673B18006B02A3 /* GeocodeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodeService.swift; sourceTree = "<group>"; };
+		498D438A2EFB07D000787BBB /* DadataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DadataService.swift; sourceTree = "<group>"; };
+		498D438C2EFB0BA800787BBB /* AddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressViewController.swift; sourceTree = "<group>"; };
+		49ABE5EF2F13D624000DAB7D /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
+		49ABE5F12F13D63B000DAB7D /* ShimmerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerViewCell.swift; sourceTree = "<group>"; };
 		49B361832E4518D2009952BB /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		49B3619E2E464139009952BB /* Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
 		49BFC5D32E8EE0DF007D812B /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
@@ -244,6 +260,7 @@
 		490CE42B2E314FF100ED209A /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				4975272A2F0025B3005AD52F /* Dadata */,
 				497A1F062E673241006B02A3 /* Map */,
 				490CE4282E314FF100ED209A /* Menu */,
 				4923E9612E5792DD00C6E94D /* Detail */,
@@ -361,11 +378,26 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		4975272A2F0025B3005AD52F /* Dadata */ = {
+			isa = PBXGroup;
+			children = (
+				497527282F0025AC005AD52F /* DadataViewController.swift */,
+				49ABE5EF2F13D624000DAB7D /* ShimmerView.swift */,
+				49ABE5F12F13D63B000DAB7D /* ShimmerViewCell.swift */,
+				4975272B2F0025E0005AD52F /* AddressService.swift */,
+				4975272D2F0025EE005AD52F /* DadataModel.swift */,
+				4975272F2F00260B005AD52F /* DadataViewModel.swift */,
+			);
+			path = Dadata;
+			sourceTree = "<group>";
+		};
 		497A1F062E673241006B02A3 /* Map */ = {
 			isa = PBXGroup;
 			children = (
 				497A1F072E673267006B02A3 /* MapVC.swift */,
 				497A1F092E6732C8006B02A3 /* MapViews */,
+				498D438A2EFB07D000787BBB /* DadataService.swift */,
+				498D438C2EFB0BA800787BBB /* AddressViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -547,11 +579,14 @@
 				4923E9762E5B88FE00C6E94D /* BasketButtonView.swift in Sources */,
 				4923E9562E5792C600C6E94D /* IngredientsLoader.swift in Sources */,
 				490998312E957037009ABC1D /* DependencyContainer.swift in Sources */,
+				498D438B2EFB07D000787BBB /* DadataService.swift in Sources */,
+				49ABE5F22F13D63B000DAB7D /* ShimmerViewCell.swift in Sources */,
 				4923E9582E5792C600C6E94D /* StoriesLoader.swift in Sources */,
 				497A1F122E673B0F006B02A3 /* LocationService.swift in Sources */,
 				4923E9592E5792C600C6E94D /* CategoriesLoader.swift in Sources */,
 				497A1F082E673267006B02A3 /* MapVC.swift in Sources */,
 				495C510B2E3A808D00CF27AA /* BannerCollectionCell.swift in Sources */,
+				497527302F00260B005AD52F /* DadataViewModel.swift in Sources */,
 				497A1F052E672955006B02A3 /* AddressButton.swift in Sources */,
 				490CE4372E314FF100ED209A /* AppDelegate.swift in Sources */,
 				49293DC02ECCC9410085A966 /* EmptyBasketView.swift in Sources */,
@@ -576,6 +611,8 @@
 				49FA27A12E4659A900FD2FBB /* StoryCell.swift in Sources */,
 				49BFC5D42E8EE0DF007D812B /* HTTPClient.swift in Sources */,
 				497A1F0D2E6733FD006B02A3 /* AddressView.swift in Sources */,
+				4975272E2F0025EE005AD52F /* DadataModel.swift in Sources */,
+				497527292F0025AC005AD52F /* DadataViewController.swift in Sources */,
 				491261202E3CF3280044ADB7 /* CategoryCollectionCell.swift in Sources */,
 				4923E9162E56326600C6E94D /* OrderButtonView.swift in Sources */,
 				491261342E3CF8FF0044ADB7 /* CategoryContainerHeader.swift in Sources */,
@@ -587,16 +624,19 @@
 				49FA27A32E4659F300FD2FBB /* StoryCollectionCell.swift in Sources */,
 				497A1F142E673B18006B02A3 /* GeocodeService.swift in Sources */,
 				49DD57202ED233CB009BC6BD /* ErrorMenuStateView.swift in Sources */,
+				4975272C2F0025E0005AD52F /* AddressService.swift in Sources */,
 				49412F012EBBB646005C5CAB /* EmptyView.swift in Sources */,
 				4923E9462E57913300C6E94D /* BasketVC.swift in Sources */,
 				49B3619F2E464139009952BB /* Banner.swift in Sources */,
 				4923E94C2E5792C100C6E94D /* UITableView+dequeueCell.swift in Sources */,
 				4923E94D2E5792C100C6E94D /* UITableViewCell+reuseID.swift in Sources */,
+				498D438D2EFB0BA800787BBB /* AddressViewController.swift in Sources */,
 				49DD57532ED311F4009BC6BD /* ShimmerMenuView.swift in Sources */,
 				49631D9D2EA952610086952C /* PizzaSize.swift in Sources */,
 				4923E94E2E5792C100C6E94D /* UIView+shadow.swift in Sources */,
 				4923E9072E542E6900C6E94D /* Ingredient.swift in Sources */,
 				496688122EC38D67000A1DC4 /* ProductsStorage.swift in Sources */,
+				49ABE5F02F13D624000DAB7D /* ShimmerView.swift in Sources */,
 				495623872EC8490F00B29049 /* BasketItem.swift in Sources */,
 				490CE43B2E314FF100ED209A /* Product.swift in Sources */,
 				4907D6162EF7D88C00D820CF /* MenuScreenState.swift in Sources */,

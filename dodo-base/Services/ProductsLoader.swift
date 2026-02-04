@@ -7,12 +7,10 @@
 
 import Foundation
 
-
 protocol IProductsLoader {
 //    func loadProducts(handler: @escaping (Result<[Product], Error>) -> Void)
     func loadProducts() async throws -> [Product]
 }
-
 
 struct ProductsLoader: IProductsLoader {
     
@@ -32,9 +30,7 @@ struct ProductsLoader: IProductsLoader {
     }
     
     func loadProducts() async throws -> [Product] {
-        
         let data = try await httpClient.fetch(url: productsURL)
-        
         do {
             let products = try decoder.decode([Product].self, from: data)
             return products
