@@ -94,7 +94,7 @@ final class PromoProductCell: UITableViewCell {
         applyGradient()
     }
     
-// MARK: - Update
+    // MARK: - Update
     func update(_ product: Product) {
         if let url = URL(string: product.image) {
             productImageView.kf.setImage(with: url)
