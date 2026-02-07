@@ -10,11 +10,25 @@ import UIKit
 final class StoriesCollectionCell: UICollectionViewCell {
     
     static let reuseId = "StoriesCollectionCell"
-    
-    private let imageView = UIImageView()
-    private let progressView = UIProgressView(progressViewStyle: .default)
+        
+    // MARK: - Properties
     private var progressTimer: Timer?
+
+    //MARK: - UI Elements
+    private let imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.clipsToBounds = true
+        return iv
+    }()
     
+    private let progressView: UIProgressView = {
+        let pv = UIProgressView(progressViewStyle: .default)
+        pv.progressTintColor = .systemOrange
+        return pv
+    }()
+    
+    //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -30,42 +44,29 @@ final class StoriesCollectionCell: UICollectionViewCell {
         progressView.progress = 0
     }
     
+    //MARK: - Setup
     private func setup() {
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        
-//        progressView.progressTintColor = .blue
-//        progressView.trackTintColor = .orange
-        
-        //Мой вариант
-//        progressView.progressTintColor = .systemGray6
-//        progressView.trackTintColor = .white
-//        progressView.alpha = 0.8
-//        progressView.backgroundColor = .orange
-//        progressView.transform = CGAffineTransform(scaleX: 1.0, y: 3.0)
-        
         contentView.addSubview(imageView)
         contentView.addSubview(progressView)
         
-        imageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        imageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
-        progressView.snp.makeConstraints {
-            //Мой вариант работы с UI
-//            $0.top.equalTo(contentView.safeAreaLayoutGuide).offset(50)
-//            $0.left.right.equalTo(contentView.safeAreaLayoutGuide).inset(16)
-            $0.top.equalToSuperview().offset(50)
-            $0.left.right.equalToSuperview().inset(16)
+        progressView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(60)
+            make.left.right.equalToSuperview().inset(16)
         }
     }
     
+    // MARK: - Update Cell
     func update(_ story: Story) {
         let url = URL(string: story.image)
         imageView.kf.setImage(with: url)
         progressView.progress = 0
     }
     
+    // MARK: - Progress Animation
     func animateProgress(duration: TimeInterval) {
         progressTimer?.invalidate()
         progressView.progress = 0
