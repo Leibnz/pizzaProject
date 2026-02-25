@@ -30,10 +30,12 @@ final class BasketVC: UIViewController {
     
     private let productsStorage: IProductsStorage
     private let productsLoader: IProductsLoader
+    private let totalPriceCounter: ITotalPriceCounter
     
-    init(productsStorage: IProductsStorage, productsLoader: IProductsLoader) {
+    init(productsStorage: IProductsStorage, productsLoader: IProductsLoader, totalPriceCounter: ITotalPriceCounter) {
         self.productsStorage = productsStorage
         self.productsLoader = productsLoader
+        self.totalPriceCounter = totalPriceCounter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -59,11 +61,10 @@ final class BasketVC: UIViewController {
         setupViews()
         setupConstraints()
         setupObservers()
-        
         fetchAdditions()
         fetchBasket()
-        
         updateState()
+        
     }
 }
 
@@ -81,9 +82,8 @@ extension BasketVC {
         }
     }
     
-    private func fetchBasket() {
-        let array = productsStorage.retrieve()
-        products = array
+    @objc private func fetchBasket() {
+        products = productsStorage.retrieve()
         basketTableView.reloadData()
         updateState()
     }
@@ -139,11 +139,15 @@ extension BasketVC: UITableViewDataSource {
         switch basketSection {
         case .totalPrice:
             let cell = tableView.dequeueCell(indexPath) as TotalPriceCell
+            let totalPrice = totalPriceCounter.allProductsTotalPrice(products)
+            cell.update(totalPrice.0, totalPrice.1)
+            basketButtonView.update(price: totalPrice.0)
             return cell
         case .productInBasket:
             let cell = tableView.dequeueCell(indexPath) as BasketCell
             let product = products[indexPath.row]
-            cell.update(product)
+            let price = totalPriceCounter.totalProductPrice(product)
+            cell.update(product, price)
             
             
             cell.onCountChanged = { [weak self] updatedProduct, newCount in
@@ -157,7 +161,7 @@ extension BasketVC: UITableViewDataSource {
                 DispatchQueue.main.async {
                     // если newCount == 0 — удаляем строку
                     if newCount == 0 {
-                        self.basketTableView.reloadData() // можно анимированно удалить row
+                        self.basketTableView.reloadData()
                         self.updateState()
                     } else {
                         // обновляем строку
@@ -212,6 +216,8 @@ extension BasketVC {
         emptyBasketView.onBackToMenuButtonTap = {
             self.dismiss(animated: true)
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchBasket), name: .basketUpdated, object: nil)
     }
 }
 

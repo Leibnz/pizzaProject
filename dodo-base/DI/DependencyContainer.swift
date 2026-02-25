@@ -16,6 +16,7 @@ final class DependencyContainer {
     let storiesLoader: IStoriesLoader
     let ingredientsLoader: IIngredientsLoader
     let productsStorage: IProductsStorage
+    let totalPriceCounter: ITotalPriceCounter
     
     let httpClient: IHTTPClient
     
@@ -30,6 +31,7 @@ final class DependencyContainer {
         storiesLoader = StoriesLoader(httpClient: httpClient, decoder: decoder)
         ingredientsLoader = IngredientsLoader(httpClient: httpClient, decoder: decoder)
         productsStorage = ProductsStorage()
+        totalPriceCounter = TotalPriceCounter()
 
         
         screenFactory = ScreenFactory()
@@ -50,14 +52,14 @@ final class ScreenFactory {
             storiesLoader: di.storiesLoader
         )
         
-        return MenuScreenVC(viewModel: viewModel)
+        return MenuScreenVC(viewModel: viewModel, productsStorage: di.productsStorage)
     }
     
     func makeDetailScreen(_ product: Product) -> DetailProductVC {
-        return DetailProductVC(product: product, ingredientsLoader: di.ingredientsLoader, productsStorage: di.productsStorage)
+        return DetailProductVC(product: product, ingredientsLoader: di.ingredientsLoader, productsStorage: di.productsStorage, totalPriceCounter: di.totalPriceCounter)
     }
     
     func makeBasketScreen() -> BasketVC {
-        return BasketVC(productsStorage: di.productsStorage, productsLoader: di.productsLoader)
+        return BasketVC(productsStorage: di.productsStorage, productsLoader: di.productsLoader, totalPriceCounter: di.totalPriceCounter)
     }
 }

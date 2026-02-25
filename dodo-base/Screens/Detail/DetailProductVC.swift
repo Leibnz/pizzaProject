@@ -24,13 +24,15 @@ final class DetailProductVC: UIViewController {
     private var ingredients: [Ingredient] = []
     
     private let ingredientsLoader: IIngredientsLoader
-    private let product: Product
+    private var product: Product
     private let productsStorage: IProductsStorage
+    private let totalPriceCounter: ITotalPriceCounter
     
-    init(product: Product, ingredientsLoader: IIngredientsLoader, productsStorage: IProductsStorage) {
+    init(product: Product, ingredientsLoader: IIngredientsLoader, productsStorage: IProductsStorage, totalPriceCounter: ITotalPriceCounter) {
         self.product = product
         self.ingredientsLoader = ingredientsLoader
         self.productsStorage = productsStorage
+        self.totalPriceCounter = totalPriceCounter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -60,6 +62,11 @@ final class DetailProductVC: UIViewController {
         setupObservers()
         
         fetchIngredients()
+        
+        updateTotalPrice(product.price)
+//        updateTotalPrice() //Меняем цену
+        
+//        totalPrice(<#Product#>)
     }
 }
 
@@ -128,6 +135,17 @@ extension DetailProductVC: UITableViewDataSource {
         case .ingredientsPizza:
             let cell = tableView.dequeueCell(indexPath) as IngredientsCell
             cell.update(ingredients)
+            cell.onIngredientSelect = { [weak self] index in
+                guard let self else { return }
+                ingredients[index] = self.ingredients[index].selected
+            
+                tableView.reloadData()
+                
+                let selectedIngredients = self.ingredients.filter { $0.isSelected == true }
+                self.product.ingredients = selectedIngredients
+                
+                self.totalPrice(self.product)
+            }
             return cell
         }
     }
@@ -137,10 +155,35 @@ extension DetailProductVC: UITableViewDataSource {
 extension DetailProductVC {
     
     private func setupObservers() {
-        orderButtonView.onOrderButtonTap = {
+        orderButtonView.onOrderButtonTap = { [weak self] in
+            guard let self else { return }
+//            let selectedIngredients = self.ingredients.filter { $0.isSelected == true }
+//            self.product.ingredients = selectedIngredients
             self.productsStorage.add(self.product)
         }
     }
+}
+
+//Меняем цену
+extension DetailProductVC {
+    
+    func totalPrice(_ product: Product) {
+        var totalSum = 0
+        for ingredient in product.ingredients ?? [] {
+            totalSum += ingredient.price
+        }
+        totalSum += product.price
+        print(totalSum)
+        
+        updateTotalPrice(totalSum)
+            //let ingredientsPrice = ingredients.reduce(0) { $0 + $1.price }
+            //return product.price + ingredientsPrice
+        }
+
+    func updateTotalPrice(_ totalSum: Int) {
+            //let price = totalPrice()
+            orderButtonView.orderButton.setTitle("Оформить заказ за \(totalSum) ₽", for: .normal)
+        }
 }
 
 //MARK: - Layout

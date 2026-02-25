@@ -101,5 +101,12 @@ extension IngredientsCollectionCell {
         
         ingredientsNameLabel.text = ingredient.name
         ingredientsPriceLabel.text = "\(ingredient.price) \u{20BD}"
+        
+        if ingredient.isSelected {
+            containerView.layer.borderColor = UIColor.orange.cgColor
+            containerView.layer.borderWidth = 2.0
+        } else {
+            containerView.layer.borderColor = UIColor.clear.cgColor
+        }
     }
 }

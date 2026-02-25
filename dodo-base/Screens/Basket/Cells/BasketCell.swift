@@ -143,13 +143,25 @@ final class BasketCell: UITableViewCell {
 //MARK: - Get an array of data
 extension BasketCell {
     
-    func update(_ product: Product) {
+    func update(_ product: Product, _ price: Int) {
         self.product = product
         let url = URL(string: product.image)
         orderBasketImage.kf.setImage(with: url)
         nameOfProduct.text = product.name
-        describeOrderLabel.text = product.description
-        sumPriceBasketLabel.text = "\(product.price) \u{20BD}"
+        
+        var ingredientText = "+ "
+        guard let ingredients = product.ingredients else { return }
+        
+        for (index, ingredient) in ingredients.enumerated() {
+            if index == 0 {
+                ingredientText += ingredient.name
+            } else {
+                ingredientText += ", " + ingredient.name
+            }
+        }
+        
+        describeOrderLabel.text = ingredientText
+        sumPriceBasketLabel.text = "\(price) \u{20BD}"
         
         if let cnt = product.count {
             basketStepper.currentValue = cnt

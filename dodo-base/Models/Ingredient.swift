@@ -8,7 +8,17 @@
 import UIKit
 
 struct Ingredient: Codable, Equatable {
-    var image: String
-    var name: String
-    var price: Int
+    let image: String
+    let name: String
+    let price: Int
+    
+    let isSelected: Bool
+    
+    var selected: Ingredient {
+        return Ingredient(image: image, name: name, price: price, isSelected: !isSelected)
+    }
+    
+    static func == (lhs: Ingredient, rhs: Ingredient) -> Bool {
+        return lhs.image == rhs.image && lhs.name == rhs.name && lhs.price == rhs.price
+    }
 }

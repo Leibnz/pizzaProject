@@ -12,9 +12,9 @@ final class OrderButtonView: UIView {
     //declaration
     var onOrderButtonTap: (()->())?
     
-    private let orderButton: UIButton = {
+     let orderButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("В корзину за 629 \u{20BD}", for: .normal)
+        button.setTitle("В корзину за 0 \u{20BD}", for: .normal)
         button.tintColor = .white
         button.backgroundColor = .orange
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18)

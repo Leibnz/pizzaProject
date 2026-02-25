@@ -15,6 +15,7 @@ protocol IProductsStorage {
     func add(_ product: Product)
     func update(_ product: Product, count: Int)
     func remove(_ product: Product)
+    func totalBasketPrice() -> Int
 }
 
 final class ProductsStorage: IProductsStorage {
@@ -35,6 +36,7 @@ final class ProductsStorage: IProductsStorage {
         } catch {
             print(error)
         }
+        NotificationCenter.default.post(name: .basketUpdated, object: nil)
     }
     //retrieve - получить данные
     func retrieve() -> [Product] {  //метод получить
@@ -66,6 +68,7 @@ final class ProductsStorage: IProductsStorage {
         }
         
         save(array)
+        NotificationCenter.default.post(name: .basketUpdated, object: nil)
     }
     
     func update(_ product: Product, count: Int) {
@@ -77,6 +80,7 @@ final class ProductsStorage: IProductsStorage {
                 array.remove(at: index)
             }
             save(array)
+            NotificationCenter.default.post(name: .basketUpdated, object: nil)
         } else {
             // если продукта нет и count > 0 — добавить
             if count > 0 {
@@ -84,6 +88,7 @@ final class ProductsStorage: IProductsStorage {
                 newProduct.count = count
                 array.append(newProduct)
                 save(array)
+                NotificationCenter.default.post(name: .basketUpdated, object: nil)
             }
         }
     }
@@ -93,6 +98,28 @@ final class ProductsStorage: IProductsStorage {
         if let index = array.firstIndex(where: { $0 == product }) {
             array.remove(at: index)
             save(array)
+            NotificationCenter.default.post(name: .basketUpdated, object: nil)
         }
-    } 
+    }
+    
+    func totalBasketPrice() -> Int {
+//        var array = retrieve()
+//        var totalPrice = 0
+//        
+//        for product in array {
+//            totalPrice += product.price
+//            
+//            for ingredient in product.ingredients ?? [] {
+//                totalPrice += ingredient.price
+//            }
+//        }
+//        
+//        return totalPrice
+        let products = retrieve()
+        return TotalPriceCounter().allProductsTotalPrice(products).0
+    }
+}
+
+extension Notification.Name {
+    static let basketUpdated = Notification.Name("basketUpdated")
 }

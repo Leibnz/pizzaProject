@@ -21,7 +21,7 @@ struct Product: Codable, Equatable {
     var isPromo: Bool
     
     static func == (lhs: Product, rhs: Product) -> Bool {
-        return lhs.name == rhs.name && lhs.type == rhs.type
+        return lhs.name == rhs.name && lhs.type == rhs.type && lhs.ingredients == rhs.ingredients
     }
 }
 

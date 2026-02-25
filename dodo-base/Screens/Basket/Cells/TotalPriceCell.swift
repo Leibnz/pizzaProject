@@ -42,3 +42,11 @@ final class TotalPriceCell: UITableViewCell {
         }
     }
 }
+
+//MARK: - Update Cell
+extension TotalPriceCell {
+    
+    func update(_ totalPrice: Int, _ totalCount: Int) {
+        totalPriceLabel.text = "\(totalCount) товар на \(totalPrice) \u{20BD}"
+    }
+}

@@ -43,3 +43,10 @@ final class BasketButtonView: UIView {
         }
     }
 }
+
+//MARK: - Update Price
+extension BasketButtonView {
+    func update(price: Int) {
+        basketOrderButton.setTitle("Оформить заказ на \(price) \u{20BD}", for: .normal)
+    }
+}

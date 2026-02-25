@@ -9,6 +9,8 @@ import UIKit
 
 final class IngredientsCell: UITableViewCell {
     
+    var onIngredientSelect: ((Int)->())?
+    
     static let reuseID = "IngredientsCell"
     
     private var ingredients: [Ingredient] = []
@@ -68,8 +70,8 @@ final class IngredientsCell: UITableViewCell {
     }
 }
 
-//MARK: - CollectionViewDelegate
-extension IngredientsCell: UICollectionViewDelegate, UICollectionViewDataSource {
+//MARK: - CollectionViewDataSource
+extension IngredientsCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return ingredients.count
     }
@@ -79,6 +81,14 @@ extension IngredientsCell: UICollectionViewDelegate, UICollectionViewDataSource 
         let ingredient = ingredients[indexPath.item]
         cell.update(ingredient)
         return cell
+    }
+}
+
+//MARK: - CollectionViewDelegate
+extension IngredientsCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        onIngredientSelect?(indexPath.item)
     }
 }
 

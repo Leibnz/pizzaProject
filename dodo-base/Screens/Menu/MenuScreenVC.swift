@@ -18,10 +18,13 @@ final class MenuScreenVC: UIViewController {
     
     private let viewModel: MenuViewModelInput
     
+    private let productStorage = ProductsStorage()
     private let priceButton = PriceButton(price: "270 \u{20BD}")
     private let addressButton = AddressButton()
     private let errorMenuStateView = ErrorMenuStateView()
     private let shimmerMenuView = ShimmerMenuView()
+    private let totalPriceCounter = TotalPriceCounter()
+    private let productsStorage: IProductsStorage
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -43,10 +46,11 @@ final class MenuScreenVC: UIViewController {
         return tableView
     }()
     
-    init(viewModel: MenuViewModelInput) {
+    init(viewModel: MenuViewModelInput, productsStorage: IProductsStorage) {
         self.viewModel = viewModel
+        self.productsStorage = productsStorage
         super.init(nibName: nil, bundle: nil)
-        
+
         (viewModel as? MenuViewModel)?.output = self
     }
     
@@ -60,6 +64,12 @@ final class MenuScreenVC: UIViewController {
         setupConstraints()
         setupObservers()
         viewModel.onViewDidLoad()
+        updatePriceButton()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: .basketUpdated, object: nil)
     }
 }
 
@@ -206,7 +216,28 @@ extension MenuScreenVC {
         addressButton.addAction(UIAction { [weak self] _ in
             self?.navigateToMapScreen()
         }, for: .touchUpInside)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePriceButton), name: .basketUpdated, object: nil)
     }
+}
+
+//MARK: - Update priceButton
+extension MenuScreenVC {
+    
+    @objc private func updatePriceButton() {
+        let products = productStorage.retrieve()
+        let totalPrice = totalPriceCounter.allProductsTotalPrice(products).0
+        
+        priceButton.isHidden = totalPrice == 0 ? true : false
+        priceButton.setTitle("\(totalPrice) \u{20BD}", for: .normal)
+    }
+    
+//    @objc private func updatePrice() {
+//        let total = productsStorage.totalBasketPrice()
+//        
+//        priceButton.isHidden = total == 0 ? true : false
+//        priceButton.setTitle("\(total) ₽", for: .normal)
+//    }
 }
 
 //MARK: - Navigation
