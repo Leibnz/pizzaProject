@@ -231,13 +231,6 @@ extension MenuScreenVC {
         priceButton.isHidden = totalPrice == 0 ? true : false
         priceButton.setTitle("\(totalPrice) \u{20BD}", for: .normal)
     }
-    
-//    @objc private func updatePrice() {
-//        let total = productsStorage.totalBasketPrice()
-//        
-//        priceButton.isHidden = total == 0 ? true : false
-//        priceButton.setTitle("\(total) ₽", for: .normal)
-//    }
 }
 
 //MARK: - Navigation

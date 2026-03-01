@@ -37,6 +37,4 @@ final class TotalPriceCounter: ITotalPriceCounter {
         
         return (totalSum, totalCount)
     }
-    
-    
 }

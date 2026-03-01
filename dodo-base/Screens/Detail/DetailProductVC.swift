@@ -60,13 +60,8 @@ final class DetailProductVC: UIViewController {
         setupViews()
         setupConstraints()
         setupObservers()
-        
         fetchIngredients()
-        
         updateTotalPrice(product.price)
-//        updateTotalPrice() //Меняем цену
-        
-//        totalPrice(<#Product#>)
     }
 }
 
@@ -157,14 +152,12 @@ extension DetailProductVC {
     private func setupObservers() {
         orderButtonView.onOrderButtonTap = { [weak self] in
             guard let self else { return }
-//            let selectedIngredients = self.ingredients.filter { $0.isSelected == true }
-//            self.product.ingredients = selectedIngredients
             self.productsStorage.add(self.product)
         }
     }
 }
 
-//Меняем цену
+//MARK: - Update Total Price
 extension DetailProductVC {
     
     func totalPrice(_ product: Product) {
@@ -173,17 +166,12 @@ extension DetailProductVC {
             totalSum += ingredient.price
         }
         totalSum += product.price
-        print(totalSum)
-        
         updateTotalPrice(totalSum)
-            //let ingredientsPrice = ingredients.reduce(0) { $0 + $1.price }
-            //return product.price + ingredientsPrice
-        }
+    }
 
     func updateTotalPrice(_ totalSum: Int) {
-            //let price = totalPrice()
-            orderButtonView.orderButton.setTitle("Оформить заказ за \(totalSum) ₽", for: .normal)
-        }
+        orderButtonView.orderButton.setTitle("Оформить заказ за \(totalSum) ₽", for: .normal)
+    }
 }
 
 //MARK: - Layout

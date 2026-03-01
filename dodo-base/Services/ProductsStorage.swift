@@ -103,18 +103,6 @@ final class ProductsStorage: IProductsStorage {
     }
     
     func totalBasketPrice() -> Int {
-//        var array = retrieve()
-//        var totalPrice = 0
-//        
-//        for product in array {
-//            totalPrice += product.price
-//            
-//            for ingredient in product.ingredients ?? [] {
-//                totalPrice += ingredient.price
-//            }
-//        }
-//        
-//        return totalPrice
         let products = retrieve()
         return TotalPriceCounter().allProductsTotalPrice(products).0
     }
