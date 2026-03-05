@@ -14,6 +14,10 @@ private enum MenuSection: Int, CaseIterable {
     case products
 }
 
+//protocol IMenuScreenVC: AnyObject {
+//    
+//}
+
 final class MenuScreenVC: UIViewController {
     
     private let viewModel: MenuViewModelInput
