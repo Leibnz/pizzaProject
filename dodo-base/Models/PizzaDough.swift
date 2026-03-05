@@ -18,4 +18,15 @@ enum PizzaDough: String, Codable {
     func getName() -> String {
         return self == PizzaDough.traditional ? "Традиционное" : "Тонкое"
     }
+    
+    func setIndex(index: Int) -> Self {
+        switch index {
+        case 0:
+            return .traditional
+        case 1:
+            return .thin
+        default:
+            return self
+        }
+    }
 }

@@ -48,7 +48,7 @@ final class BasketCell: UITableViewCell {
     
     private let describeOrderLabel: UILabel = {
         let label = UILabel()
-        label.text = "Куриные наггетсы, Картофель из печи, Сырный соус"
+//        label.text = "Куриные наггетсы, Картофель из печи, Сырный соус"
         label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .left
         label.numberOfLines = 0
@@ -149,18 +149,21 @@ extension BasketCell {
         orderBasketImage.kf.setImage(with: url)
         nameOfProduct.text = product.name
         
-        var ingredientText = "+ "
-        guard let ingredients = product.ingredients else { return }
+        let sizeText = product.size?.getSize() ?? ""
+        let doughText = product.dough?.getName() ?? ""
+        
+        var ingredientText = ""
+        let ingredients = product.ingredients ?? []
         
         for (index, ingredient) in ingredients.enumerated() {
             if index == 0 {
-                ingredientText += ingredient.name
+                ingredientText += "+ " + ingredient.name
             } else {
                 ingredientText += ", " + ingredient.name
             }
         }
         
-        describeOrderLabel.text = ingredientText
+        describeOrderLabel.text = sizeText + ", " + doughText + "\n" + ingredientText
         sumPriceBasketLabel.text = "\(price) \u{20BD}"
         
         if let cnt = product.count {
