@@ -126,6 +126,17 @@ extension DetailProductVC: UITableViewDataSource {
             return cell
         case .optionsPizza:
             let cell = tableView.dequeueCell(indexPath) as OptionsPizzaCell
+            cell.update(product)
+            cell.onSizeSelect = { [weak self] size in
+                guard let self else { return }
+                self.product.size = size
+            }
+            
+            cell.onDoughtSelect = { [weak self] dough in
+                guard let self else { return }
+                self.product.dough = dough 
+            }
+            
             return cell
         case .ingredientsPizza:
             let cell = tableView.dequeueCell(indexPath) as IngredientsCell

@@ -12,8 +12,8 @@ final class OptionsPizzaCell: UITableViewCell {
     private let sizes = ["20 см", "25 см", "30 см", "35 см"]
     
     var product: Product?
-    var onSizeChanged: ((String)->())?
-    var onDoughChanged: ((String)->())?
+    var onSizeSelect: ((PizzaSize)->())?
+    var onDoughtSelect: ((PizzaDough)->())?
     
     private lazy var pizzaSizeControl: UISegmentedControl = {
         
@@ -26,6 +26,7 @@ final class OptionsPizzaCell: UITableViewCell {
     private let pizzaDoughControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["Традиционное", "Тонкое"])
         control.selectedSegmentIndex = 0
+        control.addTarget(nil, action: #selector(doughSegmentedChanged(_ :)), for: .valueChanged)
         return control
     }()
     
@@ -63,7 +64,7 @@ final class OptionsPizzaCell: UITableViewCell {
 //MARK: - Get data
 extension OptionsPizzaCell {
     func update(_ product: Product) {
-        
+        self.product = product
         pizzaSizeControl.selectedSegmentIndex = product.size?.getIndex() ?? 0
         pizzaDoughControl.selectedSegmentIndex = product.dough?.getIndex() ?? 0
         
@@ -71,21 +72,24 @@ extension OptionsPizzaCell {
             pizzaSizeControl.isHidden = true
             pizzaDoughControl.isHidden = true
         }
-        
-//        if let dough = product.dough {
-//            dough.getIndex()
-//        }
-        
-        
     }
 }
 
 //MARK: - Event Handler
 extension OptionsPizzaCell {
     @objc private func sizeSegmentedChanged(_ sender: UISegmentedControl) {
-        //let index = sender.selectedSegmentIndex
+        let index = sender.selectedSegmentIndex
         
+        if let size = product?.size?.setIndex(index: index) {
+            onSizeSelect?(size)
+        }
+    }
+    
+    @objc private func doughSegmentedChanged(_ sender: UISegmentedControl) {
+        let index = sender.selectedSegmentIndex
         
-        
+        if let dough = product?.dough?.setIndex(index: index) {
+            onDoughtSelect?(dough)
+        }
     }
 }
