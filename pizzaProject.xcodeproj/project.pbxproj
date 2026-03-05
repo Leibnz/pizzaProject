@@ -14,7 +14,6 @@
 		490CE4372E314FF100ED209A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490CE4222E314FF100ED209A /* AppDelegate.swift */; };
 		490CE4382E314FF100ED209A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490CE4232E314FF100ED209A /* SceneDelegate.swift */; };
 		490CE4392E314FF100ED209A /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490CE4252E314FF100ED209A /* ProductCell.swift */; };
-		490CE43A2E314FF100ED209A /* MenuScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490CE4272E314FF100ED209A /* MenuScreenVC.swift */; };
 		490CE43B2E314FF100ED209A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490CE4292E314FF100ED209A /* Product.swift */; };
 		490CE4512E31505600ED209A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 490CE44A2E31505600ED209A /* Assets.xcassets */; };
 		490CE4532E31505600ED209A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 490CE44D2E31505600ED209A /* LaunchScreen.storyboard */; };
@@ -83,6 +82,7 @@
 		49DDC9792E7FFAFF00AD5698 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DDC9782E7FFAFF00AD5698 /* NetworkError.swift */; };
 		49E03DB52E7469E4003351BF /* UIImage+resized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E03DB42E7469E4003351BF /* UIImage+resized.swift */; };
 		49E03DB72E746A29003351BF /* UIImage+tintedColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E03DB62E746A29003351BF /* UIImage+tintedColor.swift */; };
+		49ECAA0D2F59F9CB00EEE869 /* MenuScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49ECAA0C2F59F9CB00EEE869 /* MenuScreenVC.swift */; };
 		49FA27A12E4659A900FD2FBB /* StoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA27A02E4659A900FD2FBB /* StoryCell.swift */; };
 		49FA27A32E4659F300FD2FBB /* StoryCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA27A22E4659F300FD2FBB /* StoryCollectionCell.swift */; };
 /* End PBXBuildFile section */
@@ -104,7 +104,6 @@
 		490CE4222E314FF100ED209A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		490CE4232E314FF100ED209A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		490CE4252E314FF100ED209A /* ProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
-		490CE4272E314FF100ED209A /* MenuScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreenVC.swift; sourceTree = "<group>"; };
 		490CE4292E314FF100ED209A /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		490CE44A2E31505600ED209A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		490CE44B2E31505600ED209A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -175,6 +174,7 @@
 		49DFCA9C2E2D2AC600BB2112 /* PizzaProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PizzaProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49E03DB42E7469E4003351BF /* UIImage+resized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+resized.swift"; sourceTree = "<group>"; };
 		49E03DB62E746A29003351BF /* UIImage+tintedColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+tintedColor.swift"; sourceTree = "<group>"; };
+		49ECAA0C2F59F9CB00EEE869 /* MenuScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreenVC.swift; sourceTree = "<group>"; };
 		49FA27A02E4659A900FD2FBB /* StoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCell.swift; sourceTree = "<group>"; };
 		49FA27A22E4659F300FD2FBB /* StoryCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCollectionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,6 +183,26 @@
 		494EF6212ED6155E00B9ADA9 /* PizzaProjectTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = PizzaProjectTests;
+			sourceTree = "<group>";
+		};
+		49ECA9E02F59F5B600EEE869 /* MenuPresenter */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MenuPresenter;
+			sourceTree = "<group>";
+		};
+		49ECA9FF2F59F5F000EEE869 /* MenuInteractor */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MenuInteractor;
+			sourceTree = "<group>";
+		};
+		49ECAA002F59F5FE00EEE869 /* MenuView */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MenuView;
+			sourceTree = "<group>";
+		};
+		49ECAA012F59F63300EEE869 /* MenuRouter */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MenuRouter;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -242,7 +262,11 @@
 		490CE4282E314FF100ED209A /* Menu */ = {
 			isa = PBXGroup;
 			children = (
-				490CE4272E314FF100ED209A /* MenuScreenVC.swift */,
+				49ECAA0C2F59F9CB00EEE869 /* MenuScreenVC.swift */,
+				49ECAA012F59F63300EEE869 /* MenuRouter */,
+				49ECAA002F59F5FE00EEE869 /* MenuView */,
+				49ECA9FF2F59F5F000EEE869 /* MenuInteractor */,
+				49ECA9E02F59F5B600EEE869 /* MenuPresenter */,
 				4907D6152EF7D88C00D820CF /* MenuScreenState.swift */,
 				4907D6172EF7DA0200D820CF /* MenuViewModel.swift */,
 				490CE4262E314FF100ED209A /* Cells */,
@@ -507,6 +531,12 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				49ECA9E02F59F5B600EEE869 /* MenuPresenter */,
+				49ECA9FF2F59F5F000EEE869 /* MenuInteractor */,
+				49ECAA002F59F5FE00EEE869 /* MenuView */,
+				49ECAA012F59F63300EEE869 /* MenuRouter */,
+			);
 			name = PizzaProject;
 			packageProductDependencies = (
 				490CE3B52E2FE64D00ED209A /* SnapKit */,
@@ -593,6 +623,7 @@
 			files = (
 				49631D9F2EA952770086952C /* PizzaDough.swift in Sources */,
 				494CC1912F44D07A00E60EA0 /* TotalPriceCounter.swift in Sources */,
+				49ECAA0D2F59F9CB00EEE869 /* MenuScreenVC.swift in Sources */,
 				497A1F0B2E673388006B02A3 /* AddressPanelView.swift in Sources */,
 				4923E9552E5792C600C6E94D /* BannersLoader.swift in Sources */,
 				49BFC5D62E8EE77E007D812B /* ProductsLoader.swift in Sources */,
@@ -627,7 +658,6 @@
 				495C51092E3A77AD00CF27AA /* BannerCell.swift in Sources */,
 				4923E9722E5B533000C6E94D /* AddProductCell.swift in Sources */,
 				490CE4392E314FF100ED209A /* ProductCell.swift in Sources */,
-				490CE43A2E314FF100ED209A /* MenuScreenVC.swift in Sources */,
 				496688142EC3A820000A1DC4 /* TotalPriceCell.swift in Sources */,
 				49FA27A12E4659A900FD2FBB /* StoryCell.swift in Sources */,
 				49BFC5D42E8EE0DF007D812B /* HTTPClient.swift in Sources */,
