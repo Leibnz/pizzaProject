@@ -6,14 +6,13 @@
 //
 
 import Foundation
-import UIKit
 
 final class DependencyContainer {
     
     let decoder: JSONDecoder
     let productsLoader: IProductsLoader
-    let bannersLoader: IBannersLoader
-    let categoriesLoader: ICategoriesLoader
+    let bannerLoader: IBannersLoader
+    let categoryLoader: ICategoriesLoader
     let storiesLoader: IStoriesLoader
     let ingredientsLoader: IIngredientsLoader
     let productsStorage: IProductsStorage
@@ -27,8 +26,8 @@ final class DependencyContainer {
         httpClient = HTTPClient()
         decoder = JSONDecoder()
         productsLoader = ProductsLoader(httpClient: httpClient, decoder: decoder)
-        bannersLoader = BannersLoader(httpClient: httpClient, decoder: decoder)
-        categoriesLoader = CategoriesLoader(httpClient: httpClient, decoder: decoder)
+        bannerLoader = BannersLoader(httpClient: httpClient, decoder: decoder)
+        categoryLoader = CategoriesLoader(httpClient: httpClient, decoder: decoder)
         storiesLoader = StoriesLoader(httpClient: httpClient, decoder: decoder)
         ingredientsLoader = IngredientsLoader(httpClient: httpClient, decoder: decoder)
         productsStorage = ProductsStorage()
@@ -45,9 +44,15 @@ final class ScreenFactory {
     
     weak var di: DependencyContainer!
 
-    @MainActor
-    func makeMenuScreen() -> UIViewController {
-        MenuModuleBuilder.build(di: di)
+    @MainActor func makeMenuScreen() -> MenuScreenVC {
+        let viewModel = MenuViewModel(
+            productLoader: di.productsLoader,
+            bannerLoader: di.bannerLoader,
+            categoryLoader: di.categoryLoader,
+            storiesLoader: di.storiesLoader
+        )
+        
+        return MenuScreenVC(viewModel: viewModel, productsStorage: di.productsStorage)
     }
     
     func makeDetailScreen(_ product: Product) -> DetailProductVC {
