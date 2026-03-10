@@ -14,42 +14,21 @@ private enum MenuSection: Int, CaseIterable {
     case products
 }
 
-@MainActor
-protocol IMenuScreenInput: AnyObject {
-    func render(state: MenuScreenState)
-    func reloadData()
-    func scrollToProduct(at index: Int)
-}
-
-@MainActor
-protocol IMenuScreenOutput: AnyObject {
-    func viewDidLoad()
-    
-    func numberOfProducts() -> Int
-    func product(at index: Int) -> Product
-
-    func showStories() -> [Story]
-    func showBanners() -> [Banner]
-    func showCategories() -> [Category]
-
-    func didSelectProduct(at index: Int)
-    func didSelectCategory(_ category: Category)
-    func didSelectStory(_ story: Story, stories: [Story])
-
-    func retryLoad()
-}
+//protocol IMenuScreenVC: AnyObject {
+//    
+//}
 
 final class MenuScreenVC: UIViewController {
     
-    private let presenter: IMenuScreenOutput
-    private let productsStorage: IProductsStorage
+    private let viewModel: MenuViewModelInput
     
-//    private let productStorage = ProductsStorage()
+    private let productStorage = ProductsStorage()
     private let priceButton = PriceButton(price: "270 \u{20BD}")
     private let addressButton = AddressButton()
     private let errorMenuStateView = ErrorMenuStateView()
     private let shimmerMenuView = ShimmerMenuView()
     private let totalPriceCounter = TotalPriceCounter()
+    private let productsStorage: IProductsStorage
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -71,12 +50,14 @@ final class MenuScreenVC: UIViewController {
         return tableView
     }()
     
-    init(presenter: IMenuScreenOutput, productsStorage: IProductsStorage) {
-        self.presenter = presenter
+    init(viewModel: MenuViewModelInput, productsStorage: IProductsStorage) {
+        self.viewModel = viewModel
         self.productsStorage = productsStorage
         super.init(nibName: nil, bundle: nil)
-    }
 
+        (viewModel as? MenuViewModel)?.output = self
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -86,7 +67,7 @@ final class MenuScreenVC: UIViewController {
         setupViews()
         setupConstraints()
         setupObservers()
-        presenter.viewDidLoad()
+        viewModel.onViewDidLoad()
         updatePriceButton()
     }
     
@@ -97,7 +78,7 @@ final class MenuScreenVC: UIViewController {
 }
 
 //MARK: - View State
-extension MenuScreenVC: IMenuScreenInput {
+extension MenuScreenVC: MenuViewModelOutput {
 
     func render(state: MenuScreenState) {
         switch state {
@@ -135,6 +116,11 @@ extension MenuScreenVC: IMenuScreenInput {
          let indexPath = IndexPath(row: index, section: MenuSection.products.rawValue)
          tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
      }
+
+     func openProduct(_ product: Product) {
+         let detailVC = di.screenFactory.makeDetailScreen(product)
+         present(detailVC, animated: true)
+     }
 }
 
 //MARK: - Table DataSource
@@ -155,27 +141,29 @@ extension MenuScreenVC: UITableViewDataSource {
         case .banners:
             return 1
         case .products:
-            return presenter.numberOfProducts()
+            return (viewModel as? MenuViewModel)?.products.count ?? 0
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let menuSection = MenuSection(rawValue: indexPath.section) else { return UITableViewCell()
+        guard let menuSection = MenuSection(rawValue: indexPath.section),
+                let vm = viewModel as? MenuViewModel else {
+            return UITableViewCell()
         }
         
         switch menuSection {
         case .stories:
             let cell = tableView.dequeueCell(indexPath) as StoryCell
-            cell.update(presenter.showStories())
+            cell.update(vm.stories)
             cell.delegate = self
             return cell
         case .banners:
             let cell = tableView.dequeueCell(indexPath) as BannerCell
-            cell.update(presenter.showBanners())
+            cell.update(vm.banners)
             return cell
         case .products:
-            let product = presenter.product(at: indexPath.row)
+            let product = vm.products[indexPath.row]
             
             if product.isPromo == true {
                 let promoCell = tableView.dequeueCell(indexPath) as PromoProductCell
@@ -194,34 +182,26 @@ extension MenuScreenVC: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard MenuSection(rawValue: indexPath.section) == .products else { return }
-        presenter.didSelectProduct(at: indexPath.row)
+        viewModel.onProductSelected(index: indexPath.row)
     }
 
     func tableView(_ tableView: UITableView,
                    viewForHeaderInSection section: Int) -> UIView? {
 
         guard MenuSection(rawValue: section) == .products,
+              let vm = viewModel as? MenuViewModel,
               let header = tableView.dequeueHeaderFooter(
                 ofType: CategoryContainerHeader.self
               ) else {
             return EmptyView()
         }
 
-        header.update(presenter.showCategories())
+        header.update(vm.categories)
         header.onCategoryCellSelect = { [weak self] category in
-            self?.presenter.didSelectCategory(category)
+            self?.viewModel.onCategorySelected(category)
         }
 
         return header
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-
-        guard MenuSection(rawValue: section) == .products else {
-            return 0
-        }
-
-        return 56
     }
 }
 
@@ -230,7 +210,7 @@ extension MenuScreenVC {
 
     private func setupObservers() {
         errorMenuStateView.onRetryMenuPageTap = { [weak self] in
-            self?.presenter.retryLoad()
+            self?.viewModel.onRetryTap()
         }
 
         priceButton.addAction(UIAction { [weak self] _ in
@@ -249,7 +229,7 @@ extension MenuScreenVC {
 extension MenuScreenVC {
     
     @objc private func updatePriceButton() {
-        let products = productsStorage.retrieve()
+        let products = productStorage.retrieve()
         let totalPrice = totalPriceCounter.allProductsTotalPrice(products).0
         
         priceButton.isHidden = totalPrice == 0 ? true : false
@@ -275,9 +255,11 @@ extension MenuScreenVC {
 
 //MARK: - StoryNavigation
 extension MenuScreenVC: StoryCellDelegate {
-    
     func didSelectStory(_ story: Story, stories: [Story]) {
-        presenter.didSelectStory(story, stories: stories)
+        let viewModel = StoriesViewModel(stories: stories, selectedStory: story)
+        let vc = StoriesVC(viewModel: viewModel)
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
     }
 }
 
